@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Volume Calculator — Barry Chen</title>
+<meta name="description" content="Smart shipping calculator for Riotouch interactive panels — CBM, weight, and container mixed-load optimization.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%232ecc71'/><text x='50' y='68' font-size='55' font-weight='bold' text-anchor='middle' fill='white'>B</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green: #2ecc71; --green-dark: #27ae60; --green-deep: #16a35a;
+    --green-soft: #e8f8ef; --green-tint: #c6f0d8;
+    --mint: #f0fdf4; --text: #1a2e1f; --text-mute: #5a7a62;
+    --bg: #fafffe; --white: #ffffff;
+    --shadow: 0 4px 20px rgba(26,163,90,0.08);
+    --shadow-hover: 0 12px 40px rgba(26,163,90,0.15);
+    --radius: 16px; --radius-lg: 22px;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; padding-top: 72px; }
+  a { color: var(--green-deep); text-decoration: none; }
+
+  /* WhatsApp Float */
+  .wa-float { position: fixed; bottom: 24px; right: 24px; width: 60px; height: 60px; border-radius: 50%; background: #25d366; box-shadow: 0 8px 32px rgba(37,211,102,0.35); display: flex; align-items: center; justify-content: center; z-index: 9999; transition: all 0.35s; text-decoration: none; }
+  .wa-float:hover { transform: translateY(-4px) scale(1.05); box-shadow: 0 16px 48px rgba(37,211,102,0.5); }
+  .wa-icon { width: 28px; height: 28px; fill: #fff; }
+
+  /* Nav */
+  .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 9998; padding: 0 48px; height: 72px; display: flex; align-items: center; justify-content: space-between; background: rgba(250,255,254,0.96); backdrop-filter: blur(20px); box-shadow: 0 4px 24px rgba(26,163,90,0.08); border-bottom: 1px solid rgba(26,163,90,0.06); }
+  .nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+  .nav-avatar { width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, #27ae60, #2ecc71); display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 800; font-size: 16px; }
+  .nav-name { color: var(--green-deep); font-weight: 700; font-size: 15px; }
+  .nav-title { color: var(--text-mute); font-size: 10px; font-weight: 500; }
+  .nav-links { display: flex; align-items: center; gap: 6px; list-style: none; }
+  .nav-links a { display: block; padding: 6px 14px; border-radius: 8px; color: var(--text); font-size: 12px; font-weight: 500; text-decoration: none; transition: all 0.25s; }
+  .nav-links a:hover, .nav-links a.active { background: var(--green-soft); color: var(--green-deep); }
+  .nav-cta { padding: 8px 18px !important; background: var(--green) !important; color: #fff !important; font-weight: 600 !important; border-radius: 100px !important; }
+  .nav-toggle { display: none; flex-direction: column; gap: 4px; cursor: pointer; padding: 8px; background: none; border: none; }
+  .nav-toggle span { display: block; width: 20px; height: 2px; background: var(--text); }
+
+  /* Hero */
+  .calc-hero { padding: 80px 48px 40px; text-align: center; background: var(--mint); }
+  .calc-hero h1 { font-family: 'Nunito','Inter',sans-serif; font-size: 32px; font-weight: 800; color: var(--text); margin-bottom: 8px; }
+  .calc-hero p { font-size: 14px; color: var(--text-mute); max-width: 500px; margin: 0 auto; }
+
+  /* Calculator */
+  .calc-section { max-width: 1100px; margin: 0 auto; padding: 48px 20px 100px; }
+  .calc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: start; }
+
+  /* Form */
+  .calc-form { background: var(--white); border: 1px solid var(--green-tint); border-radius: var(--radius-lg); padding: 32px; box-shadow: var(--shadow); }
+  .calc-form h2 { font-family: 'Nunito','Inter',sans-serif; font-size: 20px; font-weight: 800; color: var(--text); margin-bottom: 24px; }
+  .size-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; margin-bottom: 20px; }
+  .size-card { border: 2px solid var(--green-tint); border-radius: var(--radius); padding: 14px 12px; cursor: pointer; text-align: center; transition: all 0.25s; user-select: none; }
+  .size-card:hover { border-color: var(--green); background: var(--mint); }
+  .size-card.selected { border-color: var(--green); background: var(--green-soft); box-shadow: 0 0 0 3px var(--green-tint); }
+  .size-card .size-label { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+  .size-card .size-carton { font-size: 10px; color: var(--text-mute); }
+  .qty-row { display: flex; align-items: center; gap: 12px; margin-top: 12px; }
+  .qty-btn { width: 32px; height: 32px; border-radius: 8px; border: 1px solid var(--green-tint); background: var(--white); font-size: 18px; font-weight: 600; color: var(--green-deep); cursor: pointer; transition: all 0.2s; }
+  .qty-btn:hover { background: var(--green-soft); }
+  .qty-input { width: 60px; text-align: center; font-size: 16px; font-weight: 700; border: 1px solid var(--green-tint); border-radius: 8px; padding: 6px; }
+
+  .container-select { margin-bottom: 24px; }
+  .container-select label { display: block; font-size: 12px; font-weight: 600; color: var(--text); margin-bottom: 6px; }
+  .container-select select { width: 100%; padding: 10px 14px; border: 1px solid var(--green-tint); border-radius: var(--radius); font-size: 13px; background: var(--white); }
+
+  /* Results */
+  .calc-result { background: var(--white); border: 1px solid var(--green-tint); border-radius: var(--radius-lg); padding: 32px; box-shadow: var(--shadow); position: sticky; top: 90px; }
+  .calc-result h2 { font-family: 'Nunito','Inter',sans-serif; font-size: 20px; font-weight: 800; color: var(--text); margin-bottom: 20px; }
+  .result-cards { display: grid; gap: 12px; }
+  .result-card { display: flex; justify-content: space-between; align-items: center; padding: 14px 18px; background: var(--mint); border-radius: var(--radius); border: 1px solid var(--green-tint); }
+  .result-card .label { font-size: 12px; color: var(--text-mute); font-weight: 500; }
+  .result-card .value { font-size: 16px; font-weight: 700; color: var(--green-deep); font-family: 'Nunito','Inter',sans-serif; }
+  .result-card.highlight { background: var(--green-soft); border-color: var(--green); }
+  .result-card.highlight .value { font-size: 22px; }
+
+  .pack-plan { margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--green-tint); }
+  .pack-plan h3 { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 12px; }
+  .pack-item { display: flex; justify-content: space-between; padding: 8px 0; font-size: 13px; border-bottom: 1px dashed var(--green-tint); }
+  .pack-item:last-child { border-bottom: none; }
+  .pack-item .desc { color: var(--text-mute); }
+  .pack-item .val { font-weight: 600; color: var(--text); }
+
+  .empty-result { text-align: center; padding: 40px 20px; color: var(--text-mute); font-size: 13px; }
+  .empty-result .icon { font-size: 40px; margin-bottom: 12px; }
+
+  /* Plywood table */
+  .data-table-wrap { margin-top: 48px; }
+  .data-table-wrap h3 { font-family: 'Nunito','Inter',sans-serif; font-size: 18px; font-weight: 800; color: var(--text); margin-bottom: 16px; }
+  .data-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  .data-table th { background: var(--green-soft); padding: 10px 8px; text-align: center; font-weight: 700; color: var(--green-deep); font-size: 10px; white-space: nowrap; }
+  .data-table td { padding: 8px; text-align: center; border-top: 1px solid var(--green-tint); }
+  .data-table tr:hover td { background: var(--mint); }
+
+  /* Footer */
+  .footer { padding: 40px 20px; text-align: center; background: var(--white); border-top: 1px solid rgba(46,204,113,0.08); font-size: 12px; color: var(--text-mute); }
+
+  @media(max-width:860px) {
+    .nav-links { display: none; }
+    .nav-toggle { display: flex; }
+    .calc-hero { padding: 60px 20px 30px; }
+    .calc-grid { grid-template-columns: 1fr; }
+    .calc-result { position: static; }
+    .data-table { font-size: 10px; }
+  }
+</style>
+</head>
+<body>
+
+<a href="https://wa.me/message/GF4XMHZGAUJ7K1" class="wa-float" target="_blank" rel="noopener" aria-label="WhatsApp">
+  <svg class="wa-icon" viewBox="0 0 24 24"><path fill="currentColor" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<nav class="nav">
+  <a href="index.html" class="nav-logo">
+    <div class="nav-avatar">B</div>
+    <div><div class="nav-name">Barry Chen</div><div class="nav-title">Display Expert</div></div>
+  </a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="index.html#tools">Tools</a></li>
+    <li><a href="calculator.html" class="active">Calculator</a></li>
+    <li><a href="index.html#contact">Contact</a></li>
+    <li><a href="https://wa.me/message/GF4XMHZGAUJ7K1" target="_blank" class="nav-cta">💬 WhatsApp</a></li>
+  </ul>
+  <button class="nav-toggle" aria-label="Menu"><span></span><span></span><span></span></button>
+</nav>
+
+<div class="calc-hero">
+  <h1>📦 Volume & Weight Calculator</h1>
+  <p>Smart mixed-load shipping estimator — select your panels, get instant CBM, weight, and optimal packaging plan</p>
+</div>
+
+<div class="calc-section">
+  <div class="calc-grid">
+    <!-- Input Form -->
+    <div class="calc-form">
+      <h2>Select Panels</h2>
+      <div class="size-grid" id="sizeGrid"></div>
+
+      <div id="qtySection"></div>
+
+      <div class="container-select" style="margin-top:20px;">
+        <label>Target Container</label>
+        <select id="containerSelect">
+          <option value="20ft">20ft GP (28 CBM)</option>
+          <option value="40ft">40ft GP (58 CBM)</option>
+          <option value="40hq" selected>40ft HQ (68 CBM)</option>
+          <option value="_mix">Mixed / LCL Shipping</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Results -->
+    <div class="calc-result">
+      <h2>Shipping Plan</h2>
+      <div id="resultContent">
+        <div class="empty-result">
+          <div class="icon">📦</div>
+          <p>Select panel sizes and quantities to generate shipping plan</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Reference Data Table -->
+  <div class="data-table-wrap">
+    <h3>📋 Reference: Plywood Case Configurations</h3>
+    <div style="overflow-x:auto;">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Size</th>
+            <th>Pcs / Case</th>
+            <th>Case Size (cm)</th>
+            <th>G.W. (kg)</th>
+            <th>Volume (CBM)</th>
+          </tr>
+        </thead>
+        <tbody id="refTableBody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  <p>© 2026 Barry Chen · Riotouch Technology</p>
+</div>
+
+<script>
+// Data
+const PANELS = [
+  { id: 65, label: '65"', carton: '163×19×104', gw: 52, bare: '159×18×105', opt1: {n:1, sz:'170×33×124', kg:92}, opt2: {n:2, sz:'170×56×124', kg:0}, opt3: {n:3, sz:'170×82×124', kg:0}, opt4: {n:4, sz:'170×97×124', kg:0}, opt5: {n:5, sz:'166×137×119', kg:0}, ltq: '166×116×108' },
+  { id: 75, label: '75"', carton: '185×19×117', gw: 65, bare: '182×18×117', opt1: {n:1, sz:'185×33×120', kg:105}, opt2: {n:2, sz:'193×56×137', kg:0}, opt3: {n:3, sz:'193×82×137', kg:0}, opt4: {n:4, sz:'193×97×137', kg:0}, opt5: {n:5, sz:'188×116×129', kg:0} },
+  { id: 86, label: '86"', carton: '210×19×131', gw: 85, bare: '210×18×131', opt1: {n:1, sz:'219×33×147', kg:125}, opt2: {n:2, sz:'219×56×147', kg:0}, opt3: {n:3, sz:'219×82×147', kg:0}, opt4: {n:4, sz:'219×97×147', kg:0}, opt5: {n:5, sz:'213×116×141', kg:0} },
+  { id: 98, label: '98"', carton: '238×22×149', gw: 105, bare: '235×18×145', opt1: {n:1, sz:'238×33×149', kg:145}, opt2: {n:2, sz:'246×53×167', kg:0}, opt3: {n:3, sz:'246×82×167', kg:0}, opt4: {n:4, sz:'246×97×167', kg:0}, opt5: {n:5, sz:'246×116×167', kg:0} },
+  { id: 110, label: '110"', carton: '278×24×156', gw: 130, bare: '275×21×153', opt1: {n:1, sz:'286×33×164', kg:175}, opt2: {n:2, sz:'286×56×164', kg:0}, opt3: {n:3, sz:'286×82×164', kg:0}, opt4: {n:4, sz:'286×97×164', kg:0}, opt5: {n:5, sz:'280×116×172', kg:0} }
+];
+
+// Parse dimensions to cm and calculate volume
+function parseDim(str) {
+  const parts = str.split('×').map(x => parseInt(x.trim()));
+  if (parts.length < 3 || parts.some(isNaN)) return { l: 0, w: 0, h: 0, cbm: 0 };
+  const [l, w, h] = parts;
+  return { l, w, h, cbm: (l * w * h) / 1000000 };
+}
+
+// Calculate packing options - returns all possible configs sorted by efficiency
+function getPackingOptions(panel, qty) {
+  const opts = [panel.opt1, panel.opt2, panel.opt3, panel.opt4, panel.opt5];
+  const results = [];
+  for (let i = opts.length - 1; i >= 0; i--) {
+    const opt = opts[i];
+    const cases = Math.floor(qty / opt.n);
+    const remainder = qty % opt.n;
+    if (cases > 0) {
+      const dim = parseDim(opt.sz);
+      results.push({
+        pcsPerCase: opt.n,
+        cases,
+        remainder,
+        size: opt.sz,
+        cbm: dim.cbm,
+        totalCbm: dim.cbm * cases,
+        weight: (opt.kg || panel.gw * opt.n),
+        totalWeight: (opt.kg || panel.gw * opt.n) * cases
+      });
+    }
+  }
+  return results;
+}
+
+// Mixed-load optimization: minimize total cases across all sizes
+function optimizeMixedLoad(selections) {
+  let totalCbm = 0, totalWeight = 0, totalCases = 0;
+  const details = [];
+
+  for (const sel of selections) {
+    if (sel.qty <= 0) continue;
+    const panel = sel.panel;
+    const opts = getPackingOptions(panel, sel.qty);
+    if (opts.length === 0) continue;
+
+    // Pick config with fewest cases (prefer more panels per case)
+    let best = opts.reduce((a, b) => {
+      const aCases = a.cases + (a.remainder > 0 ? 1 : 0);
+      const bCases = b.cases + (b.remainder > 0 ? 1 : 0);
+      return aCases <= bCases ? a : b;
+    });
+
+    const remPanels = best.remainder;
+    let remCbm = 0, remWeight = 0;
+    if (remPanels > 0) {
+      const remDim = parseDim(best.size);
+      remCbm = remDim.cbm * (remPanels / best.pcsPerCase);
+      remWeight = (best.weight / best.pcsPerCase) * remPanels;
+    }
+
+    const itemCbm = best.totalCbm + remCbm;
+    const itemWeight = best.totalWeight + remWeight;
+    const itemCases = best.cases + (remPanels > 0 ? 1 : 0);
+
+    totalCbm += itemCbm;
+    totalWeight += itemWeight;
+    totalCases += itemCases;
+
+    details.push({
+      panel: panel.label,
+      qty: sel.qty,
+      config: `${best.pcsPerCase}pcs × ${best.cases} cases${remPanels > 0 ? ` + ${remPanels}pcs loose` : ''}`,
+      caseSize: best.size,
+      cbm: itemCbm,
+      weight: itemWeight,
+      cases: itemCases
+    });
+  }
+
+  return { totalCbm, totalWeight, totalCases, details };
+}
+
+// Generate HTML for size selection cards
+function renderSizeCards() {
+  const grid = document.getElementById('sizeGrid');
+  grid.innerHTML = PANELS.map(p => `
+    <div class="size-card" data-size="${p.id}" onclick="toggleSize(${p.id})">
+      <div class="size-label">${p.label}</div>
+      <div class="size-carton">${p.carton} cm</div>
+    </div>
+  `).join('');
+}
+
+// Generate quantity inputs
+function renderQtyInputs() {
+  const section = document.getElementById('qtySection');
+  const selected = PANELS.filter(p => selectedSizes.has(p.id));
+  if (selected.length === 0) {
+    section.innerHTML = '<p style="font-size:12px;color:var(--text-mute);">Select panel sizes above</p>';
+    return;
+  }
+  section.innerHTML = selected.map(p => `
+    <div style="margin-bottom:12px;">
+      <label class="form-label">${p.label}</label>
+      <div class="qty-row">
+        <button type="button" class="qty-btn" onclick="adjustQty(${p.id}, -1)">−</button>
+        <input type="number" class="qty-input" id="qty${p.id}" value="${quantities[p.id] || 0}" min="0" onchange="setQty(${p.id}, this.value)">
+        <button type="button" class="qty-btn" onclick="adjustQty(${p.id}, 1)">+</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderRefTable() {
+  const tbody = document.getElementById('refTableBody');
+  const rows = [];
+  PANELS.forEach(p => {
+    const opts = [p.opt1, p.opt2, p.opt3, p.opt4, p.opt5];
+    opts.forEach((opt, idx) => {
+      if (opt.n === 0) return;
+      const dim = parseDim(opt.sz);
+      const kg = opt.kg || p.gw * opt.n;
+      const totalCases = Math.floor((quantities[p.id] || 0) / opt.n);
+      const totalPcs = (quantities[p.id] || 0);
+      rows.push({
+        size: p.label,
+        n: opt.n,
+        dim: opt.sz,
+        kg,
+        cbm: dim.cbm,
+        totalCases: totalCases,
+        totalPcs: totalPcs,
+        isSingle: idx === 0
+      });
+    });
+    // LTQ / pallet config
+    if (p.ltq) {
+      const dim = parseDim(p.ltq);
+      rows.push({
+        size: p.label + ' LTQ',
+        n: 5,
+        dim: p.ltq,
+        kg: p.gw * 5,
+        cbm: dim.cbm,
+        totalCases: Math.floor((quantities[p.id] || 0) / 5),
+        totalPcs: (quantities[p.id] || 0),
+        isSingle: false,
+        isLtq: true
+      });
+    }
+  });
+
+  tbody.innerHTML = rows.map(r => `
+    <tr style="${r.isLtq ? 'background:var(--green-soft);font-weight:700;' : ''}">
+      <td>${r.size}</td>
+      <td>${r.n}</td>
+      <td style="white-space:nowrap;">${r.dim}</td>
+      <td>${r.kg}</td>
+      <td>${r.cbm.toFixed(3)}</td>
+      <td style="${r.totalCases > 0 ? 'color:var(--green-deep);font-weight:700;' : ''}">${r.totalCases > 0 ? r.totalCases + ' cases' : '-'}</td>
+      <td>${r.totalPcs > 0 ? r.totalPcs + ' pcs' : '-'}</td>
+    </tr>
+  `).join('');
+}
+
+// State
+let selectedSizes = new Set();
+let quantities = {};
+let lastResult = null;
+
+function toggleSize(id) {
+  if (selectedSizes.has(id)) {
+    selectedSizes.delete(id);
+    delete quantities[id];
+  } else {
+    selectedSizes.add(id);
+    quantities[id] = 0;
+  }
+  document.querySelectorAll('.size-card').forEach(el => {
+    el.classList.toggle('selected', selectedSizes.has(parseInt(el.dataset.size)));
+  });
+  renderQtyInputs();
+  renderRefTable();
+  calculate();
+}
+
+function adjustQty(id, delta) {
+  quantities[id] = Math.max(0, (quantities[id] || 0) + delta);
+  const el = document.getElementById('qty' + id);
+  if (el) el.value = quantities[id];
+  calculate();
+}
+
+function setQty(id, val) {
+  quantities[id] = Math.max(0, parseInt(val) || 0);
+  calculate();
+}
+
+function calculate() {
+  const container = document.getElementById('containerSelect').value;
+  const containerCbm = container === '20ft' ? 28 : container === '40ft' ? 58 : container === '40hq' ? 68 : Infinity;
+
+  const selections = PANELS.filter(p => selectedSizes.has(p.id) && (quantities[p.id] || 0) > 0).map(p => ({ panel: p, qty: quantities[p.id] || 0 }));
+
+  const result = optimizeMixedLoad(selections);
+  lastResult = result;
+  const totalPcs = selections.reduce((s, sel) => s + sel.qty, 0);
+
+  const containerUtil = containerCbm === Infinity ? 0 : (result.totalCbm / containerCbm * 100);
+  const recommendedContainer = container === '_mix' ? (result.totalCbm <= 28 ? '20ft GP' : result.totalCbm <= 58 ? '40ft GP' : result.totalCbm <= 68 ? '40ft HQ' : 'Multiple containers') : '';
+
+  let html = `
+    <div class="result-cards">
+      <div class="result-card">
+        <span class="label">Total Panels</span>
+        <span class="value">${totalPcs} pcs</span>
+      </div>
+      <div class="result-card">
+        <span class="label">Total Cases</span>
+        <span class="value">${result.totalCases}</span>
+      </div>
+      <div class="result-card">
+        <span class="label">Total Volume (CBM)</span>
+        <span class="value">${result.totalCbm.toFixed(2)}</span>
+      </div>
+      <div class="result-card">
+        <span class="label">Gross Weight</span>
+        <span class="value">${result.totalWeight.toFixed(0)} kg</span>
+      </div>
+      <div class="result-card ${containerUtil > 80 ? 'highlight' : ''}">
+        <span class="label">Container</span>
+        <span class="value">${container === '_mix' ? recommendedContainer : container.toUpperCase()}</span>
+      </div>
+      ${containerCbm !== Infinity ? `
+      <div class="result-card">
+        <span class="label">Volume Utilization</span>
+        <span class="value">${containerUtil.toFixed(1)}%</span>
+      </div>
+      ` : ''}
+    </div>
+  `;
+
+  if (result.details.length > 0) {
+    html += '<div class="pack-plan"><h3>📦 Packing Plan</h3>';
+    result.details.forEach(d => {
+      html += `
+        <div class="pack-item">
+          <span class="desc">${d.panel} × ${d.qty} pcs</span>
+          <span class="val">${d.config} = ${d.cbm.toFixed(2)} CBM</span>
+        </div>
+        <div class="pack-item" style="padding-left:16px;">
+          <span class="desc" style="font-size:11px;">Case size: ${d.caseSize}</span>
+        </div>
+      `;
+    });
+    html += '</div>';
+  }
+
+  document.getElementById('resultContent').innerHTML = html;
+  renderRefTable();
+}
+
+// Init
+renderSizeCards();
+renderQtyInputs();
+renderRefTable();
+
+// Container select change
+document.getElementById('containerSelect').addEventListener('change', calculate);
+
+// Init calculation
+calculate();
+
+</script>
+</body>
+</html>
