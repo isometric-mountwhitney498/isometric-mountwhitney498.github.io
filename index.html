@@ -569,6 +569,140 @@
   .product-item h4 { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
   .product-item p { font-size: 12px; color: var(--text-mute); }
 
+  /* ===== FAQ Section ===== */
+  .faq-section {
+    padding: 120px 48px;
+    background: var(--white);
+  }
+  .faq-header {
+    text-align: center;
+    margin-bottom: 56px;
+  }
+  .faq-grid {
+    max-width: 900px;
+    margin: 0 auto;
+    display: grid;
+    gap: 14px;
+  }
+  .faq-item {
+    border: 1px solid var(--green-tint);
+    border-radius: var(--radius);
+    overflow: hidden;
+    background: var(--white);
+    transition: all 0.3s;
+  }
+  .faq-item:hover {
+    box-shadow: var(--shadow);
+  }
+  .faq-q {
+    padding: 20px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    gap: 16px;
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--text);
+    transition: all 0.3s;
+    background: var(--white);
+  }
+  .faq-q:hover {
+    background: var(--mint);
+  }
+  .faq-q-text {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .faq-icon {
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+  .faq-arrow {
+    transition: transform 0.3s;
+    color: var(--green-deep);
+    font-size: 12px;
+  }
+  .faq-item.open .faq-arrow {
+    transform: rotate(180deg);
+  }
+  .faq-a {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s cubic-bezier(0.4,0,0.2,1);
+  }
+  .faq-item.open .faq-a {
+    max-height: 300px;
+  }
+  .faq-a-inner {
+    padding: 0 24px 20px 56px;
+    font-size: 13px;
+    color: var(--text-mute);
+    line-height: 1.8;
+  }
+
+  /* ===== Countries Section ===== */
+  .countries-section {
+    padding: 120px 48px;
+    background: var(--mint);
+    text-align: center;
+    position: relative;
+  }
+  .countries-section::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 70% 50%, rgba(46,204,113,0.06) 0%, transparent 60%);
+  }
+  .countries-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    position: relative;
+  }
+  .countries-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 14px;
+    margin-top: 48px;
+  }
+  .country-card {
+    background: var(--white);
+    border-radius: var(--radius);
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    box-shadow: var(--shadow);
+    border: 1px solid rgba(46,204,113,0.06);
+    transition: all 0.3s;
+  }
+  .country-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-hover);
+    border-color: var(--green);
+  }
+  .country-flag {
+    font-size: 28px;
+    flex-shrink: 0;
+  }
+  .country-info { text-align: left; flex: 1; }
+  .country-name {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text);
+  }
+  .country-region {
+    font-size: 11px;
+    color: var(--text-mute);
+    margin-top: 2px;
+  }
+  .country-check {
+    color: var(--green);
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+
   /* ===== Contact Section ===== */
   .contact-section {
     padding: 120px 48px;
@@ -863,7 +997,84 @@
     <div class="products-header">
       <span class="section-tag">💡 Product Lines</span>
       <h2 style="font-family:'Nunito','Inter',sans-serif;font-size:34px;font-weight:800;color:var(--text);margin-bottom:10px;">Riotouch Display Ecosystem</h2>
-      <p style="font-size:15px;color:var(--text-mute);">Interactive displays for education, business, and creative applications</p>
+      <p style="font-size:15px;color:var(--text-mute);">Education-focused interactive display solutions for every need</p>
+    </div>
+  </div>
+</section>
+
+<!-- Countries -->
+<section class="countries-section" id="countries">
+  <div class="countries-inner">
+    <div style="text-align:center">
+      <span class="section-tag">🌍 Global Reach</span>
+      <h2 style="font-family:'Nunito','Inter',sans-serif;font-size:34px;font-weight:800;color:var(--text);margin-bottom:10px;">16+ Countries Served</h2>
+      <p style="font-size:15px;color:var(--text-mute);max-width:600px;margin:0 auto;">Barry has visited these countries to understand local markets and build lasting partnerships</p>
+    </div>
+    <div class="countries-grid">
+      <div class="country-card"><span class="country-flag">🇵🇱</span><div class="country-info"><div class="country-name">Poland</div><div class="country-region">Eastern Europe</div></div><span class="country-check">✓</span></div>
+      <div class="country-card"><span class="country-flag">🇭🇺</span><div class="country-info"><div class="country-name">Hungary</div><div class="country-region">Eastern Europe</div></div><span class="country-check">✓</span></div>
+      <div class="country-card"><span class="country-flag">🇷🇴</span><div class="country-info"><div class="country-name">Romania</div><div class="country-region">Eastern Europe</div></div><span class="country-check">✓</span></div>
+      <div class="country-card"><span class="country-flag">🇸🇰</span><div class="country-info"><div class="country-name">Slovakia</div><div class="country-region">Eastern Europe</div></div><span class="country-check">✓</span></div>
+      <div class="country-card"><span class="country-flag">🇵🇰</span><div class="country-info"><div class="country-name">Pakistan</div><div class="country-region">South Asia</div></div><span class="country-check">✓</span></div>
+      <div class="country-card"><span class="country-flag">🇧🇩</span><div class="country-info"><div class="country-name">Bangladesh</div><div class="country-region">South Asia</div></div><span class="country-check">✓</span></div>
+      <div class="country-card"><span class="country-flag">🇻🇳</span><div class="country-info"><div class="country-name">Vietnam</div><div class="country-region">Southeast Asia</div></div><span class="country-check">✓</span></div>
+      <div class="country-card"><span class="country-flag">🇵🇭</span><div class="country-info"><div class="country-name">Philippines</div><div class="country-region">Southeast Asia</div></div><span class="country-check">✓</span></div>
+      <div class="country-card"><span class="country-flag">🇨🇳</span><div class="country-info"><div class="country-name">China</div><div class="country-region">Factory & Canton Fair</div></div><span class="country-check">✓</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq-section" id="faq">
+  <div class="faq-header">
+    <span class="section-tag">❓ FAQ</span>
+    <h2 style="font-family:'Nunito','Inter',sans-serif;font-size:32px;font-weight:800;color:var(--text);margin-bottom:10px;">Questions from Real Buyers</h2>
+    <p style="font-size:15px;color:var(--text-mute);">Based on 2 years of customer conversations</p>
+  </div>
+  <div class="faq-grid">
+
+    <div class="faq-item" onclick="this.classList.toggle('open')">
+      <div class="faq-q"><div class="faq-q-text"><span class="faq-icon">❓</span>Is your Smartboard like a TV also?</div><span class="faq-arrow">▼</span></div>
+      <div class="faq-a"><div class="faq-a-inner">"Kind of but Price higher. Can you play video and write on it?"</div></div>
+    </div>
+
+    <div class="faq-item" onclick="this.classList.toggle('open')">
+      <div class="faq-q"><div class="faq-q-text"><span class="faq-icon">❓</span>What's the difference between RK3588 and RK3576?</div><span class="faq-arrow">▼</span></div>
+      <div class="faq-a"><div class="faq-a-inner">RK3576 is cheaper and has middle specs. The RK3588 is the flagship with more power. Tell me your use case, I'll recommend the right one.</div></div>
+    </div>
+
+    <div class="faq-item" onclick="this.classList.toggle('open')">
+      <div class="faq-q"><div class="faq-q-text"><span class="faq-icon">❓</span>How long to ship samples?</div><span class="faq-arrow">▼</span></div>
+      <div class="faq-a"><div class="faq-a-inner">Inventory ready for shipping. Most sizes in stock. Confirm size and I'll tell you exact lead time.</div></div>
+    </div>
+
+    <div class="faq-item" onclick="this.classList.toggle('open')">
+      <div class="faq-q"><div class="faq-q-text"><span class="faq-icon">❓</span>Do you have the required certifications?</div><span class="faq-arrow">▼</span></div>
+      <div class="faq-a"><div class="faq-a-inner">IEC 62368-1 / SANS 62368-1 (safety), EMC compliance, RF approvals, CE, FCC, RoHS. All export-ready.</div></div>
+    </div>
+
+    <div class="faq-item" onclick="this.classList.toggle('open')">
+      <div class="faq-q"><div class="faq-q-text"><span class="faq-icon">❓</span>What is the HS code for customs?</div><span class="faq-arrow">▼</span></div>
+      <div class="faq-a"><div class="faq-a-inner">HS 8471.41.4000 — for Interactive Flat Panels / Smartboards. LED displays may vary.</div></div>
+    </div>
+
+    <div class="faq-item" onclick="this.classList.toggle('open')">
+      <div class="faq-q"><div class="faq-q-text"><span class="faq-icon">❓</span>Can I pay through Alibaba Trade Assurance?</div><span class="faq-arrow">▼</span></div>
+      <div class="faq-a"><div class="faq-a-inner">Alibaba it's fine. Or bank transfer T/T for direct orders. I'll guide you whichever works.</div></div>
+    </div>
+
+    <div class="faq-item" onclick="this.classList.toggle('open')">
+      <div class="faq-q"><div class="faq-q-text"><span class="faq-icon">❓</span>What warranty do you offer?</div><span class="faq-arrow">▼</span></div>
+      <div class="faq-a"><div class="faq-a-inner">1 year for panel, 3 years for core components (motherboard, power board). All products exceed industry LED standards.</div></div>
+    </div>
+
+    <div class="faq-item" onclick="this.classList.toggle('open')">
+      <div class="faq-q"><div class="faq-q-text"><span class="faq-icon">❓</span>Do you customize shapes like spheres or curves?</div><span class="faq-arrow">▼</span></div>
+      <div class="faq-a"><div class="faq-a-inner">Yes — Sphere, Can, Cylinder, Christmas Tree, custom curves. Let me know your size and pitch preference.</div></div>
+    </div>
+
+  </div>
+</section>
     </div>
     <div class="products-grid">
       <div class="product-item">
