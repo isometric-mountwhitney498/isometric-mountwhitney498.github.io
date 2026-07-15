@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About Barry Chen — Your Interactive Display Expert</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green: #2ecc71;
+    --green-dark: #27ae60;
+    --green-deep: #16a35a;
+    --green-soft: #e8f8ef;
+    --green-tint: #c6f0d8;
+    --mint: #f0fdf4;
+    --text: #1a2e1f;
+    --text-mute: #5a7a62;
+    --bg: #fafffe;
+    --white: #ffffff;
+    --shadow: 0 4px 20px rgba(26,163,90,0.08);
+    --shadow-hover: 0 12px 40px rgba(26,163,90,0.15);
+    --radius: 16px;
+    --radius-lg: 22px;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* WhatsApp Float */
+  .wa-float {
+    position: fixed; bottom: 24px; right: 24px;
+    width: 60px; height: 60px; border-radius: 50%;
+    background: #25d366;
+    box-shadow: 0 8px 32px rgba(37,211,102,0.35);
+    display: flex; align-items: center; justify-content: center;
+    z-index: 9999; transition: all 0.35s; cursor: pointer; text-decoration: none;
+  }
+  .wa-float:hover { transform: translateY(-4px) scale(1.05); box-shadow: 0 16px 48px rgba(37,211,102,0.5); }
+  .wa-float-icon { width: 28px; height: 28px; fill: #fff; }
+
+  /* Navigation */
+  .nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 9998; padding: 0 48px; height: 72px;
+    display: flex; align-items: center; justify-content: space-between;
+    background: rgba(250,255,254,0.94);
+    backdrop-filter: blur(20px) saturate(180%);
+    box-shadow: 0 4px 24px rgba(26,163,90,0.08);
+    border-bottom: 1px solid rgba(26,163,90,0.06);
+  }
+  .nav-logo { display: flex; align-items: center; gap: 12px; }
+  .nav-logo-avatar {
+    width: 38px; height: 38px; border-radius: 50%;
+    background: var(--green); display: flex; align-items: center; justify-content: center;
+    color: #fff; font-weight: 800; font-size: 15px;
+  }
+  .nav-logo-name { color: var(--green-deep); font-weight: 700; font-size: 15px; }
+  .nav-logo-title { color: var(--text-mute); font-size: 11px; font-weight: 500; }
+  .nav-links { display: flex; align-items: center; gap: 8px; list-style: none; }
+  .nav-links a {
+    display: block; padding: 8px 16px; border-radius: 10px;
+    color: var(--text); font-size: 13px; font-weight: 500; text-decoration: none;
+    transition: all 0.25s;
+  }
+  .nav-links a:hover, .nav-links a.active { background: var(--green-soft); color: var(--green-deep); }
+  .nav-cta {
+    padding: 8px 20px !important; background: var(--green) !important;
+    color: #fff !important; font-weight: 600 !important; border-radius: 100px !important;
+    box-shadow: 0 4px 16px rgba(46,204,113,0.3) !important;
+  }
+  .nav-cta:hover { background: var(--green-dark) !important; }
+
+  /* Hero */
+  .about-hero {
+    padding: 140px 48px 80px;
+    background: linear-gradient(145deg, #1a5276 0%, #1abc9c 50%, #27ae60 100%);
+    position: relative; overflow: hidden;
+  }
+  .about-hero::before {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(ellipse 60% 80% at 20% 40%, rgba(26,188,148,0.4) 0%, transparent 60%);
+  }
+  .about-hero-inner {
+    max-width: 1100px; margin: 0 auto;
+    display: grid; grid-template-columns: 200px 1fr; gap: 48px; align-items: center;
+    position: relative; z-index: 2;
+  }
+  .about-avatar {
+    width: 180px; height: 180px; border-radius: 50%;
+    background: rgba(255,255,255,0.15); border: 4px solid rgba(255,255,255,0.3);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 72px; font-family: 'Nunito','Inter',sans-serif; font-weight: 800; color: #fff;
+    backdrop-filter: blur(12px);
+  }
+  .about-hero-text h1 {
+    font-family: 'Nunito','Inter',sans-serif;
+    font-size: clamp(32px, 4vw, 48px); font-weight: 800; color: #fff;
+    letter-spacing: -0.8px; margin-bottom: 12px;
+  }
+  .about-hero-text .subtitle { font-size: 16px; color: rgba(255,255,255,0.75); margin-bottom: 20px; }
+  .about-hero-stats { display: flex; gap: 32px; flex-wrap: wrap; }
+  .about-hero-stat { text-align: center; }
+  .about-hero-stat .num {
+    font-size: 28px; font-weight: 800; color: #fff; font-family: 'Nunito','Inter',sans-serif;
+  }
+  .about-hero-stat .label { font-size: 11px; color: rgba(255,255,255,0.55); font-weight: 500; }
+
+  /* Story Section */
+  .story-section { padding: 100px 48px; max-width: 900px; margin: 0 auto; }
+  .section-label {
+    display: inline-block; background: var(--green-soft); color: var(--green-deep);
+    font-size: 11px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase;
+    padding: 6px 14px; border-radius: 100px; margin-bottom: 16px;
+  }
+  .story-section h2 {
+    font-family: 'Nunito','Inter',sans-serif;
+    font-size: 32px; font-weight: 800; color: var(--text);
+    letter-spacing: -0.5px; margin-bottom: 24px;
+  }
+  .story-section p { font-size: 15px; color: var(--text-mute); line-height: 1.85; margin-bottom: 20px; }
+  .story-section p strong { color: var(--text); }
+
+  /* Timeline */
+  .timeline-section { padding: 100px 48px; background: var(--mint); }
+  .timeline-inner { max-width: 900px; margin: 0 auto; }
+  .timeline-header { text-align: center; margin-bottom: 56px; }
+  .timeline-header h2 {
+    font-family: 'Nunito','Inter',sans-serif;
+    font-size: 32px; font-weight: 800; color: var(--text); margin-bottom: 10px;
+  }
+  .timeline-header p { font-size: 15px; color: var(--text-mute); }
+  .timeline { position: relative; padding-left: 40px; }
+  .timeline::before {
+    content: ''; position: absolute; left: 14px; top: 0; bottom: 0;
+    width: 3px; background: var(--green-tint); border-radius: 3px;
+  }
+  .timeline-item {
+    position: relative; margin-bottom: 40px; padding: 28px 32px;
+    background: var(--white); border-radius: var(--radius-lg);
+    box-shadow: var(--shadow); border: 1px solid rgba(46,204,113,0.06);
+    transition: all 0.3s;
+  }
+  .timeline-item:hover { transform: translateY(-3px); box-shadow: var(--shadow-hover); }
+  .timeline-item::before {
+    content: ''; position: absolute; left: -33px; top: 32px;
+    width: 14px; height: 14px; border-radius: 50%;
+    background: var(--green); border: 3px solid var(--white);
+    box-shadow: 0 0 0 3px var(--green-tint);
+  }
+  .timeline-date {
+    display: inline-block; font-size: 12px; font-weight: 700;
+    color: var(--green-deep); background: var(--green-soft);
+    padding: 4px 12px; border-radius: 100px; margin-bottom: 10px;
+    letter-spacing: 0.3px;
+  }
+  .timeline-item h3 {
+    font-size: 18px; font-weight: 700; color: var(--text); margin-bottom: 6px;
+    font-family: 'Nunito','Inter',sans-serif;
+  }
+  .timeline-item p { font-size: 14px; color: var(--text-mute); line-height: 1.7; }
+  .timeline-countries { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+  .timeline-country {
+    font-size: 11px; font-weight: 600; color: var(--green-deep);
+    background: var(--green-soft); padding: 3px 10px; border-radius: 100px;
+  }
+
+  /* CTA */
+  .cta-section {
+    padding: 100px 48px; text-align: center;
+    background: linear-gradient(145deg, #1a5276 0%, #1abc9c 50%, #27ae60 100%);
+    position: relative;
+  }
+  .cta-section h2 {
+    font-family: 'Nunito','Inter',sans-serif;
+    font-size: 32px; font-weight: 800; color: #fff; margin-bottom: 12px;
+  }
+  .cta-section p { font-size: 16px; color: rgba(255,255,255,0.75); margin-bottom: 36px; }
+  .cta-btns { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 14px 32px; border-radius: 100px;
+    font-size: 15px; font-weight: 600; text-decoration: none;
+    transition: all 0.35s; border: none; cursor: pointer;
+  }
+  .btn-white { background: #fff; color: var(--green-deep); box-shadow: 0 8px 24px rgba(0,0,0,0.1); }
+  .btn-white:hover { transform: translateY(-3px); box-shadow: 0 12px 36px rgba(0,0,0,0.18); }
+  .btn-outline-white {
+    background: rgba(255,255,255,0.08); color: #fff;
+    border: 1px solid rgba(255,255,255,0.25); backdrop-filter: blur(12px);
+  }
+  .btn-outline-white:hover { background: rgba(255,255,255,0.15); transform: translateY(-3px); }
+
+  /* Footer */
+  .footer { padding: 48px; background: var(--white); border-top: 1px solid rgba(46,204,113,0.08); text-align: center; }
+  .footer-nav { display: flex; justify-content: center; gap: 24px; flex-wrap: wrap; margin-bottom: 20px; }
+  .footer-nav a { font-size: 13px; color: var(--text-mute); text-decoration: none; font-weight: 500; }
+  .footer-nav a:hover { color: var(--green-deep); }
+  .footer-bottom { font-size: 12px; color: var(--text-mute); }
+  .footer-bottom strong { color: var(--green-deep); }
+
+  @media (max-width: 860px) {
+    .nav { padding: 0 20px; }
+    .nav-links { display: none; }
+    .about-hero { padding: 120px 20px 60px; }
+    .about-hero-inner { grid-template-columns: 1fr; text-align: center; gap: 24px; }
+    .about-avatar { margin: 0 auto; width: 140px; height: 140px; font-size: 56px; }
+    .about-hero-stats { justify-content: center; }
+    .story-section, .timeline-section { padding: 80px 20px; }
+    .cta-section { padding: 80px 20px; }
+    .timeline { padding-left: 32px; }
+    .timeline-item { padding: 22px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- WhatsApp Float -->
+<a href="https://wa.me/message/GF4XMHZGAUJ7K1" class="wa-float" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
+  <svg class="wa-float-icon" viewBox="0 0 24 24"><path fill="currentColor" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<!-- Navigation -->
+<nav class="nav">
+  <div class="nav-logo">
+    <div class="nav-logo-avatar">B</div>
+    <div>
+      <div class="nav-logo-name">Barry Chen</div>
+      <div class="nav-logo-title">Riotouch Display Expert</div>
+    </div>
+  </div>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="index.html#pages">Resources</a></li>
+    <li><a href="index.html#social">Connect</a></li>
+    <li><a href="about.html" class="active">About</a></li>
+    <li><a href="index.html#contact">Contact</a></li>
+    <li><a href="https://wa.me/message/GF4XMHZGAUJ7K1" target="_blank" class="nav-cta">💬 WhatsApp</a></li>
+  </ul>
+</nav>
+
+<!-- Hero -->
+<section class="about-hero">
+  <div class="about-hero-inner">
+    <div class="about-avatar">B</div>
+    <div class="about-hero-text">
+      <h1>Barry Chen</h1>
+      <p class="subtitle">Regional Sales Manager · Interactive Display Educator · Global Traveler</p>
+      <div class="about-hero-stats">
+        <div class="about-hero-stat">
+          <div class="num">2+</div>
+          <div class="label">Years at Riotouch</div>
+        </div>
+        <div class="about-hero-stat">
+          <div class="num">15+</div>
+          <div class="label">Countries Visited</div>
+        </div>
+        <div class="about-hero-stat">
+          <div class="num">100+</div>
+          <div class="label">Clients Served</div>
+        </div>
+        <div class="about-hero-stat">
+          <div class="num">ISO9001</div>
+          <div class="label">Quality Certified</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Story -->
+<section class="story-section">
+  <span class="section-label">📖 My Story</span>
+  <h2>From Curious Newcomer to Display Expert</h2>
+  <p>Hi, I'm Barry. In <strong>March 2024</strong>, I joined Riotouch Technology as a Regional Sales Manager with a simple mission: help businesses and educators find the right display solutions without the confusion that usually comes with tech purchases.</p>
+  <p>Before Riotouch, I spent years observing how display technology was transforming classrooms and retail spaces worldwide. I saw too many buyers make expensive decisions based on incomplete information — and I wanted to change that.</p>
+  <p>At Riotouch, I found the perfect match: a company that builds <strong>Plug & Play</strong> products designed for real people, not just engineers. Our LED displays power on and play. Our IFP panels come with intuitive Android-based Daisy OS. No technician needed — just plug in and go.</p>
+  <p>Since joining, I've traveled to <strong>15+ countries</strong> — from Eastern Europe to Southeast Asia, from South Asia to China's Canton Fair. Every trip taught me something new about what customers actually need versus what they think they need.</p>
+  <p>This website is my way of sharing that knowledge with you. Whether you're a school administrator looking for interactive panels, a retailer wanting eye-catching LED posters, or a business owner exploring digital signage — I'm here to help you make the right choice.</p>
+  <p><strong>Let's make display technology simple together.</strong></p>
+</section>
+
+<!-- Timeline -->
+<section class="timeline-section">
+  <div class="timeline-inner">
+    <div class="timeline-header">
+      <span class="section-label">🌍 Journey</span>
+      <h2>On the Road with Barry</h2>
+      <p>Every trip is a chance to learn what customers really need</p>
+    </div>
+    <div class="timeline">
+
+      <div class="timeline-item">
+        <span class="timeline-date">2026.01.25 – 02.07</span>
+        <h3>Southeast Asia Trip — Philippines</h3>
+        <p>Explored Manila's growing edtech and retail market. Met with local distributors and demoed IFP panels for school deployments.</p>
+        <div class="timeline-countries">
+          <span class="timeline-country">🇵🇭 Philippines</span>
+          <span class="timeline-country">Manila</span>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <span class="timeline-date">2025.10.13 – 10.19</span>
+        <h3>Canton Fair (China Import and Export Fair)</h3>
+        <p>Exhibited at the 138th Autumn Canton Fair — one of China's largest trade shows. Booth <strong>6.0H27</strong>. Connected with buyers from 50+ countries.</p>
+        <div class="timeline-countries">
+          <span class="timeline-country">🇨🇳 China</span>
+          <span class="timeline-country">Guangzhou</span>
+          <span class="timeline-country">Booth 6.0H27</span>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <span class="timeline-date">2025.09.30 – 10.07</span>
+        <h3>Southeast Asia Trip — Vietnam</h3>
+        <p>Visited Ho Chi Minh City and Hanoi to meet with education technology partners. Demoed interactive flat panels for Vietnamese schools.</p>
+        <div class="timeline-countries">
+          <span class="timeline-country">🇻🇳 Vietnam</span>
+          <span class="timeline-country">Ho Chi Minh</span>
+          <span class="timeline-country">Hanoi</span>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <span class="timeline-date">2025.08.10 – 08.30</span>
+        <h3>South Asia Trip — Pakistan & Bangladesh</h3>
+        <p>Traveled across Pakistan (Islamabad, Lahore, Karachi) and Bangladesh (Dhaka) to support local partners and understand regional market needs.</p>
+        <div class="timeline-countries">
+          <span class="timeline-country">🇵🇰 Pakistan</span>
+          <span class="timeline-country">Islamabad</span>
+          <span class="timeline-country">Lahore</span>
+          <span class="timeline-country">Karachi</span>
+          <span class="timeline-country">🇧🇩 Bangladesh</span>
+          <span class="timeline-country">Dhaka</span>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <span class="timeline-date">2025.02.14 – 03.11</span>
+        <h3>Eastern Europe Trip — 4 Countries</h3>
+        <p>Extensive trip covering Poland (Warsaw, Kołczygłowy), Hungary (Budapest), Romania, and Slovakia. Met with distributors and conducted product training sessions.</p>
+        <div class="timeline-countries">
+          <span class="timeline-country">🇵🇱 Poland</span>
+          <span class="timeline-country">Warsaw</span>
+          <span class="timeline-country">Kołczygłowy</span>
+          <span class="timeline-country">🇭🇺 Hungary</span>
+          <span class="timeline-country">Budapest</span>
+          <span class="timeline-country">🇷🇴 Romania</span>
+          <span class="timeline-country">🇸🇰 Slovakia</span>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <span class="timeline-date">2024.03</span>
+        <h3>Joined Riotouch Technology</h3>
+        <p>Started as Regional Sales Manager. Mission: make interactive display technology accessible to every school and business worldwide.</p>
+        <div class="timeline-countries">
+          <span class="timeline-country">🇨🇳 China</span>
+          <span class="timeline-country">Dongguan</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <h2>Let's Work Together</h2>
+  <p>Whether you need a single display or a full project solution — I'm here to help.</p>
+  <div class="cta-btns">
+    <a href="https://wa.me/message/GF4XMHZGAUJ7K1" target="_blank" class="btn btn-white">💬 Chat on WhatsApp</a>
+    <a href="mailto:barry@riotouch.com" class="btn btn-outline-white">📧 Send Email</a>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="footer-nav">
+    <a href="index.html">Home</a>
+    <a href="index.html#pages">Resources</a>
+    <a href="index.html#social">Social</a>
+    <a href="about.html">About</a>
+    <a href="index.html#contact">Contact</a>
+    <a href="https://wa.me/message/GF4XMHZGAUJ7K1" target="_blank">WhatsApp</a>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 <strong>Barry Chen</strong> · Riotouch Technology · Interactive Display Solutions</p>
+    <p style="margin-top:6px;">CE · RoHS · FCC · ISO9001 Certified</p>
+  </div>
+</footer>
+
+</body>
+</html>
