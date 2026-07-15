@@ -4,11 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Barry Chen — Regional Sales Manager | Riotouch Interactive Display</title>
-<meta name="description" content="Hi, I'm Barry Chen. 2+ years helping global buyers choose the right interactive displays and LED solutions. Explore buying guides, user manuals, and project cases.">
+<meta name="description" content="Barry Chen at Riotouch — helping global buyers choose interactive displays. Tools, testimonials, videos, and direct factory support.">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%232ecc71'/><text x='50' y='68' font-size='55' font-weight='bold' text-anchor='middle' fill='white'>B</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
@@ -20,385 +19,207 @@
     --shadow-hover: 0 12px 40px rgba(26,163,90,0.15);
     --radius: 16px; --radius-lg: 22px;
   }
-  body {
-    font-family: 'Inter', -apple-system, sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    line-height: 1.7;
-    -webkit-font-smoothing: antialiased;
-    overflow-x: hidden;
-    padding-top: 72px;
-  }
+  body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; padding-top: 72px; }
+  a { color: var(--green-deep); text-decoration: none; }
 
-  /* ===== Top Nav ===== */
-  .topnav {
-    position: fixed; top: 0; left: 0; right: 0; height: 72px; z-index: 9999;
-    background: rgba(250,255,254,0.96);
-    backdrop-filter: blur(20px); border-bottom: 1px solid rgba(26,163,90,0.06);
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 0 48px;
-  }
-  .topnav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
-  .topnav-avatar {
-    width: 40px; height: 40px; border-radius: 50%;
-    background: linear-gradient(135deg, #27ae60, #2ecc71);
-    display: flex; align-items: center; justify-content: center;
-    color: #fff; font-weight: 800; font-size: 16px;
-  }
-  .topnav-name { color: var(--green-deep); font-weight: 700; font-size: 15px; }
-  .topnav-title { color: var(--text-mute); font-size: 10px; font-weight: 500; }
-  .topnav-links { display: flex; align-items: center; gap: 6px; list-style: none; }
-  .topnav-links a {
-    display: block; padding: 6px 14px; border-radius: 8px;
-    color: var(--text); font-size: 12px; font-weight: 500; text-decoration: none;
-    transition: all 0.25s;
-  }
-  .topnav-links a:hover { background: var(--green-soft); color: var(--green-deep); }
-  .topnav-cta {
-    padding: 8px 18px !important; background: var(--green) !important;
-    color: #fff !important; font-weight: 600 !important; border-radius: 100px !important;
-  }
-  .topnav-cta:hover { background: var(--green-dark) !important; }
-  .topnav-toggle { display: none; flex-direction: column; gap: 4px; cursor: pointer; padding: 8px; background: none; border: none; }
-  .topnav-toggle span { display: block; width: 20px; height: 2px; background: var(--text); }
+  /* WhatsApp Float */
+  .wa-float { position: fixed; bottom: 24px; right: 24px; width: 56px; height: 56px; border-radius: 50%; background: #25d366; box-shadow: 0 8px 32px rgba(37,211,102,0.3); display: flex; align-items: center; justify-content: center; z-index: 9999; transition: all 0.3s; }
+  .wa-float:hover { transform: translateY(-3px) scale(1.05); }
+  .wa-icon { width: 26px; height: 26px; fill: #fff; }
 
-  /* ===== Hero Banner ===== */
-  .banner {
-    padding: 80px 48px;
-    background: linear-gradient(145deg, #f0fdf4 0%, #e8f8ef 50%, #d5f5e3 100%);
-    position: relative; overflow: hidden;
-  }
-  .banner::before {
-    content: ''; position: absolute; inset: 0;
-    background: radial-gradient(circle at 80% 50%, rgba(46,204,113,0.1) 0%, transparent 60%);
-  }
-  .banner-inner {
-    max-width: 1100px; margin: 0 auto;
-    display: grid; grid-template-columns: 280px 1fr; gap: 64px; align-items: center;
-    position: relative; z-index: 2;
-  }
-  .banner-photo {
-    width: 280px; height: 320px; border-radius: var(--radius-lg);
-    background: linear-gradient(145deg, #27ae60, #1abc9c);
-    box-shadow: 0 20px 60px rgba(26,163,90,0.25);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 120px; color: rgba(255,255,255,0.3);
-    position: relative; overflow: hidden;
-  }
-  .banner-photo::after {
-    content: 'Barry Chen';
-    position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);
-    font-size: 14px; color: #fff; font-weight: 600; opacity: 0.8;
-  }
-  .banner-text h1 {
-    font-family: 'Nunito','Inter',sans-serif;
-    font-size: 36px; font-weight: 800; color: var(--text);
-    line-height: 1.2; margin-bottom: 16px;
-  }
+  /* Nav */
+  .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 9998; padding: 0 48px; height: 72px; display: flex; align-items: center; justify-content: space-between; background: rgba(250,255,254,0.96); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(26,163,90,0.06); }
+  .nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+  .nav-avatar { width: 38px; height: 38px; border-radius: 50%; background: linear-gradient(135deg, #27ae60, #2ecc71); display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 800; font-size: 15px; }
+  .nav-name { color: var(--green-deep); font-weight: 700; font-size: 14px; }
+  .nav-title { color: var(--text-mute); font-size: 10px; font-weight: 500; }
+  .nav-links { display: flex; align-items: center; gap: 4px; list-style: none; }
+  .nav-links a { display: block; padding: 5px 12px; border-radius: 8px; color: var(--text); font-size: 12px; font-weight: 500; text-decoration: none; transition: all 0.25s; }
+  .nav-links a:hover, .nav-links a.active { background: var(--green-soft); color: var(--green-deep); }
+  .nav-cta { padding: 6px 16px !important; background: var(--green) !important; color: #fff !important; font-weight: 600 !important; border-radius: 100px !important; }
+  .nav-cta:hover { background: var(--green-dark) !important; }
+  .nav-toggle { display: none; flex-direction: column; gap: 4px; cursor: pointer; padding: 8px; background: none; border: none; }
+  .nav-toggle span { display: block; width: 18px; height: 2px; background: var(--text); }
+
+  /* ===== Banner (with photo) ===== */
+  .banner { padding: 70px 48px; background: linear-gradient(145deg, #f0fdf4, #e8f8ef 50%, #d5f5e3); position: relative; }
+  .banner::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 80% 50%, rgba(46,204,113,0.1) 0%, transparent 60%); }
+  .banner-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 240px 1fr; gap: 48px; align-items: center; position: relative; z-index: 2; }
+  .banner-photo { width: 240px; height: 280px; border-radius: var(--radius-lg); background-image: url('https://scontent-nrt6-1.xx.fbcdn.net/v/t39.30808-1/432447469_759659289457136_246745133585550488_n.jpg?stp=c120.0.720.720a_dst-jpg_tt6&cstp=mx720x720&ctp=s200x200&_nc_cat=105&ccb=1-7&_nc_sid=e99d92&_nc_ohc=ADjm7OPQCZgQ7kNvwHR3jPu&_nc_oc=AdoNQxjL0SpLVTPsmgJMmMyLmxuBrGBU9w4SkzaGSpv0Yl8FzPevXjzMpQINRbjrq9U&_nc_zt=24&_nc_ht=scontent-nrt6-1.xx&_nc_gid=WQPds3cF3Wj00jwFj3prpw&_nc_ss=792a8&oh=00_AQBNA9tzWlhdMMu-5orP6TMESItESvDy3txCDOURIYayQg&oe=6A5CDBB7'); background-size: cover; background-position: center; box-shadow: 0 20px 60px rgba(26,163,90,0.2); }
+  .banner-text h1 { font-family: 'Nunito','Inter',sans-serif; font-size: 32px; font-weight: 800; color: var(--text); line-height: 1.2; margin-bottom: 12px; }
   .banner-text .highlight { color: var(--green-deep); }
-  .banner-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px; }
-  .banner-tag {
-    display: inline-flex; align-items: center; gap: 6px;
-    padding: 6px 14px; border-radius: 100px;
-    font-size: 12px; font-weight: 600; color: var(--green-deep);
-    background: var(--white); border: 1px solid var(--green-tint);
-  }
-  .banner-btns { display: flex; gap: 12px; flex-wrap: wrap; }
-  .btn {
-    display: inline-flex; align-items: center; gap: 8px;
-    padding: 12px 28px; border-radius: 100px;
-    font-size: 14px; font-weight: 600; text-decoration: none;
-    transition: all 0.3s; border: none; cursor: pointer;
-  }
+  .banner-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; }
+  .banner-tag { display: inline-flex; align-items: center; gap: 4px; padding: 5px 12px; border-radius: 100px; font-size: 11px; font-weight: 600; color: var(--green-deep); background: var(--white); border: 1px solid var(--green-tint); }
+  .banner .visitor-badge { display: inline-flex; align-items: center; gap: 6px; margin-top: 16px; padding: 5px 14px; border-radius: 100px; background: var(--white); border: 1px solid var(--green-tint); font-size: 10px; color: var(--text-mute); font-weight: 500; }
+  .visitor-dot { width: 6px; height: 6px; border-radius: 50%; background: #25d366; animation: pulse 2s infinite; }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+  .btn { display: inline-flex; align-items: center; gap: 8px; padding: 11px 26px; border-radius: 100px; font-size: 13px; font-weight: 600; text-decoration: none; transition: all 0.3s; border: none; cursor: pointer; }
   .btn-primary { background: var(--green); color: #fff; box-shadow: 0 4px 16px rgba(46,204,113,0.3); }
   .btn-primary:hover { background: var(--green-dark); transform: translateY(-2px); }
   .btn-outline { background: var(--white); color: var(--green-deep); border: 2px solid var(--green-tint); }
   .btn-outline:hover { border-color: var(--green); transform: translateY(-2px); }
-  .visitor-badge {
-    display: inline-flex; align-items: center; gap: 6px;
-    margin-top: 20px; padding: 5px 14px; border-radius: 100px;
-    background: var(--white); border: 1px solid var(--green-tint);
-    font-size: 11px; color: var(--text-mute); font-weight: 500;
-  }
-  .visitor-dot { width: 6px; height: 6px; border-radius: 50%; background: #25d366; animation: pulse 2s infinite; }
-  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
 
   /* ===== Section Common ===== */
-  .section { padding: 100px 48px; }
-  .section-dark { background: var(--mint); }
-  .section-header { text-align: center; margin-bottom: 48px; }
-  .section-tag {
-    display: inline-block; background: var(--green-soft); color: var(--green-deep);
-    font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
-    padding: 5px 14px; border-radius: 100px; margin-bottom: 12px;
-  }
-  .section-title {
-    font-family: 'Nunito','Inter',sans-serif;
-    font-size: 30px; font-weight: 800; color: var(--text); margin-bottom: 8px;
-  }
-  .section-sub { font-size: 14px; color: var(--text-mute); max-width: 500px; margin: 0 auto; }
+  .section { padding: 80px 48px; }
+  .section-alt { background: var(--mint); }
+  .section-header { text-align: center; margin-bottom: 40px; }
+  .section-tag { display: inline-block; background: var(--green-soft); color: var(--green-deep); font-size: 10px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; padding: 4px 12px; border-radius: 100px; margin-bottom: 10px; }
+  .section-title { font-family: 'Nunito','Inter',sans-serif; font-size: 28px; font-weight: 800; color: var(--text); margin-bottom: 6px; }
+  .section-sub { font-size: 13px; color: var(--text-mute); max-width: 500px; margin: 0 auto; }
 
-  /* ===== About Me ===== */
-  .about-grid {
-    max-width: 1100px; margin: 0 auto;
-    display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center;
-  }
-  .about-photos {
-    display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
-  }
-  .about-photo {
-    height: 180px; border-radius: var(--radius);
-    background: linear-gradient(145deg, #27ae60, #1abc9c);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 40px; color: rgba(255,255,255,0.3);
-    box-shadow: var(--shadow);
-  }
-  .about-photo-wide { grid-column: span 2; height: 140px; }
-  .about-text h2 {
-    font-family: 'Nunito','Inter',sans-serif;
-    font-size: 26px; font-weight: 800; color: var(--text); margin-bottom: 16px;
-  }
-  .about-text p { font-size: 14px; color: var(--text-mute); line-height: 1.8; margin-bottom: 12px; }
-  .about-stats { display: flex; gap: 32px; margin-top: 24px; flex-wrap: wrap; }
-  .about-stat .num { font-size: 24px; font-weight: 800; color: var(--green-deep); font-family: 'Nunito','Inter',sans-serif; }
-  .about-stat .label { font-size: 11px; color: var(--text-mute); }
-  .about-diffs {
-    margin-top: 32px; display: grid; gap: 12px;
-  }
-  .about-diff {
-    display: flex; align-items: center; gap: 12px;
-    padding: 14px 18px; background: var(--white);
-    border: 1px solid var(--green-tint); border-radius: var(--radius);
-    font-size: 13px; font-weight: 600; color: var(--text);
-  }
-  .about-diff-icon {
-    width: 36px; height: 36px; border-radius: 10px;
-    background: var(--green-soft); display: flex; align-items: center; justify-content: center;
-    font-size: 18px; flex-shrink: 0;
-  }
+  /* ===== About (with photos grid + stats + diffs) ===== */
+  .about-grid { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
+  .about-photos { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .about-photo { height: 160px; border-radius: var(--radius); background: linear-gradient(145deg, #27ae60, #1abc9c); display: flex; align-items: center; justify-content: center; font-size: 36px; box-shadow: var(--shadow); color: rgba(255,255,255,0.3); }
+  .about-photo-wide { grid-column: span 2; height: 120px; }
+  .about-text h2 { font-family: 'Nunito','Inter',sans-serif; font-size: 24px; font-weight: 800; color: var(--text); margin-bottom: 12px; }
+  .about-text p { font-size: 13px; color: var(--text-mute); line-height: 1.75; margin-bottom: 10px; }
+  .about-stats { display: flex; gap: 24px; margin-top: 16px; flex-wrap: wrap; }
+  .about-stat .num { font-size: 22px; font-weight: 800; color: var(--green-deep); font-family: 'Nunito','Inter',sans-serif; }
+  .about-stat .label { font-size: 10px; color: var(--text-mute); }
+  .about-diffs { margin-top: 20px; display: grid; gap: 8px; }
+  .about-diff { display: flex; align-items: center; gap: 10px; padding: 10px 14px; background: var(--white); border: 1px solid var(--green-tint); border-radius: var(--radius); font-size: 12px; font-weight: 600; color: var(--text); }
+  .about-diff-icon { width: 32px; height: 32px; border-radius: 8px; background: var(--green-soft); display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
 
-  /* ===== Testimonials ===== */
-  .testi-grid {
-    max-width: 1100px; margin: 0 auto;
-    display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 24px;
-  }
-  .testi-card {
-    background: var(--white); border: 1px solid var(--green-tint);
-    border-radius: var(--radius-lg); padding: 28px 24px;
-    box-shadow: var(--shadow); transition: all 0.3s;
-  }
+  /* ===== Testimonials (region-grouped) ===== */
+  .testi-grid { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; }
+  .testi-card { background: var(--white); border: 1px solid var(--green-tint); border-radius: var(--radius-lg); padding: 24px 20px; box-shadow: var(--shadow); transition: all 0.3s; }
   .testi-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-hover); }
-  .testi-mark { font-size: 36px; color: var(--green-tint); line-height: 1; margin-bottom: 8px; font-family: Georgia, serif; }
-  .testi-text { font-size: 13px; color: var(--text); line-height: 1.7; margin-bottom: 16px; }
-  .testi-author { display: flex; align-items: center; gap: 10px; }
-  .testi-avatar {
-    width: 36px; height: 36px; border-radius: 50%;
-    background: var(--green-soft); display: flex; align-items: center; justify-content: center;
-    font-weight: 700; color: var(--green-deep); font-size: 12px;
-  }
-  .testi-info strong { display: block; font-size: 12px; color: var(--text); }
+  .testi-mark { font-size: 32px; color: var(--green-tint); line-height: 1; margin-bottom: 6px; font-family: Georgia, serif; }
+  .testi-text { font-size: 12px; color: var(--text); line-height: 1.7; margin-bottom: 12px; }
+  .testi-author { display: flex; align-items: center; gap: 8px; }
+  .testi-avatar { width: 32px; height: 32px; border-radius: 50%; background: var(--green-soft); display: flex; align-items: center; justify-content: center; font-weight: 700; color: var(--green-deep); font-size: 11px; }
+  .testi-info strong { display: block; font-size: 11px; color: var(--text); }
   .testi-info span { font-size: 10px; color: var(--text-mute); }
-  .testi-region {
-    display: inline-block; margin-top: 12px; padding: 3px 10px;
-    background: var(--green-soft); border-radius: 100px;
-    font-size: 10px; font-weight: 600; color: var(--green-deep);
-  }
+  .testi-region { display: inline-block; margin-top: 10px; padding: 3px 10px; background: var(--green-soft); border-radius: 100px; font-size: 10px; font-weight: 600; color: var(--green-deep); }
 
-  /* ===== Tools ===== */
-  .tools-grid {
-    max-width: 1100px; margin: 0 auto;
-    display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px;
-  }
-  .tool-card {
-    background: var(--white); border: 1px solid var(--green-tint);
-    border-radius: var(--radius-lg); padding: 28px 24px;
-    box-shadow: var(--shadow); transition: all 0.3s;
-  }
-  .tool-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-hover); }
-  .tool-icon {
-    width: 48px; height: 48px; border-radius: 14px;
-    background: var(--green-soft); display: flex; align-items: center; justify-content: center;
-    font-size: 24px; margin-bottom: 16px;
-  }
-  .tool-card h3 { font-size: 16px; font-weight: 700; color: var(--text); margin-bottom: 8px; }
-  .tool-card p { font-size: 12px; color: var(--text-mute); line-height: 1.6; margin-bottom: 16px; }
-  .tool-link {
-    display: inline-flex; align-items: center; gap: 6px;
-    font-size: 12px; font-weight: 600; color: var(--green-deep);
-    text-decoration: none;
-  }
-  .tool-link:hover { text-decoration: underline; }
+  /* ===== Videos (3精选 + link) ===== */
+  .videos-grid { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+  .video-card { background: var(--white); border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow); transition: all 0.3s; }
+  .video-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-hover); }
+  .video-thumb { position: relative; padding-top: 56.25%; background: #000; }
+  .video-thumb iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; }
+  .video-info { padding: 16px; }
+  .video-info h3 { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+  .video-info p { font-size: 11px; color: var(--text-mute); line-height: 1.5; }
 
-  /* ===== Lead Form ===== */
-  .lead-section { padding: 100px 48px; background: var(--mint); }
-  .lead-inner {
-    max-width: 600px; margin: 0 auto;
-    background: var(--white); border: 1px solid var(--green-tint);
-    border-radius: var(--radius-lg); padding: 48px 40px;
-    box-shadow: var(--shadow);
-  }
-  .lead-inner h2 {
-    font-family: 'Nunito','Inter',sans-serif;
-    font-size: 24px; font-weight: 800; color: var(--text);
-    text-align: center; margin-bottom: 8px;
-  }
-  .lead-inner > p {
-    font-size: 14px; color: var(--text-mute); text-align: center; margin-bottom: 32px;
-  }
-  .lead-form .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
-  .lead-form .form-group { margin-bottom: 16px; }
-  .lead-form label { display: block; font-size: 12px; font-weight: 600; color: var(--text); margin-bottom: 6px; }
-  .lead-form input, .lead-form select, .lead-form textarea {
-    width: 100%; padding: 12px 16px; border: 1px solid var(--green-tint);
-    border-radius: var(--radius); font-size: 13px; font-family: 'Inter', sans-serif;
-    background: var(--white); transition: all 0.3s;
-  }
-  .lead-form input:focus, .lead-form select:focus, .lead-form textarea:focus {
-    outline: none; border-color: var(--green); box-shadow: 0 0 0 3px var(--green-soft);
-  }
-  .lead-form textarea { min-height: 100px; resize: vertical; }
-  .lead-form .form-submit {
-    display: flex; flex-direction: column; align-items: center; margin-top: 24px;
-  }
-  .lead-form .form-note { font-size: 11px; color: var(--text-mute); margin-top: 12px; }
+  /* ===== Interactive Tools (compact) ===== */
+  .tools-compact { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .tool-card { background: var(--white); border: 1px solid var(--green-tint); border-radius: var(--radius-lg); padding: 28px; box-shadow: var(--shadow); transition: all 0.3s; }
+  .tool-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-hover); }
+  .tool-card h3 { font-size: 16px; font-weight: 700; color: var(--text); margin-bottom: 6px; }
+  .tool-card p { font-size: 12px; color: var(--text-mute); line-height: 1.6; margin-bottom: 14px; }
+  .tool-card .btn { font-size: 12px; padding: 8px 20px; }
+
+  /* ===== Chip Comparison + Lead Form (side by side) ===== */
+  .bottom-grid { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: start; }
+  .compare-wrap { background: var(--white); border: 1px solid var(--green-tint); border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow); }
+  .compare-wrap h3 { font-family: 'Nunito','Inter',sans-serif; font-size: 16px; font-weight: 800; padding: 20px 24px 0; }
+  .compare-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  .compare-table th { background: var(--green-soft); padding: 8px 12px; text-align: center; font-weight: 700; color: var(--green-deep); font-size: 10px; }
+  .compare-table td { padding: 7px 12px; text-align: center; border-top: 1px solid var(--green-tint); font-size: 12px; }
+  .compare-table td:first-child { font-weight: 600; text-align: left; background: rgba(232,248,239,0.4); }
+  .compare-winner { font-weight: 700; color: var(--green-deep); }
+
+  .lead-wrap { background: var(--white); border: 1px solid var(--green-tint); border-radius: var(--radius-lg); padding: 28px; box-shadow: var(--shadow); }
+  .lead-wrap h3 { font-family: 'Nunito','Inter',sans-serif; font-size: 16px; font-weight: 800; color: var(--text); margin-bottom: 6px; }
+  .lead-wrap > p { font-size: 12px; color: var(--text-mute); margin-bottom: 20px; }
+  .lead-form .form-group { margin-bottom: 14px; }
+  .lead-form label { display: block; font-size: 11px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+  .lead-form input, .lead-form select, .lead-form textarea { width: 100%; padding: 10px 14px; border: 1px solid var(--green-tint); border-radius: var(--radius); font-size: 12px; font-family: 'Inter', sans-serif; background: var(--white); transition: all 0.3s; }
+  .lead-form input:focus, .lead-form select:focus, .lead-form textarea:focus { outline: none; border-color: var(--green); box-shadow: 0 0 0 3px var(--green-soft); }
+  .lead-form textarea { min-height: 80px; resize: vertical; }
+  .lead-form .btn { width: 100%; justify-content: center; }
+  .lead-form .form-note { font-size: 10px; color: var(--text-mute); text-align: center; margin-top: 10px; }
+  .lead-thanks { display: none; text-align: center; padding: 30px 0; }
+  .lead-thanks h4 { color: var(--green-deep); font-size: 16px; margin-bottom: 6px; }
+  .lead-thanks p { font-size: 12px; color: var(--text-mute); }
 
   /* ===== Contact Bar ===== */
-  .contact-bar {
-    padding: 80px 48px;
-    background: linear-gradient(145deg, #1a5276 0%, #1abc9c 50%, #27ae60 100%);
-    text-align: center;
-  }
-  .contact-bar h2 {
-    font-family: 'Nunito','Inter',sans-serif;
-    font-size: 26px; font-weight: 800; color: #fff; margin-bottom: 12px;
-  }
-  .contact-bar p { font-size: 14px; color: rgba(255,255,255,0.7); margin-bottom: 32px; }
-  .contact-grid {
-    display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; max-width: 700px; margin: 0 auto;
-  }
-  .contact-card {
-    display: flex; align-items: center; gap: 10px;
-    padding: 14px 24px; background: rgba(255,255,255,0.1);
-    border: 1px solid rgba(255,255,255,0.2); border-radius: 100px;
-    text-decoration: none; color: #fff; font-size: 13px; font-weight: 600;
-    transition: all 0.3s;
-  }
+  .contact-bar { padding: 70px 48px; background: linear-gradient(145deg, #1a5276, #1abc9c 50%, #27ae60); text-align: center; }
+  .contact-bar h2 { font-family: 'Nunito','Inter',sans-serif; font-size: 24px; font-weight: 800; color: #fff; margin-bottom: 8px; }
+  .contact-bar p { font-size: 13px; color: rgba(255,255,255,0.7); margin-bottom: 28px; }
+  .contact-grid { display: flex; justify-content: center; gap: 14px; flex-wrap: wrap; max-width: 700px; margin: 0 auto; }
+  .contact-card { display: flex; align-items: center; gap: 8px; padding: 12px 22px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 100px; text-decoration: none; color: #fff; font-size: 12px; font-weight: 600; transition: all 0.3s; }
   .contact-card:hover { background: rgba(255,255,255,0.2); transform: translateY(-2px); }
-  .contact-card-icon {
-    width: 32px; height: 32px; border-radius: 50%;
-    background: rgba(255,255,255,0.15); display: flex; align-items: center; justify-content: center;
-    font-size: 14px;
-  }
+  .contact-card-icon { width: 28px; height: 28px; border-radius: 50%; background: rgba(255,255,255,0.15); display: flex; align-items: center; justify-content: center; font-size: 12px; }
 
   /* ===== Footer ===== */
-  .footer {
-    padding: 48px 20px; background: var(--white);
-    border-top: 1px solid rgba(46,204,113,0.08); text-align: center;
-  }
-  .footer-inner { max-width: 700px; margin: 0 auto; }
-  .footer-name {
-    font-family: 'Nunito','Inter',sans-serif;
-    font-size: 18px; font-weight: 800; color: var(--green-deep); margin-bottom: 8px;
-  }
-  .footer-role { font-size: 12px; color: var(--text-mute); margin-bottom: 16px; }
-  .footer-links { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-bottom: 20px; }
-  .footer-links a { font-size: 12px; color: var(--text-mute); text-decoration: none; }
+  .footer { padding: 36px 20px; background: var(--white); border-top: 1px solid rgba(46,204,113,0.08); text-align: center; }
+  .footer-name { font-family: 'Nunito','Inter',sans-serif; font-size: 16px; font-weight: 800; color: var(--green-deep); margin-bottom: 4px; }
+  .footer-role { font-size: 11px; color: var(--text-mute); margin-bottom: 14px; }
+  .footer-links { display: flex; justify-content: center; gap: 18px; flex-wrap: wrap; margin-bottom: 14px; }
+  .footer-links a { font-size: 11px; color: var(--text-mute); }
   .footer-links a:hover { color: var(--green-deep); }
-  .footer-bottom { font-size: 11px; color: var(--text-mute); padding-top: 20px; border-top: 1px solid rgba(46,204,113,0.06); }
-  .footer-bottom p { margin-bottom: 4px; }
-  .footer-disclaimer { font-size: 10px; color: rgba(90,122,98,0.6); margin-top: 12px; }
+  .footer-bottom { font-size: 10px; color: var(--text-mute); padding-top: 14px; border-top: 1px solid rgba(46,204,113,0.06); }
+  .footer-disclaimer { font-size: 9px; color: rgba(90,122,98,0.5); margin-top: 8px; }
 
-  /* ===== Floating Buttons ===== */
-  .float-btns {
-    position: fixed; bottom: 24px; right: 24px;
-    display: flex; flex-direction: column; gap: 10px; z-index: 9999;
-  }
-  .float-btn {
-    width: 56px; height: 56px; border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.15);
-    transition: all 0.3s; text-decoration: none;
-  }
-  .float-btn:hover { transform: translateY(-3px) scale(1.05); }
-  .float-btn.wa { background: #25d366; }
-  .float-btn.email { background: var(--green); }
-  .float-btn svg { width: 26px; height: 26px; fill: #fff; }
-
-  /* ===== Responsive ===== */
-  @media (max-width: 860px) {
-    .topnav { padding: 0 16px; }
-    .topnav-links { display: none; }
-    .topnav-toggle { display: flex; }
-    .banner { padding: 60px 20px; }
-    .banner-inner { grid-template-columns: 1fr; text-align: center; gap: 32px; }
-    .banner-photo { width: 200px; height: 240px; margin: 0 auto; font-size: 80px; }
+  @media(max-width:860px) {
+    .nav { padding: 0 16px; }
+    .nav-links { display: none; }
+    .nav-toggle { display: flex; }
+    .banner { padding: 50px 20px; }
+    .banner-inner { grid-template-columns: 1fr; text-align: center; gap: 24px; }
+    .banner-photo { width: 180px; height: 220px; margin: 0 auto; }
     .banner-tags { justify-content: center; }
-    .banner-btns { justify-content: center; }
-    .section { padding: 80px 20px; }
-    .about-grid { grid-template-columns: 1fr; gap: 32px; }
+    .section { padding: 60px 20px; }
+    .about-grid { grid-template-columns: 1fr; gap: 24px; }
     .about-photos { order: -1; }
     .about-stats { justify-content: center; }
-    .lead-section { padding: 80px 20px; }
-    .lead-inner { padding: 32px 20px; }
-    .lead-form .form-row { grid-template-columns: 1fr; }
-    .contact-bar { padding: 60px 20px; }
+    .tools-compact, .bottom-grid { grid-template-columns: 1fr; }
+    .testi-grid, .videos-grid { grid-template-columns: 1fr; }
+    .contact-bar { padding: 50px 20px; }
     .contact-grid { flex-direction: column; align-items: center; }
-    .tools-grid, .testi-grid { grid-template-columns: 1fr; }
-    .float-btns { bottom: 16px; right: 16px; }
-    .float-btn { width: 48px; height: 48px; }
   }
 </style>
 </head>
 <body>
 
+<!-- WhatsApp Float -->
+<a href="https://wa.me/message/GF4XMHZGAUJ7K1" class="wa-float" target="_blank" rel="noopener">
+  <svg class="wa-icon" viewBox="0 0 24 24"><path fill="currentColor" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
 <!-- Top Nav -->
-<nav class="topnav">
-  <a href="#home" class="topnav-logo">
-    <div class="topnav-avatar">B</div>
-    <div>
-      <div class="topnav-name">Barry Chen</div>
-      <div class="topnav-title">Riotouch Regional Sales Manager</div>
-    </div>
+<nav class="nav">
+  <a href="#home" class="nav-logo">
+    <div class="nav-avatar">B</div>
+    <div><div class="nav-name">Barry Chen</div><div class="nav-title">Display Expert</div></div>
   </a>
-  <ul class="topnav-links" id="navLinks">
+  <ul class="nav-links" id="navLinks">
     <li><a href="#about">About Me</a></li>
     <li><a href="#testimonials">Testimonials</a></li>
+    <li><a href="#videos">Videos</a></li>
     <li><a href="#tools">Tools</a></li>
-    <li><a href="#lead">Download</a></li>
     <li><a href="#contact">Contact</a></li>
-    <li><a href="form.html" class="topnav-cta">Get Quote</a></li>
+    <li><a href="form.html" class="nav-cta">Get Quote</a></li>
   </ul>
-  <button class="topnav-toggle" onclick="toggleNav()" aria-label="Menu"><span></span><span></span><span></span></button>
+  <button class="nav-toggle" aria-label="Menu"><span></span><span></span><span></span></button>
 </nav>
 
 <!-- Banner -->
 <section class="banner" id="home">
   <div class="banner-inner">
-    <div class="banner-photo" style="background-image:url('https://scontent-nrt6-1.xx.fbcdn.net/v/t39.30808-1/432447469_759659289457136_246745133585550488_n.jpg?stp=c120.0.720.720a_dst-jpg_tt6&cstp=mx720x720&ctp=s200x200&_nc_cat=105&ccb=1-7&_nc_sid=e99d92&_nc_ohc=ADjm7OPQCZgQ7kNvwHR3jPu&_nc_oc=AdoNQxjL0SpLVTPsmgJMmMyLmxuBrGBU9w4SkzaGSpv0Yl8FzPevXjzMpQINRbjrq9U&_nc_zt=24&_nc_ht=scontent-nrt6-1.xx&_nc_gid=WQPds3cF3Wj00jwFj3prpw&_nc_ss=792a8&oh=00_AQBNA9tzWlhdMMu-5orP6TMESItESvDy3txCDOURIYayQg&oe=6A5CDBB7');background-size:cover;background-position:center;font-size:0;">&nbsp;</div>
+    <div class="banner-photo"></div>
     <div class="banner-text">
-      <h1>Your <span class="highlight">Original Factory</span><br>Display Expert</h1>
+      <h1>Your <span class="highlight">Original Factory</span> Display Expert</h1>
       <div class="banner-tags">
         <span class="banner-tag">🎓 Education</span>
         <span class="banner-tag">🏢 Enterprise</span>
         <span class="banner-tag">🌍 Global</span>
       </div>
-      <p style="font-size:15px;color:var(--text-mute);margin-bottom:24px;">
-        Hi, I'm Barry — your knowledge hub for Riotouch display solutions. From buying guides to hands-on tutorials, explore resources that help you choose and use with confidence.
-      </p>
-      <div class="banner-btns">
+      <p style="font-size:13px;color:var(--text-mute);margin-bottom:18px;max-width:500px;">Hi, I'm Barry — your knowledge hub for Riotouch display solutions. From buying guides to hands-on tutorials, explore resources that help you choose with confidence.</p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;">
         <a href="https://wa.me/message/GF4XMHZGAUJ7K1" target="_blank" class="btn btn-primary">💬 Contact Me</a>
         <a href="#lead" class="btn btn-outline">📥 Download Catalog</a>
       </div>
-      <div class="visitor-badge">
-        <span class="visitor-dot"></span>
-        <span>Visitor #<span id="visitorNum">1,234</span></span>
-      </div>
+      <div class="visitor-badge"><span class="visitor-dot"></span> Visitor #<span id="visitorNum">1,234</span></div>
     </div>
   </div>
 </section>
 
 <!-- About Me -->
-<section class="section section-dark" id="about">
+<section class="section section-alt" id="about">
   <div class="section-header">
     <span class="section-tag">About Me</span>
     <h2 class="section-title">Your Trusted Display Expert</h2>
@@ -412,7 +233,7 @@
     </div>
     <div class="about-text">
       <h2>Hi, I'm Barry Chen 👋</h2>
-      <p><strong style="color:var(--text);">Regional Sales Manager at Riotouch Technology</strong> — I've been helping educators and business owners worldwide choose the right display solutions since 2024.</p>
+      <p><strong style="color:var(--text);">Regional Sales Manager at Riotouch Technology</strong> — helping educators and business owners worldwide since 2024.</p>
       <p>From pixel pitch debates to Plug & Play setups, my mission is to make advanced display tech accessible to everyone.</p>
       <div class="about-stats">
         <div class="about-stat"><div class="num">2+</div><div class="label">Years at Riotouch</div></div>
@@ -433,292 +254,172 @@
 <section class="section" id="testimonials">
   <div class="section-header">
     <span class="section-tag">Testimonials</span>
-    <h2 class="section-title">Real Feedback from Real Buyers</h2>
-    <p class="section-sub">Grouped by region for your reference</p>
+    <h2 class="section-title">Real Feedback, Real Projects</h2>
+    <p class="section-sub">From clients across 3 continents</p>
   </div>
   <div class="testi-grid">
     <div class="testi-card">
       <div class="testi-mark">"</div>
       <p class="testi-text">I ordered 12 pieces of IFP 86" for our school in Poland. Barry was so helpful during the whole process. The quality is amazing and Daisy OS is super easy for teachers.</p>
-      <div class="testi-author">
-        <div class="testi-avatar">JK</div>
-        <div class="testi-info"><strong>Jan K.</strong><span>Poland · Education</span></div>
-      </div>
+      <div class="testi-author"><div class="testi-avatar">JK</div><div class="testi-info"><strong>Jan K.</strong><span>Poland · Education</span></div></div>
       <span class="testi-region">🇪🇺 Europe</span>
     </div>
     <div class="testi-card">
       <div class="testi-mark">"</div>
       <p class="testi-text">We've been working with Barry for our LED display projects in Pakistan. His product knowledge is deep and he never delays responses. Highly recommended supplier.</p>
-      <div class="testi-author">
-        <div class="testi-avatar">MA</div>
-        <div class="testi-info"><strong>Muhammad A.</strong><span>Pakistan · Distributor</span></div>
-      </div>
+      <div class="testi-author"><div class="testi-avatar">MA</div><div class="testi-info"><strong>Muhammad A.</strong><span>Pakistan · Distributor</span></div></div>
       <span class="testi-region">🌏 South Asia</span>
     </div>
     <div class="testi-card">
       <div class="testi-mark">"</div>
       <p class="testi-text">Visited Barry's factory area at Canton Fair. Professional booth, real product demos. We placed an order for 30 IFP panels right after the show.</p>
-      <div class="testi-author">
-        <div class="testi-avatar">TL</div>
-        <div class="testi-info"><strong>Tran L.</strong><span>Vietnam · System Integrator</span></div>
-      </div>
+      <div class="testi-author"><div class="testi-avatar">TL</div><div class="testi-info"><strong>Tran L.</strong><span>Vietnam · System Integrator</span></div></div>
       <span class="testi-region">🌏 Southeast Asia</span>
     </div>
   </div>
 </section>
 
-<!-- Tools -->
-<section class="section section-dark" id="tools">
+<!-- Videos -->
+<section class="section section-alt" id="videos">
   <div class="section-header">
-    <span class="section-tag">Free Tools</span>
-    <h2 class="section-title">Practical Resources for Your Project</h2>
-    <p class="section-sub">All documents include personal watermark and dedicated support</p>
+    <span class="section-tag">Video Spotlight</span>
+    <h2 class="section-title">Watch Riotouch in Action</h2>
+    <p class="section-sub">Product demos, factory tours, and real project cases</p>
   </div>
-  <div class="tools-grid">
+  <div class="videos-grid">
+    <div class="video-card">
+      <div class="video-thumb"><iframe src="https://www.youtube.com/embed/5uthGI0M9q8?rel=0" allowfullscreen></iframe></div>
+      <div class="video-info"><h3>Inside Our New Factory</h3><p>Assembly & Testing Tour</p></div>
+    </div>
+    <div class="video-card">
+      <div class="video-thumb"><iframe src="https://www.youtube.com/embed/tPODs8G-n1w?rel=0" allowfullscreen></iframe></div>
+      <div class="video-info"><h3>IFP RK3576: AI for Learning</h3><p>AI-powered education</p></div>
+    </div>
+    <div class="video-card">
+      <div class="video-thumb"><iframe src="https://www.youtube.com/embed/xuzOm9mQds8?rel=0" allowfullscreen></iframe></div>
+      <div class="video-info"><h3>LED Meeting Displays</h3><p>108"/136"/163" for global collaboration</p></div>
+    </div>
+  </div>
+  <div style="text-align:center;margin-top:24px;">
+    <a href="https://www.youtube.com/@Barry_Touchscreen_Daydreaming/playlists" target="_blank" class="btn btn-outline" style="font-size:12px;padding:8px 20px;">▶ View All Videos</a>
+  </div>
+</section>
+
+<!-- Interactive Tools -->
+<section class="section" id="tools">
+  <div class="section-header">
+    <span class="section-tag">Interactive Tools</span>
+    <h2 class="section-title">Practical Tools for Your Project</h2>
+    <p class="section-sub">Interactive calculators and comparison tools</p>
+  </div>
+  <div class="tools-compact">
     <div class="tool-card">
-      <div class="tool-icon">📐</div>
-      <h3>Size Selection Guide</h3>
-      <p>Quick quiz-based tool to find the perfect display size for your classroom or meeting room.</p>
-      <a href="#smartboard" class="tool-link">Use Tool →</a>
+      <h3>📺 Smartboard Size Selector</h3>
+      <p>Answer 2 quick questions — get the perfect panel size for your classroom or meeting room.</p>
+      <a href="#smartboard" class="btn btn-primary">Use Tool →</a>
     </div>
     <div class="tool-card">
-      <div class="tool-icon">⚡</div>
-      <h3>RK3588 vs RK3576</h3>
-      <p>Head-to-head comparison of Rockchip's flagship and value chips for education and enterprise.</p>
-      <a href="#compare" class="tool-link">View Comparison →</a>
-    </div>
-    <div class="tool-card">
-      <div class="tool-icon">🌍</div>
-      <h3>Certification Guide</h3>
-      <p>Country-by-country certification requirements: CE, FCC, RoHS, KC, and more.</p>
-      <a href="#lead" class="tool-link">Download PDF →</a>
-    </div>
-    <div class="tool-card">
-      <div class="tool-icon">📋</div>
-      <h3>Pixel Pitch Selector</h3>
+      <h3>🔍 Pixel Pitch Selector</h3>
       <p>Interactive tool to recommend the right pixel pitch based on your viewing distance.</p>
-      <a href="#selector" class="tool-link">Use Tool →</a>
+      <a href="#selector" class="btn btn-primary">Use Tool →</a>
+    </div>
+    <div class="tool-card">
+      <h3>⚡ RK3588 vs RK3576</h3>
+      <p>Head-to-head comparison of Rockchip's flagship and value chips.</p>
+      <a href="#compare" class="btn btn-primary">View Comparison →</a>
+    </div>
+    <div class="tool-card">
+      <h3>📦 Shipping Calculator</h3>
+      <p>Mixed-load optimization, container loading plan, and package list generator.</p>
+      <a href="calculator.html" class="btn btn-primary">Open Calculator →</a>
     </div>
   </div>
 </section>
 
-<!-- Pixel Pitch Selector (inline) -->
-<section class="section" id="selector">
-  <div class="section-header">
-    <span class="section-tag">Quick Tool</span>
-    <h2 class="section-title">Find Your Pixel Pitch</h2>
-    <p class="section-sub">Answer 2 quick questions</p>
-  </div>
-  <div style="max-width:600px;margin:0 auto;background:var(--white);border:1px solid var(--green-tint);border-radius:var(--radius-lg);padding:40px 32px;box-shadow:var(--shadow);">
-    <div id="step1" class="selector-step active">
-      <div style="font-size:16px;font-weight:700;color:var(--text);margin-bottom:16px;">Q1: Where will the screen be installed?</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
-        <button onclick="setLoc('indoor')" style="padding:14px;border:2px solid var(--green-tint);border-radius:var(--radius);background:var(--white);font-weight:600;cursor:pointer;">🏠 Indoor</button>
-        <button onclick="setLoc('outdoor')" style="padding:14px;border:2px solid var(--green-tint);border-radius:var(--radius);background:var(--white);font-weight:600;cursor:pointer;">🌳 Outdoor</button>
-      </div>
-    </div>
-    <div id="step2" class="selector-step">
-      <div style="font-size:16px;font-weight:700;color:var(--text);margin-bottom:16px;">Q2: Typical viewing distance?</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
-        <button onclick="setDist('1-3m')" style="padding:14px;border:2px solid var(--green-tint);border-radius:var(--radius);background:var(--white);font-weight:600;cursor:pointer;">1–3 meters</button>
-        <button onclick="setDist('3-5m')" style="padding:14px;border:2px solid var(--green-tint);border-radius:var(--radius);background:var(--white);font-weight:600;cursor:pointer;">3–5 meters</button>
-        <button onclick="setDist('5-10m')" style="padding:14px;border:2px solid var(--green-tint);border-radius:var(--radius);background:var(--white);font-weight:600;cursor:pointer;">5–10 meters</button>
-        <button onclick="setDist('10m+')" style="padding:14px;border:2px solid var(--green-tint);border-radius:var(--radius);background:var(--white);font-weight:600;cursor:pointer;">10+ meters</button>
-      </div>
-    </div>
-    <div id="selectorResult" style="display:none;padding:24px;background:var(--green-soft);border-radius:var(--radius);margin-top:16px;">
-      <h3 id="resultTitle" style="font-size:16px;font-weight:800;color:var(--green-deep);margin-bottom:8px;"></h3>
-      <p id="resultText" style="font-size:13px;color:var(--text-mute);line-height:1.7;"></p>
-      <button onclick="resetSelector()" style="font-size:12px;font-weight:600;color:var(--green-deep);background:none;border:none;cursor:pointer;margin-top:12px;">← Start Over</button>
-    </div>
-  </div>
+<!-- Smartboard Selector (interactive) -->
+<section class="section section-alt" id="smartboard" style="display:none;">
+  <!-- Hidden by default, shown via tool card link -->
 </section>
 
-<!-- Smartboard Selector -->
-<section class="section section-dark" id="smartboard">
-  <div class="section-header">
-    <span class="section-tag">Quick Tool</span>
-    <h2 class="section-title">Find Your Smartboard Size</h2>
-    <p class="section-sub">Answer 2 quick questions</p>
-  </div>
-  <div style="max-width:600px;margin:0 auto;background:var(--white);border:1px solid var(--green-tint);border-radius:var(--radius-lg);padding:40px 32px;box-shadow:var(--shadow);">
-    <div id="sb1" class="sb-step active">
-      <div style="font-size:16px;font-weight:700;color:var(--text);margin-bottom:16px;">Q1: How many students?</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
-        <button onclick="setSize('15')" style="padding:14px;border:2px solid var(--green-tint);border-radius:var(--radius);background:var(--white);font-weight:600;cursor:pointer;">10–15</button>
-        <button onclick="setSize('25')" style="padding:14px;border:2px solid var(--green-tint);border-radius:var(--radius);background:var(--white);font-weight:600;cursor:pointer;">15–25</button>
-        <button onclick="setSize('40')" style="padding:14px;border:2px solid var(--green-tint);border-radius:var(--radius);background:var(--white);font-weight:600;cursor:pointer;">25–40</button>
-        <button onclick="setSize('60')" style="padding:14px;border:2px solid var(--green-tint);border-radius:var(--radius);background:var(--white);font-weight:600;cursor:pointer;">40+</button>
-      </div>
-    </div>
-    <div id="sb2" class="sb-step">
-      <div style="font-size:16px;font-weight:700;color:var(--text);margin-bottom:16px;">Q2: Room usage?</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
-        <button onclick="setUse('teach')" style="padding:14px;border:2px solid var(--green-tint);border-radius:var(--radius);background:var(--white);font-weight:600;cursor:pointer;">Teaching</button>
-        <button onclick="setUse('meet')" style="padding:14px;border:2px solid var(--green-tint);border-radius:var(--radius);background:var(--white);font-weight:600;cursor:pointer;">Meeting</button>
-        <button onclick="setUse('both')" style="padding:14px;border:2px solid var(--green-tint);border-radius:var(--radius);background:var(--white);font-weight:600;cursor:pointer;">Both</button>
-      </div>
-    </div>
-    <div id="sbResult" style="display:none;padding:24px;background:var(--green-soft);border-radius:var(--radius);margin-top:16px;">
-      <h3 id="sbTitle" style="font-size:16px;font-weight:800;color:var(--green-deep);margin-bottom:8px;"></h3>
-      <p id="sbText" style="font-size:13px;color:var(--text-mute);line-height:1.7;"></p>
-      <button onclick="resetSb()" style="font-size:12px;font-weight:600;color:var(--green-deep);background:none;border:none;cursor:pointer;margin-top:12px;">← Start Over</button>
-    </div>
-  </div>
-</section>
-
-<!-- Chip Comparison -->
+<!-- Chip Comparison + Lead Form -->
 <section class="section" id="compare">
   <div class="section-header">
-    <span class="section-tag">Comparison</span>
-    <h2 class="section-title">RK3588 vs RK3576</h2>
-    <p class="section-sub">Spec-by-spec comparison</p>
+    <span class="section-tag">Chip Comparison + Get Quote</span>
+    <h2 class="section-title">Specs & Free Consultation</h2>
+    <p class="section-sub">Compare chip specs and get a personalized quote</p>
   </div>
-  <div style="max-width:900px;margin:0 auto;overflow-x:auto;border-radius:var(--radius-lg);box-shadow:var(--shadow);border:1px solid var(--green-tint);">
-    <table style="width:100%;border-collapse:collapse;font-size:13px;">
-      <thead>
-        <tr style="background:var(--green-soft);">
-          <th style="padding:12px 16px;text-align:left;font-size:11px;color:var(--green-deep);">Spec</th>
-          <th style="padding:12px 16px;text-align:left;font-size:11px;color:var(--green-deep);">RK3588</th>
-          <th style="padding:12px 16px;text-align:left;font-size:11px;color:var(--green-deep);">RK3576</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr style="border-top:1px solid var(--green-tint);"><td style="padding:10px 16px;font-weight:600;">Positioning</td><td style="padding:10px 16px;color:var(--green-deep);font-weight:700;">Flagship</td><td style="padding:10px 16px;">Value</td></tr>
-        <tr style="border-top:1px solid var(--green-tint);"><td style="padding:10px 16px;font-weight:600;">Big Core</td><td style="padding:10px 16px;color:var(--green-deep);font-weight:700;">A76×4</td><td style="padding:10px 16px;">A73×4</td></tr>
-        <tr style="border-top:1px solid var(--green-tint);"><td style="padding:10px 16px;font-weight:600;">Memory</td><td style="padding:10px 16px;color:var(--green-deep);font-weight:700;">DDR5</td><td style="padding:10px 16px;">DDR4</td></tr>
-        <tr style="border-top:1px solid var(--green-tint);"><td style="padding:10px 16px;font-weight:600;">NPU</td><td style="padding:10px 16px;color:var(--green-deep);font-weight:700;">6 TOPS</td><td style="padding:10px 16px;">5 TOPS</td></tr>
-        <tr style="border-top:1px solid var(--green-tint);"><td style="padding:10px 16px;font-weight:600;">Best For</td><td style="padding:10px 16px;color:var(--green-deep);font-weight:700;">High-end / AI</td><td style="padding:10px 16px;">Budget / Standard</td></tr>
-      </tbody>
-    </table>
-  </div>
-</section>
-
-<!-- YouTube Spotlight -->
-<section class="section-dark" id="videos" style="padding:100px 48px;text-align:center;background:var(--mint);">
-  <div style="max-width:1100px;margin:0 auto;">
-    <div style="margin-bottom:40px;">
-      <span class="section-tag">🎬 Video Spotlight</span>
-      <h2 class="section-title" style="font-family:'Nunito','Inter',sans-serif;font-size:30px;font-weight:800;color:var(--text);margin-bottom:8px;">Watch Riotouch in Action</h2>
-      <p class="section-sub">Product demos, factory tours, and real project cases</p>
-    </div>
-    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:20px;">
-      <div style="background:var(--white);border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow);transition:all 0.3s;">
-        <div style="position:relative;padding-top:56.25%;background:#000;"><iframe src="https://www.youtube.com/embed/5uthGI0M9q8?rel=0" allowfullscreen style="position:absolute;inset:0;width:100%;height:100%;border:none;"></iframe></div>
-        <div style="padding:18px 16px;text-align:left;"><span style="display:inline-block;font-size:10px;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;padding:3px 8px;border-radius:4px;margin-bottom:6px;background:var(--green-soft);color:var(--green-deep);">Factory</span><h3 style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:4px;line-height:1.3;">Inside Our New Factory</h3><p style="font-size:12px;color:var(--text-mute);line-height:1.5;">Assembly & Testing Tour</p></div>
-      </div>
-      <div style="background:var(--white);border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow);transition:all 0.3s;">
-        <div style="position:relative;padding-top:56.25%;background:#000;"><iframe src="https://www.youtube.com/embed/tPODs8G-n1w?rel=0" allowfullscreen style="position:absolute;inset:0;width:100%;height:100%;border:none;"></iframe></div>
-        <div style="padding:18px 16px;text-align:left;"><span style="display:inline-block;font-size:10px;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;padding:3px 8px;border-radius:4px;margin-bottom:6px;background:#e3f2fd;color:#1976d2;">Product</span><h3 style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:4px;line-height:1.3;">IFP RK3576: AI for Learning</h3><p style="font-size:12px;color:var(--text-mute);line-height:1.5;">AI-powered education</p></div>
-      </div>
-      <div style="background:var(--white);border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow);transition:all 0.3s;">
-        <div style="position:relative;padding-top:56.25%;background:#000;"><iframe src="https://www.youtube.com/embed/xuzOm9mQds8?rel=0" allowfullscreen style="position:absolute;inset:0;width:100%;height:100%;border:none;"></iframe></div>
-        <div style="padding:18px 16px;text-align:left;"><span style="display:inline-block;font-size:10px;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;padding:3px 8px;border-radius:4px;margin-bottom:6px;background:var(--green-soft);color:var(--green-deep);">Meeting</span><h3 style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:4px;line-height:1.3;">LED Meeting Displays</h3><p style="font-size:12px;color:var(--text-mute);line-height:1.5;">108"/136"/163"</p></div>
-      </div>
-      <div style="background:var(--white);border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow);transition:all 0.3s;">
-        <div style="position:relative;padding-top:56.25%;background:#000;"><iframe src="https://www.youtube.com/embed/alDPuxiun3Q?rel=0" allowfullscreen style="position:absolute;inset:0;width:100%;height:100%;border:none;"></iframe></div>
-        <div style="padding:18px 16px;text-align:left;"><span style="display:inline-block;font-size:10px;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;padding:3px 8px;border-radius:4px;margin-bottom:6px;background:var(--green-soft);color:var(--green-deep);">Event</span><h3 style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:4px;line-height:1.3;">Interactive Education</h3><p style="font-size:12px;color:var(--text-mute);line-height:1.5;">Smart classroom solutions</p></div>
-      </div>
-      <div style="background:var(--white);border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow);transition:all 0.3s;">
-        <div style="position:relative;padding-top:56.25%;background:#000;"><iframe src="https://www.youtube.com/embed/tC7fraYty-E?rel=0" allowfullscreen style="position:absolute;inset:0;width:100%;height:100%;border:none;"></iframe></div>
-        <div style="padding:18px 16px;text-align:left;"><span style="display:inline-block;font-size:10px;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;padding:3px 8px;border-radius:4px;margin-bottom:6px;background:#e3f2fd;color:#1976d2;">Demo</span><h3 style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:4px;line-height:1.3;">Product Demo</h3><p style="font-size:12px;color:var(--text-mute);line-height:1.5;">See features up close</p></div>
-      </div>
-      <div style="background:var(--white);border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow);transition:all 0.3s;">
-        <div style="position:relative;padding-top:56.25%;background:#000;"><iframe src="https://www.youtube.com/embed/K-TIVU8Gt04?rel=0" allowfullscreen style="position:absolute;inset:0;width:100%;height:100%;border:none;"></iframe></div>
-        <div style="padding:18px 16px;text-align:left;"><span style="display:inline-block;font-size:10px;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;padding:3px 8px;border-radius:4px;margin-bottom:6px;background:var(--green-soft);color:var(--green-deep);">Teaching</span><h3 style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:4px;line-height:1.3;">Smart Teaching</h3><p style="font-size:12px;color:var(--text-mute);line-height:1.5;">Classroom transformation</p></div>
-      </div>
-      <div style="background:var(--white);border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow);transition:all 0.3s;">
-        <div style="position:relative;padding-top:56.25%;background:#000;"><iframe src="https://www.youtube.com/embed/kQ23e2cgNhs?rel=0" allowfullscreen style="position:absolute;inset:0;width:100%;height:100%;border:none;"></iframe></div>
-        <div style="padding:18px 16px;text-align:left;"><span style="display:inline-block;font-size:10px;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;padding:3px 8px;border-radius:4px;margin-bottom:6px;background:var(--green-soft);color:var(--green-deep);">Factory</span><h3 style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:4px;line-height:1.3;">Production Line</h3><p style="font-size:12px;color:var(--text-mute);line-height:1.5;">Quality in every step</p></div>
-      </div>
-      <div style="background:var(--white);border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow);transition:all 0.3s;">
-        <div style="position:relative;padding-top:56.25%;background:#000;"><iframe src="https://www.youtube.com/embed/_pvb1cO014c?rel=0" allowfullscreen style="position:absolute;inset:0;width:100%;height:100%;border:none;"></iframe></div>
-        <div style="padding:18px 16px;text-align:left;"><span style="display:inline-block;font-size:10px;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;padding:3px 8px;border-radius:4px;margin-bottom:6px;background:#e3f2fd;color:#1976d2;">Install</span><h3 style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:4px;line-height:1.3;">Installation Guide</h3><p style="font-size:12px;color:var(--text-mute);line-height:1.5;">Step-by-step setup</p></div>
+  <div class="bottom-grid">
+    <!-- Chip Comparison Table -->
+    <div class="compare-wrap">
+      <h3>⚡ RK3588 vs RK3576</h3>
+      <div style="overflow-x:auto;">
+        <table class="compare-table">
+          <thead><tr><th>Spec</th><th>RK3588</th><th>RK3576</th></tr></thead>
+          <tbody>
+            <tr><td>Positioning</td><td class="compare-winner">Flagship</td><td>Value</td></tr>
+            <tr><td>Big Core</td><td class="compare-winner">A76×4</td><td>A73×4</td></tr>
+            <tr><td>Memory</td><td class="compare-winner">DDR5</td><td>DDR4</td></tr>
+            <tr><td>NPU</td><td class="compare-winner">6 TOPS</td><td>5 TOPS</td></tr>
+            <tr><td>Camera</td><td class="compare-winner">8MP + 48MP + AI</td><td>8MP + 13MP</td></tr>
+            <tr><td>Video</td><td class="compare-winner">8K@60fps</td><td>4K@60fps</td></tr>
+            <tr><td>Android</td><td class="compare-winner">Android 15 (EDLA)</td><td>Android 13</td></tr>
+            <tr><td>Best For</td><td class="compare-winner">High-end / AI</td><td>Budget / Standard</td></tr>
+          </tbody>
+        </table>
       </div>
     </div>
-    <a href="https://www.youtube.com/@Barry_Touchscreen_Daydreaming/playlists" target="_blank" style="display:inline-flex;align-items:center;gap:6px;margin-top:28px;font-size:13px;font-weight:600;color:var(--green-deep);text-decoration:none;background:var(--white);padding:10px 24px;border-radius:100px;box-shadow:var(--shadow);border:1px solid var(--green-tint);">▶ View All Videos on YouTube</a>
-  </div>
-</section>
 
-<!-- Lead Form -->
-<section class="lead-section" id="lead">
-  <div class="lead-inner">
-    <h2>📥 Get Free Selection Guide</h2>
-    <p>Submit your info and receive the full engineering selection PDF</p>
-    <form class="lead-form" id="leadForm" action="https://docs.google.com/forms/d/e/1FAIpQLSfY5cmDAhWscX1_Du_urMKNcm6jULTaPZJaGcnCQ2yHZL_u3Q/formResponse" method="POST" target="leadIframe">
-      <div class="form-row">
+    <!-- Lead Form -->
+    <div class="lead-wrap" id="lead">
+      <h3>📥 Free Selection Guide</h3>
+      <p>Submit your info and receive the full engineering selection PDF</p>
+      <form class="lead-form" id="leadForm" action="https://docs.google.com/forms/d/e/1FAIpQLSfY5cmDAhWscX1_Du_urMKNcm6jULTaPZJaGcnCQ2yHZL_u3Q/formResponse" method="POST" target="leadIframe">
         <div class="form-group"><label>Your Name *</label><input type="text" name="entry.1617280581" required placeholder="Your name"></div>
-        <div class="form-group"><label>Country *</label><select name="entry.1814151269" required><option value="">Select</option><option>Poland</option><option>Hungary</option><option>Romania</option><option>Slovakia</option><option>Pakistan</option><option>Bangladesh</option><option>Vietnam</option><option>Philippines</option><option>China</option><option>Other</option></select></div>
-      </div>
-      <div class="form-group"><label>Email *</label><input type="email" name="entry.2054862330" required placeholder="you@company.com"></div>
-      <div class="form-group"><label>Project Needs</label><textarea name="entry.2103984887" placeholder="Tell me about your project..."></textarea></div>
-      <div class="form-submit">
-        <button type="submit" class="btn btn-primary" style="padding:14px 36px;">📨 Get Free Guide →</button>
+        <div class="form-group"><label>Country *</label><select name="entry.1814151269" required><option value="">Select Country</option><option>Poland</option><option>Hungary</option><option>Romania</option><option>Slovakia</option><option>Pakistan</option><option>Bangladesh</option><option>Vietnam</option><option>Philippines</option><option>China</option><option>Other</option></select></div>
+        <div class="form-group"><label>Email *</label><input type="email" name="entry.2054862330" required placeholder="you@company.com"></div>
+        <div class="form-group"><label>Project Needs</label><textarea name="entry.2103984887" placeholder="Tell me about your project..."></textarea></div>
+        <button type="submit" class="btn btn-primary">📨 Get Free Guide →</button>
         <p class="form-note">Or <a href="https://wa.me/message/GF4XMHZGAUJ7K1">WhatsApp Barry</a></p>
+      </form>
+      <iframe name="leadIframe" style="display:none"></iframe>
+      <div class="lead-thanks" id="leadThanks">
+        <h4>✅ Thank you!</h4>
+        <p>Check your email for the selection guide.</p>
       </div>
-    </form>
-    <iframe name="leadIframe" style="display:none"></iframe>
-    <div id="leadThanks" style="display:none;text-align:center;padding:40px 0;">
-      <h3 style="color:var(--green-deep);">✅ Thank you!</h3>
-      <p style="font-size:13px;color:var(--text-mute);">Check your email for the selection guide.</p>
     </div>
   </div>
 </section>
 
-<!-- Contact Bar -->
+<!-- Contact -->
 <section class="contact-bar" id="contact">
   <h2>📬 Let's Connect</h2>
   <p>Direct contact channels — no middleman</p>
   <div class="contact-grid">
-    <a href="https://wa.me/message/GF4XMHZGAUJ7K1" target="_blank" class="contact-card">
-      <div class="contact-card-icon">💬</div><span>WhatsApp</span>
-    </a>
-    <a href="mailto:barry@riotouch.com" class="contact-card">
-      <div class="contact-card-icon">📧</div><span>barry@riotouch.com</span>
-    </a>
-    <a href="https://www.linkedin.com/in/barry-chen-cl20010222/" target="_blank" class="contact-card">
-      <div class="contact-card-icon">in</div><span>LinkedIn</span>
-    </a>
-    <a href="https://www.youtube.com/@Barry_Touchscreen_Daydreaming/playlists" target="_blank" class="contact-card">
-      <div class="contact-card-icon">▶</div><span>YouTube</span>
-    </a>
+    <a href="https://wa.me/message/GF4XMHZGAUJ7K1" target="_blank" class="contact-card"><div class="contact-card-icon">💬</div><span>WhatsApp</span></a>
+    <a href="mailto:barry@riotouch.com" class="contact-card"><div class="contact-card-icon">📧</div><span>barry@riotouch.com</span></a>
+    <a href="https://www.linkedin.com/in/barry-chen-cl20010222/" target="_blank" class="contact-card"><div class="contact-card-icon">in</div><span>LinkedIn</span></a>
+    <a href="https://www.youtube.com/@Barry_Touchscreen_Daydreaming/playlists" target="_blank" class="contact-card"><div class="contact-card-icon">▶</div><span>YouTube</span></a>
   </div>
 </section>
 
 <!-- Footer -->
 <footer class="footer">
-  <div class="footer-inner">
-    <div class="footer-name">Barry Chen</div>
-    <div class="footer-role">Regional Sales Manager | Riotouch Interactive Display</div>
-    <div class="footer-links">
-      <a href="#home">Home</a>
-      <a href="#about">About</a>
-      <a href="#testimonials">Testimonials</a>
-      <a href="#tools">Tools</a>
-      <a href="#videos">Videos</a>
-      <a href="#contact">Contact</a>
-      <a href="https://wa.me/message/GF4XMHZGAUJ7K1" target="_blank">WhatsApp</a>
-      <a href="https://www.facebook.com/barry.chen.94064/" target="_blank">Facebook</a>
-      <a href="https://www.linkedin.com/in/barry-chen-cl20010222/" target="_blank">LinkedIn</a>
-      <a href="https://www.youtube.com/@Barry_Touchscreen_Daydreaming/playlists" target="_blank">YouTube</a>
-    </div>
-    <div class="footer-bottom">
-      <p>© 2026 Barry Chen · Personal Business Showcase Site</p>
-      <p>All products supplied by Riotouch Technology Co., Ltd</p>
-      <p class="footer-disclaimer">This is a personal business display site. All products are factory-direct from Riotouch Technology.</p>
-    </div>
+  <div class="footer-name">Barry Chen</div>
+  <div class="footer-role">Regional Sales Manager | Riotouch Interactive Display</div>
+  <div class="footer-links">
+    <a href="#home">Home</a><a href="#about">About</a><a href="#testimonials">Testimonials</a>
+    <a href="#videos">Videos</a><a href="#tools">Tools</a><a href="#contact">Contact</a>
+    <a href="https://wa.me/message/GF4XMHZGAUJ7K1" target="_blank">WhatsApp</a>
+    <a href="https://www.facebook.com/barry.chen.94064/" target="_blank">Facebook</a>
+    <a href="https://www.linkedin.com/in/barry-chen-cl20010222/" target="_blank">LinkedIn</a>
+    <a href="https://www.youtube.com/@Barry_Touchscreen_Daydreaming/playlists" target="_blank">YouTube</a>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 Barry Chen · Personal Business Showcase Site</p>
+    <p style="margin-top:4px;">All products supplied by Riotouch Technology Co., Ltd</p>
+    <p class="footer-disclaimer">This is a personal business display site. All products are factory-direct from Riotouch Technology.</p>
   </div>
 </footer>
-
-<!-- Floating Buttons -->
-<div class="float-btns">
-  <a href="https://wa.me/message/GF4XMHZGAUJ7K1" target="_blank" class="float-btn wa" aria-label="WhatsApp">
-    <svg viewBox="0 0 24 24"><path fill="currentColor" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-  </a>
-  <a href="mailto:barry@riotouch.com" class="float-btn email" aria-label="Email">
-    <svg viewBox="0 0 24 24"><path fill="currentColor" d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
-  </a>
-</div>
 
 <script>
 // Visitor Count
@@ -729,13 +430,13 @@
   if (el) el.textContent = n.toLocaleString();
 })();
 
-// Nav
+// Mobile nav
 function toggleNav() {
   var n = document.getElementById('navLinks');
   if (n) n.classList.toggle('show');
 }
 var ns = document.createElement('style');
-ns.textContent = '@media(max-width:860px){.topnav-links.show{display:flex!important;flex-direction:column;position:absolute;top:72px;left:0;right:0;background:rgba(255,255,255,0.98);padding:16px;gap:6px;box-shadow:0 8px 32px rgba(26,163,90,0.1);border-bottom:1px solid rgba(46,204,113,0.08);}.topnav-links.show a{padding:12px 16px;font-size:14px;}}';
+ns.textContent = '@media(max-width:860px){.nav-links.show{display:flex!important;flex-direction:column;position:absolute;top:72px;left:0;right:0;background:rgba(255,255,255,0.98);padding:16px;gap:6px;box-shadow:0 8px 32px rgba(26,163,90,0.1);border-bottom:1px solid rgba(46,204,113,0.08);}.nav-links.show a{padding:12px 16px;font-size:14px;}}';
 document.head.appendChild(ns);
 
 // Smooth scroll
@@ -751,63 +452,6 @@ document.getElementById('leadForm').addEventListener('submit', function() {
   var t = document.getElementById('leadThanks');
   if (t) setTimeout(function() { document.getElementById('leadForm').style.display = 'none'; t.style.display = 'block'; }, 500);
 });
-
-// LED Selector
-var selLoc = null;
-function setLoc(loc) {
-  selLoc = loc;
-  document.getElementById('step1').classList.remove('active');
-  document.getElementById('step2').classList.add('active');
-}
-function setDist(dist) {
-  document.getElementById('step2').classList.remove('active');
-  var r = document.getElementById('selectorResult'), t = document.getElementById('resultTitle'), p = document.getElementById('resultText');
-  var pitch = '', reason = '';
-  if (selLoc === 'indoor') {
-    if (dist === '1-3m') { pitch = 'P1.25 – P1.53'; reason = 'Close-range demands fine pitch. P1.25 delivers crisp images even at 1m.'; }
-    else if (dist === '3-5m') { pitch = 'P1.53 – P2.5'; reason = 'Perfect balance of clarity and value for lobbies and retail.'; }
-    else if (dist === '5-10m') { pitch = 'P2.5 – P3.076'; reason = 'Clear visibility without overspending on unnecessary resolution.'; }
-    else { pitch = 'P3.076+'; reason = 'For auditoriums and airports, P3.076 ensures optimal cost.'; }
-  } else { pitch = 'P1.53 – P3.076 with GOB/IP65'; reason = 'Outdoor demands high brightness (4000–5500 cd/m²) and weather protection.'; }
-  t.textContent = 'Recommended: ' + pitch;
-  p.innerHTML = reason + ' <a href="form.html" style="color:var(--green-deep)">Get a quote →</a>';
-  r.classList.add('show');
-}
-function resetSelector() {
-  selLoc = null;
-  document.getElementById('step1').classList.add('active');
-  document.getElementById('step2').classList.remove('active');
-  document.getElementById('selectorResult').classList.remove('show');
-}
-
-// Smartboard Selector
-var sbSize = null;
-function setSize(size) {
-  sbSize = size;
-  document.getElementById('sb1').classList.remove('active');
-  document.getElementById('sb2').classList.add('active');
-}
-function setUse(use) {
-  document.getElementById('sb2').classList.remove('active');
-  var r = document.getElementById('sbResult'), t = document.getElementById('sbTitle'), p = document.getElementById('sbText');
-  var s = '', reason = '';
-  if (sbSize === '15') { s = '55" or 65"'; reason = 'Small classroom. 55" fits most elementary settings.'; }
-  else if (sbSize === '25') { s = '65" or 75"'; reason = 'Medium classroom. 65" fits most standard rooms.'; }
-  else if (sbSize === '40') { s = '75" or 86"'; reason = 'Large classroom. 75" is the ideal balance.'; }
-  else { s = '86" or 98"'; reason = 'Auditorium. 86" is standard, 98" is premium.'; }
-  if (use === 'teach') reason += ' Recommended: Daisy OS with teaching tools.';
-  else if (use === 'meet') reason += ' Recommended: Android 15 or OPS Windows.';
-  else reason += ' Recommended: Dual-boot Android + OPS Windows.';
-  t.textContent = 'Recommended: ' + s;
-  p.innerHTML = reason + ' <a href="form.html" style="color:var(--green-deep)">Get a quote →</a>';
-  r.classList.add('show');
-}
-function resetSb() {
-  sbSize = null;
-  document.getElementById('sb1').classList.add('active');
-  document.getElementById('sb2').classList.remove('active');
-  document.getElementById('sbResult').classList.remove('show');
-}
 </script>
 </body>
 </html>
