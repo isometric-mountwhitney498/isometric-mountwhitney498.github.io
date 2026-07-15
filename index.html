@@ -788,6 +788,87 @@
     padding: 8px 0;
   }
 
+  /* ===== Smartboard Size Selector ===== */
+  .sb-section {
+    padding: 120px 48px;
+    background: var(--mint);
+    text-align: center;
+    position: relative;
+  }
+  .sb-inner { max-width: 700px; margin: 0 auto; }
+  .sb-card {
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    padding: 48px 40px;
+    box-shadow: var(--shadow);
+    border: 1px solid rgba(46,204,113,0.06);
+    margin-top: 48px;
+  }
+  .sb-step { display: none; }
+  .sb-step.active { display: block; }
+  .sb-q {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 24px;
+  }
+  .sb-options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .sb-opt {
+    padding: 16px 20px;
+    border: 2px solid var(--green-tint);
+    border-radius: var(--radius);
+    background: var(--white);
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+    transition: all 0.3s;
+    text-align: center;
+  }
+  .sb-opt:hover {
+    border-color: var(--green);
+    background: var(--green-soft);
+    transform: translateY(-2px);
+  }
+  .sb-result {
+    display: none;
+    padding: 32px;
+    background: var(--green-soft);
+    border-radius: var(--radius);
+    margin-top: 24px;
+    text-align: left;
+  }
+  .sb-result.show { display: block; }
+  .sb-result h3 {
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--green-deep);
+    margin-bottom: 12px;
+    font-family: 'Nunito','Inter',sans-serif;
+  }
+  .sb-result p {
+    font-size: 14px;
+    color: var(--text-mute);
+    line-height: 1.7;
+    margin-bottom: 16px;
+  }
+  .sb-reset {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--green-deep);
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 8px 0;
+  }
+
   /* ===== Testimonials ===== */
   .testimonials-section {
     padding: 120px 48px;
@@ -1446,6 +1527,39 @@
   </div>
 </section>
 
+<!-- Smartboard Size Selector -->
+<section class="sb-section" id="smartboard">
+  <div class="sb-inner">
+    <span class="section-tag">📺 Smartboard Tool</span>
+    <h2 style="font-family:'Nunito','Inter',sans-serif;font-size:32px;font-weight:800;color:var(--text);margin-bottom:10px;">Which Smartboard Size Fits Your Classroom?</h2>
+    <p style="font-size:15px;color:var(--text-mute);">Answer 2 quick questions — Barry will recommend the perfect size</p>
+    <div class="sb-card">
+      <div id="sb1" class="sb-step active">
+        <div class="sb-q">Q1: How many students in the room?</div>
+        <div class="sb-options">
+          <button class="sb-opt" onclick="setSize('15')">10–15 students</button>
+          <button class="sb-opt" onclick="setSize('25')">15–25 students</button>
+          <button class="sb-opt" onclick="setSize('40')">25–40 students</button>
+          <button class="sb-opt" onclick="setSize('60')">40+ students</button>
+        </div>
+      </div>
+      <div id="sb2" class="sb-step">
+        <div class="sb-q">Q2: Room usage?</div>
+        <div class="sb-options">
+          <button class="sb-opt" onclick="setUse('teach')">Teaching & Video</button>
+          <button class="sb-opt" onclick="setUse('meet')">Meeting & Whiteboard</button>
+          <button class="sb-opt" onclick="setUse('both')">Both / Multi-use</button>
+        </div>
+      </div>
+      <div id="sbResult" class="sb-result">
+        <h3 id="sbTitle">Recommendation</h3>
+        <p id="sbText"></p>
+        <button class="sb-reset" onclick="resetSb()">← Start Over</button>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- Back to Top Button -->
 <button class="back-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
 
@@ -1628,5 +1742,37 @@ function resetSelector() {
   document.getElementById('step1').classList.add('active');
   document.getElementById('step2').classList.remove('active');
   document.getElementById('selectorResult').classList.remove('show');
+}
+
+// Smartboard Size Selector
+var sbSize = null;
+function setSize(size) {
+  sbSize = size;
+  document.getElementById('sb1').classList.remove('active');
+  document.getElementById('sb2').classList.add('active');
+}
+function setUse(use) {
+  document.getElementById('sb2').classList.remove('active');
+  var result = document.getElementById('sbResult');
+  var title = document.getElementById('sbTitle');
+  var text = document.getElementById('sbText');
+  var sizeRec = '';
+  var reason = '';
+  if (sbSize === '15') { sizeRec = '"55" or 65"'; reason = 'Small classroom (10–15 students). 55" fits most elementary settings. 65" gives better visibility for video-heavy content.'; }
+  else if (sbSize === '25') { sizeRec = '"65" or 75"'; reason = 'Medium classroom. 65" fits most standard rooms with good value. 75" suits wider teacher rooms or rooms with 20+ students.'; }
+  else if (sbSize === '40') { sizeRec = '"75" or 86"'; reason = 'Large classroom. 75" is the ideal balance. 86" gives cinema-like experience for big rooms.'; }
+  else { sizeRec = '"86" or 98"'; reason = 'Auditorium or big hall. 86" is standard. 98" is premium for maximum impact.'; }
+  if (use === 'teach') { reason += ' Recommended OS: Daisy OS with built-in teaching tools (UMind, Airclass).'; }
+  else if (use === 'meet') { reason += ' Recommended: Android 15 or OPS Windows module for Office/Teams/Zoom.'; }
+  else { reason += ' Recommended: Dual-boot Android + OPS Windows for maximum flexibility.'; }
+  title.textContent = 'Recommended: ' + sizeRec;
+  text.innerHTML = reason + '<br><br><strong>Next step:</strong> <a href="form.html">Get a formal quote</a> or <a href="https://wa.me/message/GF4XMHZGAUJ7K1">ask Barry</a>.';
+  result.classList.add('show');
+}
+function resetSb() {
+  sbSize = null;
+  document.getElementById('sb1').classList.add('active');
+  document.getElementById('sb2').classList.remove('active');
+  document.getElementById('sbResult').classList.remove('show');
 }
 </script>
