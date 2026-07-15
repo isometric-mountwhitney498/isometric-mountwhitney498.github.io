@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Barry Chen — Riotouch Interactive Display Expert</title>
+<meta name="description" content="Hi, I'm Barry Chen. 2+ years helping global buyers choose the right interactive displays and LED solutions. Explore buying guides, user manuals, and project cases.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%232ecc71'/><text x='50' y='68' font-size='55' font-weight='bold' text-anchor='middle' fill='white'>B</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
@@ -786,6 +788,151 @@
     padding: 8px 0;
   }
 
+  /* ===== Testimonials ===== */
+  .testimonials-section {
+    padding: 120px 48px;
+    background: var(--white);
+    position: relative;
+  }
+  .testimonials-header {
+    text-align: center;
+    margin-bottom: 56px;
+  }
+  .testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 24px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .testimonial-card {
+    background: var(--white);
+    border: 1px solid var(--green-tint);
+    border-radius: var(--radius-lg);
+    padding: 32px 28px;
+    box-shadow: var(--shadow);
+    transition: all 0.3s;
+    position: relative;
+  }
+  .testimonial-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-hover);
+  }
+  .testimonial-mark {
+    font-size: 48px;
+    color: var(--green-tint);
+    line-height: 1;
+    margin-bottom: 12px;
+    font-family: Georgia, serif;
+  }
+  .testimonial-text {
+    font-size: 14px;
+    color: var(--text);
+    line-height: 1.75;
+    margin-bottom: 20px;
+  }
+  .testimonial-author {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .testimonial-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--green-soft);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    color: var(--green-deep);
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+  .testimonial-info strong {
+    display: block;
+    font-size: 13px;
+    color: var(--text);
+  }
+  .testimonial-info span {
+    font-size: 11px;
+    color: var(--text-mute);
+  }
+
+  /* ===== Trust Badges ===== */
+  .trust-section {
+    padding: 80px 48px;
+    background: var(--mint);
+    text-align: center;
+    border-top: 1px solid rgba(46,204,113,0.06);
+    border-bottom: 1px solid rgba(46,204,113,0.06);
+  }
+  .trust-grid {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    flex-wrap: wrap;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+  .trust-badge {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 16px 24px;
+  }
+  .trust-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 14px;
+    background: var(--white);
+    box-shadow: 0 2px 8px rgba(26,163,90,0.06);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+  }
+  .trust-badge span {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-mute);
+    letter-spacing: 0.3px;
+  }
+
+  /* ===== Back to Top ===== */
+  .back-top {
+    position: fixed;
+    bottom: 90px;
+    right: 24px;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--white);
+    border: 2px solid var(--green-tint);
+    color: var(--green-deep);
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 9998;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.3s;
+    box-shadow: var(--shadow);
+  }
+  .back-top.show {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .back-top:hover {
+    background: var(--green-soft);
+    border-color: var(--green);
+    transform: translateY(-3px);
+  }
+
   /* ===== Contact Section ===== */
   .contact-section {
     padding: 120px 48px;
@@ -1299,6 +1446,68 @@
   </div>
 </section>
 
+<!-- Back to Top Button -->
+<button class="back-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<!-- Testimonials -->
+<section class="testimonials-section" id="testimonials">
+  <div class="testimonials-header">
+    <span class="section-tag">💬 Voices from Buyers</span>
+    <h2 style="font-family:'Nunito','Inter',sans-serif;font-size:32px;font-weight:800;color:var(--text);margin-bottom:10px;">Real Feedback, Real Projects</h2>
+    <p style="font-size:15px;color:var(--text-mute);">From real conversations with Barry's clients</p>
+  </div>
+  <div class="testimonials-grid">
+    <div class="testimonial-card">
+      <div class="testimonial-mark">"</div>
+      <p class="testimonial-text">I ordered 12 pieces of IFP 86" for our school in Poland. Barry was so helpful during the whole process. The quality is amazing and Daisy OS is super easy for teachers.</p>
+      <div class="testimonial-author">
+        <div class="testimonial-avatar">JK</div>
+        <div class="testimonial-info"><strong>Jan K.</strong><span>Poland · Education</span></div>
+      </div>
+    </div>
+    <div class="testimonial-card">
+      <div class="testimonial-mark">"</div>
+      <p class="testimonial-text">We've been working with Barry for our LED display projects in Pakistan. His product knowledge is deep and he never delays responses. Highly recommended supplier.</p>
+      <div class="testimonial-author">
+        <div class="testimonial-avatar">MA</div>
+        <div class="testimonial-info"><strong>Muhammad A.</strong><span>Pakistan · Distributor</span></div>
+      </div>
+    </div>
+    <div class="testimonial-card">
+      <div class="testimonial-mark">"</div>
+      <p class="testimonial-text">Visited Barry's factory area at Canton Fair. Professional booth, real product demos. We placed an order for 30 IFP panels right after the show.</p>
+      <div class="testimonial-author">
+        <div class="testimonial-avatar">TL</div>
+        <div class="testimonial-info"><strong>Tran L.</strong><span>Vietnam · System Integrator</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Trust Badges -->
+<section class="trust-section">
+  <div class="trust-grid">
+    <div class="trust-badge"><div class="trust-icon">ISO</div><span>ISO9001</span></div>
+    <div class="trust-badge"><div class="trust-icon">✓</div><span>ISO14001</span></div>
+    <div class="trust-badge"><div class="trust-icon">✓</div><span>ISO45001</span></div>
+    <div class="trust-badge"><div class="trust-icon">CE</div><span>CE</span></div>
+    <div class="trust-badge"><div class="trust-icon">FCC</div><span>FCC</span></div>
+    <div class="trust-badge"><div class="trust-icon">♻</div><span>RoHS</span></div>
+    <div class="trust-badge"><div class="trust-icon">CB</div><span>CB</span></div>
+    <div class="trust-badge"><div class="trust-icon">KC</div><span>KC</span></div>
+  </div>
+  <div style="margin-top:32px;">
+    <p style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:8px;">Cooperation Models</p>
+    <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:12px;">
+      <span style="font-size:12px;color:var(--text-mute);background:var(--white);padding:6px 16px;border-radius:100px;border:1px solid rgba(46,204,113,0.1);">OEM</span>
+      <span style="font-size:12px;color:var(--text-mute);background:var(--white);padding:6px 16px;border-radius:100px;border:1px solid rgba(46,204,113,0.1);">ODM</span>
+      <span style="font-size:12px;color:var(--text-mute);background:var(--white);padding:6px 16px;border-radius:100px;border:1px solid rgba(46,204,113,0.1);">CKD / SKD</span>
+      <span style="font-size:12px;color:var(--text-mute);background:var(--white);padding:6px 16px;border-radius:100px;border:1px solid rgba(46,204,113,0.1);">Bidding Support</span>
+      <span style="font-size:12px;color:var(--text-mute);background:var(--white);padding:6px 16px;border-radius:100px;border:1px solid rgba(46,204,113,0.1);">Custom Solutions</span>
+    </div>
+  </div>
+</section>
+
 <!-- Footer -->
 <footer class="footer">
   <div class="footer-inner">
@@ -1318,6 +1527,12 @@
 </footer>
 
 <script>
+  // Back-to-top visibility
+  var backTop = document.getElementById('backTop');
+  window.addEventListener('scroll', () => {
+    backTop.classList.toggle('show', window.scrollY > 500);
+  });
+
   // Navbar scroll effect
   const nav = document.getElementById('navbar');
   window.addEventListener('scroll', () => {
