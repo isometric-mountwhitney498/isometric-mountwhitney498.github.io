@@ -529,7 +529,7 @@
     position: relative;
   }
   .contact-inner {
-    max-width: 680px;
+    max-width: 720px;
     margin: 0 auto;
     text-align: center;
   }
@@ -543,49 +543,150 @@
   .contact-section p {
     font-size: 16px;
     color: rgba(255,255,255,0.55);
-    margin-bottom: 40px;
+    margin-bottom: 48px;
   }
-  .contact-links {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    max-width: 420px;
+  .contact-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 14px;
+    max-width: 680px;
     margin: 0 auto;
   }
-  .contact-link {
+  .contact-card {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 16px 24px;
+    padding: 18px 22px;
     background: rgba(255,255,255,0.04);
     border: 1px solid rgba(255,255,255,0.08);
     border-radius: var(--radius);
     text-decoration: none;
     transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
   }
-  .contact-link:hover {
+  .contact-card:hover {
     background: rgba(255,255,255,0.08);
-    border-color: rgba(255,255,255,0.2);
-    transform: translateX(4px);
+    border-color: rgba(255,255,255,0.25);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.3);
   }
-  .contact-link-left {
+  .contact-card-left {
     display: flex;
     align-items: center;
     gap: 14px;
     color: #fff;
+    z-index: 1;
   }
-  .contact-link-icon {
-    width: 40px; height: 40px;
-    background: rgba(255,255,255,0.05);
-    border-radius: 10px;
+  .contact-card-icon {
+    width: 44px; height: 44px;
+    border-radius: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 18px;
+    font-size: 20px;
+    flex-shrink: 0;
   }
-  .contact-link-text strong { display: block; font-size: 14px; font-weight: 600; margin-bottom: 2px; }
-  .contact-link-text span { font-size: 12px; color: rgba(255,255,255,0.4); }
-  .contact-link-arrow { font-size: 18px; color: rgba(255,255,255,0.3); }
+  .contact-card-icon.youtube { background: rgba(255,0,0,0.15); color: #ff4444; }
+  .contact-card-icon.facebook { background: rgba(66,103,178,0.15); color: #4267b2; }
+  .contact-card-icon.linkedin { background: rgba(0,119,181,0.15); color: #0077b5; }
+  .contact-card-icon.email { background: rgba(46,134,222,0.15); color: var(--blue-light); }
+  .contact-card-icon.whatsapp { background: rgba(37,211,102,0.15); color: #25d366; }
+  .contact-card-text { text-align: left; }
+  .contact-card-text strong { display: block; font-size: 14px; font-weight: 600; margin-bottom: 3px; color: #fff; }
+  .contact-card-text span { font-size: 12px; color: rgba(255,255,255,0.4); }
+  .contact-card-arrow { font-size: 16px; color: rgba(255,255,255,0.2); z-index: 1; }
+  .contact-card:hover .contact-card-arrow { color: #fff; }
+
+  /* Social Showcase Section */
+  .social-section {
+    padding: 100px 48px;
+    background: var(--bg);
+    text-align: center;
+  }
+  .social-inner { max-width: 900px; margin: 0 auto; }
+  .social-header { margin-bottom: 48px; }
+  .social-header h2 {
+    font-size: 32px;
+    font-weight: 800;
+    color: var(--text);
+    letter-spacing: -0.8px;
+    margin-bottom: 10px;
+  }
+  .social-header p {
+    font-size: 15px;
+    color: var(--text-mute);
+  }
+  .social-links {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 16px;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  .social-link {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 20px 24px;
+    background: var(--white);
+    border: 1px solid #eee;
+    border-radius: var(--radius);
+    text-decoration: none;
+    color: var(--text);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    transition: all 0.35s cubic-bezier(0.4,0,0.2,1);
+    position: relative;
+    overflow: hidden;
+  }
+  .social-link::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 4px; height: 100%;
+    transition: width 0.35s cubic-bezier(0.4,0,0.2,1);
+    z-index: 0;
+  }
+  .social-link.youtube::before { background: #ff0000; }
+  .social-link.facebook::before { background: #4267b2; }
+  .social-link.linkedin::before { background: #0077b5; }
+  .social-link:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-hover);
+    border-color: transparent;
+  }
+  .social-link:hover::before { width: 100%; opacity: 0.06; }
+  .social-link-icon {
+    width: 52px; height: 52px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+  }
+  .social-link.youtube .social-link-icon { background: rgba(255,0,0,0.08); color: #ff0000; }
+  .social-link.facebook .social-link-icon { background: rgba(66,103,178,0.08); color: #4267b2; }
+  .social-link.linkedin .social-link-icon { background: rgba(0,119,181,0.08); color: #0077b5; }
+  .social-link-text { text-align: left; position: relative; z-index: 1; flex: 1; }
+  .social-link-text strong { display: block; font-size: 15px; font-weight: 700; margin-bottom: 2px; transition: color 0.3s; }
+  .social-link:hover .social-link-text strong { color: var(--text); }
+  .social-link-text span { font-size: 12px; color: var(--text-mute); transition: color 0.3s; }
+  .social-link:hover .social-link-text span { color: var(--text-mute); }
+  .social-link-arrow {
+    font-size: 20px;
+    color: #ccc;
+    position: relative;
+    z-index: 1;
+    transition: all 0.3s;
+  }
+  .social-link:hover .social-link-arrow { color: var(--text); transform: translateX(3px); }
+
+  @media (max-width: 860px) {
+    .social-section { padding: 80px 20px; }
+  }
 
   /* Footer */
   .footer {
@@ -856,51 +957,97 @@
   </div>
 </section>
 
+<!-- Social Links (Hero + Resource Section wrapper) -->
+<section class="social-section" id="social">
+  <div class="social-inner">
+    <div class="social-header">
+      <h2>Connect With Barry</h2>
+      <p>Follow on social media for the latest product updates and industry insights</p>
+    </div>
+    <div class="social-links">
+      <a href="https://www.youtube.com/@Barry_Touchscreen_Daydreaming/playlists" target="_blank" rel="noopener" class="social-link youtube">
+        <div class="social-link-icon">▶</div>
+        <div class="social-link-text">
+          <strong>YouTube — Daydreaming</strong>
+          <span>Product demos, reviews & playlists</span>
+        </div>
+        <span class="social-link-arrow">↗</span>
+      </a>
+      <a href="https://www.facebook.com/barry.chen.94064/" target="_blank" rel="noopener" class="social-link facebook">
+        <div class="social-link-icon">f</div>
+        <div class="social-link-text">
+          <strong>Facebook — Barry Chen</strong>
+          <span>Daily updates & community</span>
+        </div>
+        <span class="social-link-arrow">↗</span>
+      </a>
+      <a href="https://www.linkedin.com/in/barry-chen-cl20010222/" target="_blank" rel="noopener" class="social-link linkedin">
+        <div class="social-link-icon">in</div>
+        <div class="social-link-text">
+          <strong>LinkedIn — Barry Chen</strong>
+          <span>Professional network & B2B</span>
+        </div>
+        <span class="social-link-arrow">↗</span>
+      </a>
+    </div>
+  </div>
+</section>
+
 <!-- Contact -->
 <section class="contact-section" id="contact">
   <div class="contact-inner">
     <h2>Ready to Start?</h2>
     <p>Let's discuss the right display solution for your project</p>
-    <div class="contact-links">
-      <a href="mailto:barry@riotouch.com" class="contact-link">
-        <div class="contact-link-left">
-          <div class="contact-link-icon">📧</div>
-          <div class="contact-link-text">
+    <div class="contact-grid">
+      <a href="mailto:barry@riotouch.com" class="contact-card">
+        <div class="contact-card-left">
+          <div class="contact-card-icon email">📧</div>
+          <div class="contact-card-text">
             <strong>Email</strong>
             <span>barry@riotouch.com</span>
           </div>
         </div>
-        <span class="contact-link-arrow">→</span>
+        <span class="contact-card-arrow">→</span>
       </a>
-      <a href="https://wa.me/8615527065860" class="contact-link">
-        <div class="contact-link-left">
-          <div class="contact-link-icon">💬</div>
-          <div class="contact-link-text">
+      <a href="https://wa.me/8615527065860" class="contact-card">
+        <div class="contact-card-left">
+          <div class="contact-card-icon whatsapp">💬</div>
+          <div class="contact-card-text">
             <strong>WhatsApp</strong>
             <span>Quick chat with Barry</span>
           </div>
         </div>
-        <span class="contact-link-arrow">→</span>
+        <span class="contact-card-arrow">→</span>
       </a>
-      <a href="https://www.youtube.com/@RiotouchOfficial" class="contact-link">
-        <div class="contact-link-left">
-          <div class="contact-link-icon">🎬</div>
-          <div class="contact-link-text">
+      <a href="https://www.youtube.com/@Barry_Touchscreen_Daydreaming/playlists" target="_blank" rel="noopener" class="contact-card">
+        <div class="contact-card-left">
+          <div class="contact-card-icon youtube">▶</div>
+          <div class="contact-card-text">
             <strong>YouTube</strong>
-            <span>@RiotouchOfficial</span>
+            <span>@Barry_Touchscreen_Daydreaming</span>
           </div>
         </div>
-        <span class="contact-link-arrow">→</span>
+        <span class="contact-card-arrow">↗</span>
       </a>
-      <a href="https://www.linkedin.com/company/riotouch" class="contact-link">
-        <div class="contact-link-left">
-          <div class="contact-link-icon">💼</div>
-          <div class="contact-link-text">
-            <strong>LinkedIn</strong>
-            <span>Riotouch Official</span>
+      <a href="https://www.facebook.com/barry.chen.94064/" target="_blank" rel="noopener" class="contact-card">
+        <div class="contact-card-left">
+          <div class="contact-card-icon facebook">f</div>
+          <div class="contact-card-text">
+            <strong>Facebook</strong>
+            <span>barry.chen.94064</span>
           </div>
         </div>
-        <span class="contact-link-arrow">→</span>
+        <span class="contact-card-arrow">↗</span>
+      </a>
+      <a href="https://www.linkedin.com/in/barry-chen-cl20010222/" target="_blank" rel="noopener" class="contact-card">
+        <div class="contact-card-left">
+          <div class="contact-card-icon linkedin">in</div>
+          <div class="contact-card-text">
+            <strong>LinkedIn</strong>
+            <span>barry-chen-cl20010222</span>
+          </div>
+        </div>
+        <span class="contact-card-arrow">↗</span>
       </a>
     </div>
   </div>
