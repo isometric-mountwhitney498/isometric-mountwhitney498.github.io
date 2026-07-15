@@ -1,0 +1,1574 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Riotouch YouTube Channel - Video Library</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      color: #1a1a2e;
+      padding: 24px;
+    }
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    .header {
+      background: linear-gradient(135deg, #ff0000 0%, #cc0000 100%);
+      color: white;
+      border-radius: 20px;
+      padding: 36px 40px;
+      margin-bottom: 28px;
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      box-shadow: 0 12px 40px rgba(255,0,0,0.3);
+      animation: slideDown 0.6s ease-out;
+    }
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .yt-icon {
+      width: 72px;
+      height: 72px;
+      background: white;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+    }
+    .yt-icon svg { width: 44px; height: 44px; }
+    .header-text h1 { font-size: 32px; font-weight: 800; margin-bottom: 8px; letter-spacing: -0.5px; }
+    .header-text p { font-size: 15px; opacity: 0.9; line-height: 1.6; }
+    .header-text a { color: white; text-decoration: none; font-weight: 600; }
+    .header-text a:hover { text-decoration: underline; }
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .stat-card {
+      background: white;
+      border-radius: 16px;
+      padding: 20px 24px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .stat-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 4px;
+      height: 100%;
+      background: linear-gradient(180deg, #ff0000, #ff6666);
+    }
+    .stat-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+    }
+    .stat-card .num { font-size: 32px; font-weight: 800; color: #ff0000; }
+    .stat-card .label { font-size: 13px; color: #888; margin-top: 4px; text-transform: uppercase; letter-spacing: 1px; }
+    .search-bar {
+      background: white;
+      border-radius: 16px;
+      padding: 18px 24px;
+      margin-bottom: 24px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      transition: box-shadow 0.3s ease;
+    }
+    .search-bar:focus-within {
+      box-shadow: 0 8px 30px rgba(102, 126, 234, 0.2);
+    }
+    .search-bar input {
+      flex: 1;
+      border: none;
+      outline: none;
+      font-size: 15px;
+      color: #333;
+      background: transparent;
+    }
+    .search-bar input::placeholder { color: #aaa; }
+    .search-bar svg { color: #888; flex-shrink: 0; }
+    .table-wrap {
+      background: white;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.1);
+    }
+    table { width: 100%; border-collapse: collapse; }
+    thead { background: linear-gradient(135deg, #1a1a2e 0%, #2d2d44 100%); color: white; }
+    thead th {
+      padding: 18px 20px;
+      text-align: left;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    tbody tr {
+      border-bottom: 1px solid #f5f5f5;
+      transition: all 0.2s ease;
+    }
+    tbody tr:nth-child(even) { background: #fafafa; }
+    tbody tr:last-child { border-bottom: none; }
+    tbody tr:hover { 
+      background: linear-gradient(90deg, #fff8f8 0%, #fff 100%);
+      transform: scale(1.005);
+      box-shadow: 0 2px 12px rgba(255,0,0,0.1);
+    }
+    tbody td { padding: 16px 20px; font-size: 14px; vertical-align: middle; }
+    .num { 
+      color: #ff0000; 
+      font-weight: 700; 
+      width: 60px; 
+      text-align: center;
+      font-size: 15px;
+    }
+    .title { font-weight: 500; color: #1a1a2e; max-width: 400px; }
+    .title a { 
+      color: #1a1a2e; 
+      text-decoration: none; 
+      line-height: 1.6;
+      display: inline-block;
+      transition: color 0.2s;
+    }
+    .title a:hover { color: #ff0000; }
+    .url { width: 220px; }
+    .url-link {
+      color: #667eea;
+      text-decoration: none;
+      font-size: 12px;
+      font-family: 'Courier New', monospace;
+      word-break: break-all;
+      padding: 4px 8px;
+      background: #f0f2f5;
+      border-radius: 4px;
+      transition: all 0.2s;
+    }
+    .url-link:hover { 
+      background: #667eea;
+      color: white;
+      text-decoration: none;
+    }
+    .desc { color: #666; font-size: 13px; max-width: 280px; line-height: 1.5; }
+    .business-card {
+      background: white;
+      border-radius: 20px;
+      padding: 28px 32px;
+      margin-bottom: 24px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      flex-wrap: wrap;
+    }
+    .contact-avatar {
+      width: 80px; height: 80px;
+      background: linear-gradient(135deg, #ff0000, #ff6666);
+      border-radius: 16px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .contact-avatar i { font-size: 36px; color: white; }
+    .contact-info { flex: 1; min-width: 200px; }
+    .contact-name { font-size: 22px; font-weight: 700; color: #1a1a2e; margin-bottom: 4px; }
+    .contact-title { font-size: 14px; color: #ff0000; font-weight: 600; margin-bottom: 8px; }
+    .contact-details { display: flex; flex-wrap: wrap; gap: 16px; font-size: 13px; color: #666; }
+    .contact-item { display: flex; align-items: center; gap: 6px; }
+    .contact-item i { color: #ff0000; width: 16px; }
+    .contact-links { display: flex; gap: 12px; flex-wrap: wrap; }
+    .contact-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 10px 18px;
+      border-radius: 10px;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    .contact-btn.primary { background: linear-gradient(135deg, #ff0000, #cc0000); color: white; }
+    .contact-btn.primary:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(255,0,0,0.3); }
+    .contact-btn.secondary { background: #f0f2f5; color: #1a1a2e; }
+    .contact-btn.secondary:hover { background: #e0e2e5; }
+    .category-tabs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+    .cat-btn {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 12px;
+      background: rgba(255,255,255,0.2);
+      color: white;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .cat-btn:hover { background: rgba(255,255,255,0.3); transform: translateY(-2px); }
+    .cat-btn.active { background: white; color: #ff0000; box-shadow: 0 4px 16px rgba(0,0,0,0.15); }
+    .cat-count { background: rgba(255,0,0,0.15); padding: 2px 8px; border-radius: 10px; font-size: 11px; }
+    .cat-tag { display: inline-block; padding: 4px 10px; border-radius: 6px; font-size: 11px; font-weight: 600; margin-right: 8px; }
+    tbody tr.hidden { display: none; }
+    .footer {
+      text-align: center;
+      color: rgba(255,255,255,0.8);
+      font-size: 13px;
+      margin-top: 24px;
+      padding: 16px;
+    }
+    @media (max-width: 768px) {
+      .header { flex-direction: column; text-align: center; padding: 24px; }
+      .header-text h1 { font-size: 24px; }
+      .url { display: none; }
+      .stats { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 480px) {
+      body { padding: 12px; }
+      .stats { grid-template-columns: 1fr; }
+      .stat-card { text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+<div class="header">
+  <div class="yt-icon">
+    <svg viewBox="0 0 24 24" fill="#ff0000">
+      <path d="M23.495 6.205a3.007 3.007 0 0 0-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 0 0 .527 6.205a31.247 31.247 0 0 0-.522 5.805 31.247 31.247 0 0 0 .522 5.783 3.007 3.007 0 0 0 2.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 0 0 2.088-2.088 31.247 31.247 0 0 0 .5-5.783 31.247 31.247 0 0 0-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"/>
+    </svg>
+  </div>
+  <div class="header-text">
+    <h1>Riotouch YouTube Channel</h1>
+    <p>Channel: <a href="https://www.youtube.com/@riotouch3606/videos" target="_blank" style="color:rgba(255,255,255,0.9)">@riotouch3606</a> &nbsp;|&nbsp; Riotouch Electronics Technology Co., Ltd. &nbsp;|&nbsp; Interactive Flat Panel / Smart Education</p>
+  </div>
+</div>
+
+<div class="business-card">
+    <div class="contact-avatar"><i class="fas fa-user"></i></div>
+    <div class="contact-info">
+      <div class="contact-name">Barry Chen</div>
+      <div class="contact-title">Sales Manager | Riotouch Electronics</div>
+      <div class="contact-details">
+        <span class="contact-item"><i class="fas fa-envelope"></i> barry@riotouch.com</span>
+        <span class="contact-item"><i class="fas fa-phone"></i> +86 155 2706 5860</span>
+        <span class="contact-item"><i class="fab fa-whatsapp"></i> +86 155 2706 5860</span>
+        <span class="contact-item"><i class="fas fa-globe"></i> www.riotouch.com</span>
+      </div>
+    </div>
+    <div class="contact-links">
+      <a href="https://www.youtube.com/@riotouch3606" target="_blank" class="contact-btn primary"><i class="fab fa-youtube"></i> YouTube</a>
+      <a href="https://www.riotouch.com" target="_blank" class="contact-btn secondary"><i class="fas fa-globe"></i> Website</a>
+    </div>
+  </div>
+
+<div class="category-tabs">
+    <button class="cat-btn active" data-cat="all"><i class="fas fa-th-large"></i> All <span class="cat-count">198</span></button>
+    <button class="cat-btn" data-cat="products"><i class="fas fa-desktop"></i> Products <span class="cat-count" id="cnt-products">-</span></button>
+    <button class="cat-btn" data-cat="software"><i class="fas fa-mobile-alt"></i> Software <span class="cat-count" id="cnt-software">-</span></button>
+    <button class="cat-btn" data-cat="ai"><i class="fas fa-robot"></i> AI Tech <span class="cat-count" id="cnt-ai">-</span></button>
+    <button class="cat-btn" data-cat="education"><i class="fas fa-graduation-cap"></i> Education <span class="cat-count" id="cnt-education">-</span></button>
+    <button class="cat-btn" data-cat="conference"><i class="fas fa-video"></i> Conference <span class="cat-count" id="cnt-conference">-</span></button>
+    <button class="cat-btn" data-cat="factory"><i class="fas fa-industry"></i> Factory <span class="cat-count" id="cnt-factory">-</span></button>
+    <button class="cat-btn" data-cat="tutorials"><i class="fas fa-play-circle"></i> Tutorials <span class="cat-count" id="cnt-tutorials">-</span></button>
+    <button class="cat-btn" data-cat="events"><i class="fas fa-calendar-check"></i> Events <span class="cat-count" id="cnt-events">-</span></button>
+    <button class="cat-btn" data-cat="about"><i class="fas fa-building"></i> About Us <span class="cat-count" id="cnt-about">-</span></button>
+  </div>
+
+<div class="stats">
+  <div class="stat-card">
+    <div class="num">198</div>
+    <div class="label">Total Videos</div>
+  </div>
+  <div class="stat-card">
+    <div class="num" style="font-size:14px;padding-top:6px;word-break:break-all;">@riotouch3606</div>
+    <div class="label">Channel Handle</div>
+  </div>
+  <div class="stat-card">
+    <div class="num" style="font-size:16px;padding-top:4px;">Interactive Flat Panel</div>
+    <div class="label">Main Category</div>
+  </div>
+  <div class="stat-card">
+    <div class="num" style="font-size:16px;padding-top:4px;">2026-04-11</div>
+    <div class="label">Last Updated</div>
+  </div>
+</div>
+
+<div class="search-bar">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#aaa" stroke-width="2">
+    <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+  </svg>
+  <input type="text" id="search" placeholder="Search video titles or descriptions..." oninput="filterTable(this.value)">
+</div>
+
+<div class="table-wrap">
+  <table id="videoTable">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Video Title</th>
+        <th>Link</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody id="tableBody">
+      
+    <tr data-cat="products">
+      <td class="num">1</td>
+      <td class="title"><span class="cat-tag" style="background:#e3f2fd;color:#1976d2;">Products</span><a href="https://www.youtube.com/watch?v=5mW9NVnr4Ag" target="_blank">S15 Interactive Display Motherboard: 40% Cheaper, 30% Faster Production!</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=5mW9NVnr4Ag" target="_blank" class="url-link">https://www.youtube.com/watch?v=5mW9NVnr4Ag</a></td>
+      <td class="desc">What if you could cut your interactive display motherboard costs</td>
+    </tr>
+    <tr data-cat="conference">
+      <td class="num">2</td>
+      <td class="title"><span class="cat-tag" style="background:#e8f5e9;color:#388e3c;">Conference</span><a href="https://www.youtube.com/watch?v=jryCjQAzo5E" target="_blank">Meet the ADV3683 �� Your All-in-One Conference &amp; Teaching Solution!</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=jryCjQAzo5E" target="_blank" class="url-link">https://www.youtube.com/watch?v=jryCjQAzo5E</a></td>
+      <td class="desc">No more unstable component costs No more limited HDMI ports</td>
+    </tr>
+    <tr data-cat="ai">
+      <td class="num">3</td>
+      <td class="title"><span class="cat-tag" style="background:#fff3e0;color:#f57c00;">Ai</span><a href="https://www.youtube.com/watch?v=xCG3qUorPiQ" target="_blank">Tired of late-night lesson planning and language barriers in international meetings?</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=xCG3qUorPiQ" target="_blank" class="url-link">https://www.youtube.com/watch?v=xCG3qUorPiQ</a></td>
+      <td class="desc">Riotouch Aether Orb AI Box is the solution For Educators</td>
+    </tr>
+    <tr data-cat="conference">
+      <td class="num">4</td>
+      <td class="title"><span class="cat-tag" style="background:#e8f5e9;color:#388e3c;">Conference</span><a href="https://www.youtube.com/watch?v=xuzOm9mQds8" target="_blank">Riotouch Smart LED Meeting Displays | 108&quot;/136&quot;/163&quot; for Global Collaboration</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=xuzOm9mQds8" target="_blank" class="url-link">https://www.youtube.com/watch?v=xuzOm9mQds8</a></td>
+      <td class="desc">Tired of language barriers messy meeting notes and clunky remote</td>
+    </tr>
+    <tr data-cat="ai">
+      <td class="num">5</td>
+      <td class="title"><span class="cat-tag" style="background:#fff3e0;color:#f57c00;">Ai</span><a href="https://www.youtube.com/watch?v=2V9hbS6GV1M" target="_blank">Break Language Barriers with PolyVoice �C Smart Translation for Global Meetings!</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=2V9hbS6GV1M" target="_blank" class="url-link">https://www.youtube.com/watch?v=2V9hbS6GV1M</a></td>
+      <td class="desc">In this video we ll show you how PolyVoice works</td>
+    </tr>
+    <tr data-cat="software">
+      <td class="num">6</td>
+      <td class="title"><span class="cat-tag" style="background:#f3e5f5;color:#7b1fa2;">Software</span><a href="https://www.youtube.com/watch?v=V8Txs-_8aWI" target="_blank">Best Live Streaming App 2026 | Full Review &amp; Setup Guide</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=V8Txs-_8aWI" target="_blank" class="url-link">https://www.youtube.com/watch?v=V8Txs-_8aWI</a></td>
+      <td class="desc">Try this BEST Live Streaming App for 2026 In this</td>
+    </tr>
+    <tr data-cat="software">
+      <td class="num">7</td>
+      <td class="title"><span class="cat-tag" style="background:#f3e5f5;color:#7b1fa2;">Software</span><a href="https://www.youtube.com/watch?v=ujlPvuqQZHk" target="_blank">MeetVisionRoll��Unobtrusiveattendance,DataInsights��</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=ujlPvuqQZHk" target="_blank" class="url-link">https://www.youtube.com/watch?v=ujlPvuqQZHk</a></td>
+      <td class="desc">Snapapic Quickrollcall Seestatslive Makereportsinatick VisitusatISE2026 Booth1F200 TiredofWastingClassTimeonRollCall MeetVisionRol</td>
+    </tr>
+    <tr data-cat="events">
+      <td class="num">8</td>
+      <td class="title"><span class="cat-tag" style="background:#fce4ec;color:#c2185b;">Events</span><a href="https://www.youtube.com/watch?v=lVALclXSdRM" target="_blank">AtISE2026,Booth1F200��BreakingLanguageWalls,AnsweringGlobalCalls!</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=lVALclXSdRM" target="_blank" class="url-link">https://www.youtube.com/watch?v=lVALclXSdRM</a></td>
+      <td class="desc">MeetPolyVoice Theall in onesmarttranslationplatformwhereideasflowfreelyacrossborders Nomore lostintranslation justclear live andinclusive</td>
+    </tr>
+    <tr data-cat="products">
+      <td class="num">9</td>
+      <td class="title"><span class="cat-tag" style="background:#e3f2fd;color:#1976d2;">Products</span><a href="https://www.youtube.com/watch?v=gUtRP4goUgM" target="_blank">Electric height-adjustable touch table for modern classrooms and offices</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=gUtRP4goUgM" target="_blank" class="url-link">https://www.youtube.com/watch?v=gUtRP4goUgM</a></td>
+      <td class="desc">Upgrade your teaching and workspaces with our interactive smart touch</td>
+    </tr>
+    <tr data-cat="products">
+      <td class="num">10</td>
+      <td class="title"><span class="cat-tag" style="background:#e3f2fd;color:#1976d2;">Products</span><a href="https://www.youtube.com/watch?v=xq3bxnzkxrg" target="_blank">The All-New Riotouch 32&quot; 4K Smart Touchscreen Monitor</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=xq3bxnzkxrg" target="_blank" class="url-link">https://www.youtube.com/watch?v=xq3bxnzkxrg</a></td>
+      <td class="desc">Looking for a versatile lightweight display for entertainment fitness study</td>
+    </tr>
+    <tr data-cat="software">
+      <td class="num">11</td>
+      <td class="title"><span class="cat-tag" style="background:#f3e5f5;color:#7b1fa2;">Software</span><a href="https://www.youtube.com/watch?v=x1F4Q07UzyY" target="_blank">ETV Multi-Device Remote Control (Phone/PC/Tablet) - Easy Ad Delivery!</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=x1F4Q07UzyY" target="_blank" class="url-link">https://www.youtube.com/watch?v=x1F4Q07UzyY</a></td>
+      <td class="desc">Hey everyone We re excited to introduce our all new</td>
+    </tr>
+    <tr data-cat="products">
+      <td class="num">12</td>
+      <td class="title"><span class="cat-tag" style="background:#e3f2fd;color:#1976d2;">Products</span><a href="https://www.youtube.com/watch?v=HR8v3c6wzcc" target="_blank">Riotouch Pluggable OPS PC Module: Perfect for Interactive Whiteboards (i5/i7, Multi-Interface!)</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=HR8v3c6wzcc" target="_blank" class="url-link">https://www.youtube.com/watch?v=HR8v3c6wzcc</a></td>
+      <td class="desc">Hey everyone Today we re checking out the Riotouch Pluggable</td>
+    </tr>
+    <tr data-cat="products">
+      <td class="num">13</td>
+      <td class="title"><span class="cat-tag" style="background:#e3f2fd;color:#1976d2;">Products</span><a href="https://www.youtube.com/watch?v=jyUseCb3bro" target="_blank">FHD Floor Standing Digital Signage: Sleek Freestanding video screen kiosk for High-Impact Showroom</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=jyUseCb3bro" target="_blank" class="url-link">https://www.youtube.com/watch?v=jyUseCb3bro</a></td>
+      <td class="desc">Upgrade your business s in store or showroom presence with</td>
+    </tr>
+    <tr data-cat="factory">
+      <td class="num">14</td>
+      <td class="title"><span class="cat-tag" style="background:#e0f2f1;color:#00695c;">Factory</span><a href="https://www.youtube.com/watch?v=5uthGI0M9q8" target="_blank">Inside Our New Factory: Powering Cloud Education &amp; Smart Education Tools | Assembly &amp; Testing Tour</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=5uthGI0M9q8" target="_blank" class="url-link">https://www.youtube.com/watch?v=5uthGI0M9q8</a></td>
+      <td class="desc">First Look at Our Brand New Factory This video takes</td>
+    </tr>
+    <tr data-cat="about">
+      <td class="num">15</td>
+      <td class="title"><span class="cat-tag" style="background:#eceff1;color:#546e7a;">About</span><a href="https://www.youtube.com/watch?v=D7YbFjb2jug" target="_blank">To all our friends, partners and customers around the world, Happy new year��Happy christmas��</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=D7YbFjb2jug" target="_blank" class="url-link">https://www.youtube.com/watch?v=D7YbFjb2jug</a></td>
+      <td class="desc">As the holiday season wraps us in warmth the riotouch</td>
+    </tr>
+    <tr data-cat="ai">
+      <td class="num">16</td>
+      <td class="title"><span class="cat-tag" style="background:#fff3e0;color:#f57c00;">Ai</span><a href="https://www.youtube.com/watch?v=KLLiwWLtdWE" target="_blank">Upgrade Your Dumb LED Meeting Screen to AI-Powered (LOW COST!) | Aether Orb AI Box 5-Minute Setup</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=KLLiwWLtdWE" target="_blank" class="url-link">https://www.youtube.com/watch?v=KLLiwWLtdWE</a></td>
+      <td class="desc">Is your traditional LED meeting screen just a slideshow display</td>
+    </tr>
+    <tr data-cat="software">
+      <td class="num">17</td>
+      <td class="title"><span class="cat-tag" style="background:#f3e5f5;color:#7b1fa2;">Software</span><a href="https://www.youtube.com/watch?v=3zrckmttPLo" target="_blank">Interactive Flat Panel: Riotouch UMind �C Calendar Todo &amp; Mind Map Drawing for Smart Education</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=3zrckmttPLo" target="_blank" class="url-link">https://www.youtube.com/watch?v=3zrckmttPLo</a></td>
+      <td class="desc">This video is a complete tutorial for Riotouch s UMind</td>
+    </tr>
+    <tr data-cat="products">
+      <td class="num">18</td>
+      <td class="title"><span class="cat-tag" style="background:#e3f2fd;color:#1976d2;">Products</span><a href="https://www.youtube.com/watch?v=iLiguG0zmPc" target="_blank">Interactive All in One Machine Scientific Calculator &amp; 360�� Rotation Features Explained</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=iLiguG0zmPc" target="_blank" class="url-link">https://www.youtube.com/watch?v=iLiguG0zmPc</a></td>
+      <td class="desc">Whether you re a teacher upgrading your classroom tech a</td>
+    </tr>
+    <tr data-cat="education">
+      <td class="num">19</td>
+      <td class="title"><span class="cat-tag" style="background:#e8f5e9;color:#388e3c;">Education</span><a href="https://www.youtube.com/watch?v=pJCtBwhi5QQ" target="_blank">Classroom Efficiency Boost: Split Screen on Interactive Whiteboard for Smart Education</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=pJCtBwhi5QQ" target="_blank" class="url-link">https://www.youtube.com/watch?v=pJCtBwhi5QQ</a></td>
+      <td class="desc">Tired of switching between tabs during lessons or presentations Unlock</td>
+    </tr>
+    <tr data-cat="education">
+      <td class="num">20</td>
+      <td class="title"><span class="cat-tag" style="background:#e8f5e9;color:#388e3c;">Education</span><a href="https://www.youtube.com/watch?v=hksZcJRY6qk" target="_blank">Smart Education Game-Changer: Digital Whiteboard with NFC Binding &amp; Fingerprint Entry</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=hksZcJRY6qk" target="_blank" class="url-link">https://www.youtube.com/watch?v=hksZcJRY6qk</a></td>
+      <td class="desc">Tired of complicated setup for your smart board or interactive</td>
+    </tr>
+    <tr data-cat="education">
+      <td class="num">21</td>
+      <td class="title"><span class="cat-tag" style="background:#e8f5e9;color:#388e3c;">Education</span><a href="https://www.youtube.com/watch?v=3efnU1ss0Jc" target="_blank">Smart Board School Management: Create/Edit/Delete Class/Student/Teacher Info Easily!</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=3efnU1ss0Jc" target="_blank" class="url-link">https://www.youtube.com/watch?v=3efnU1ss0Jc</a></td>
+      <td class="desc">This video is your go to guide for leveraging Cloud</td>
+    </tr>
+    <tr data-cat="education">
+      <td class="num">22</td>
+      <td class="title"><span class="cat-tag" style="background:#e8f5e9;color:#388e3c;">Education</span><a href="https://www.youtube.com/watch?v=lXA9K7V66ik" target="_blank">Interactive Applications in Smart Education��How to Use Smart Whiteboards in the Classroom</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=lXA9K7V66ik" target="_blank" class="url-link">https://www.youtube.com/watch?v=lXA9K7V66ik</a></td>
+      <td class="desc">This video demonstrates a quick guide to interactive whiteboard displays</td>
+    </tr>
+    <tr data-cat="tutorials">
+      <td class="num">23</td>
+      <td class="title"><span class="cat-tag" style="background:#fff8e1;color:#ff8f00;">Tutorials</span><a href="https://www.youtube.com/watch?v=RMVO-Ek8hLA" target="_blank">Quick Guide: Bind NFC Card to DaisyOS Account (For Touch Screen Display/Digital Whiteboard)</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=RMVO-Ek8hLA" target="_blank" class="url-link">https://www.youtube.com/watch?v=RMVO-Ek8hLA</a></td>
+      <td class="desc">In this video I ll show you a step by</td>
+    </tr>
+    <tr data-cat="software">
+      <td class="num">24</td>
+      <td class="title"><span class="cat-tag" style="background:#f3e5f5;color:#7b1fa2;">Software</span><a href="https://www.youtube.com/watch?v=i327Y_xMcuI" target="_blank">Riotouch DMS Courseware Upload Test  Efficient Remote Teaching Solution</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=i327Y_xMcuI" target="_blank" class="url-link">https://www.youtube.com/watch?v=i327Y_xMcuI</a></td>
+      <td class="desc">Core Advantages of Riotouch DMS Education Edition 1 AI Courseware</td>
+    </tr>
+    <tr data-cat="software">
+      <td class="num">25</td>
+      <td class="title"><span class="cat-tag" style="background:#f3e5f5;color:#7b1fa2;">Software</span><a href="https://www.youtube.com/watch?v=X4GkS5Qrk6g" target="_blank">Riotouch UMind: PDF Annotation +  Cloud Generation, Supercharge Your Productivity!&quot;</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=X4GkS5Qrk6g" target="_blank" class="url-link">https://www.youtube.com/watch?v=X4GkS5Qrk6g</a></td>
+      <td class="desc">Struggle with Tedious PDF Markups UMind s intuitive PDF annotation</td>
+    </tr>
+    <tr data-cat="software">
+      <td class="num">26</td>
+      <td class="title"><span class="cat-tag" style="background:#f3e5f5;color:#7b1fa2;">Software</span><a href="https://www.youtube.com/watch?v=Usu0Y54tFqY" target="_blank">Master Riotouch Interactive Whiteboard: All Tools Unlocked for Epic Presentations!</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=Usu0Y54tFqY" target="_blank" class="url-link">https://www.youtube.com/watch?v=Usu0Y54tFqY</a></td>
+      <td class="desc">Eye Care Keep your eyes comfy during long sessions with</td>
+    </tr>
+    <tr data-cat="software">
+      <td class="num">27</td>
+      <td class="title"><span class="cat-tag" style="background:#f3e5f5;color:#7b1fa2;">Software</span><a href="https://www.youtube.com/watch?v=6YW0Efh0lBs" target="_blank">Riotouch UFlowClip: Comprehensive Guide to Mastering Its Powerful Features</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=6YW0Efh0lBs" target="_blank" class="url-link">https://www.youtube.com/watch?v=6YW0Efh0lBs</a></td>
+      <td class="desc">Check out FlowClip s awesome features Easy copy paste between</td>
+    </tr>
+    <tr data-cat="software">
+      <td class="num">28</td>
+      <td class="title"><span class="cat-tag" style="background:#f3e5f5;color:#7b1fa2;">Software</span><a href="https://www.youtube.com/watch?v=wzeTmkBubrU" target="_blank">Teachers�� Secret Weapon: Riotouch CallingSystem | No More Late Class Starts!</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=wzeTmkBubrU" target="_blank" class="url-link">https://www.youtube.com/watch?v=wzeTmkBubrU</a></td>
+      <td class="desc">Ever rushed to set up the interactive whiteboard while students</td>
+    </tr>
+    <tr data-cat="education">
+      <td class="num">29</td>
+      <td class="title"><span class="cat-tag" style="background:#e8f5e9;color:#388e3c;">Education</span><a href="https://www.youtube.com/watch?v=o5RwKkzOU50" target="_blank">Riotouch ��Ai-MindSpark �� Realize intelligent and efficient classrooms</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=o5RwKkzOU50" target="_blank" class="url-link">https://www.youtube.com/watch?v=o5RwKkzOU50</a></td>
+      <td class="desc">Ai MindPark Realizes intelligent and efficient classrooms promotes interactive design</td>
+    </tr>
+    <tr data-cat="software">
+      <td class="num">30</td>
+      <td class="title"><span class="cat-tag" style="background:#f3e5f5;color:#7b1fa2;">Software</span><a href="https://www.youtube.com/watch?v=iAM4rMig9Ds" target="_blank">UFreeze: Secure &amp; Convenient Screen Lock Solution for Riotouch Interactive Whiteboards</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=iAM4rMig9Ds" target="_blank" class="url-link">https://www.youtube.com/watch?v=iAM4rMig9Ds</a></td>
+      <td class="desc">Dynamic Random Code Unlocking Generates unique real time codes per</td>
+    </tr>
+    <tr data-cat="products">
+      <td class="num">31</td>
+      <td class="title"><span class="cat-tag" style="background:#e3f2fd;color:#1976d2;">Products</span><a href="https://www.youtube.com/watch?v=tPODs8G-n1w" target="_blank">Riotouch Interactive Flat Panel RK3576: Unleashing AI for Unrivaled Learning &amp; Collaboration</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=tPODs8G-n1w" target="_blank" class="url-link">https://www.youtube.com/watch?v=tPODs8G-n1w</a></td>
+      <td class="desc">RK3576 New product launch Hey there Business partners and educators</td>
+    </tr>
+    <tr data-cat="software">
+      <td class="num">32</td>
+      <td class="title"><span class="cat-tag" style="background:#f3e5f5;color:#7b1fa2;">Software</span><a href="https://www.youtube.com/watch?v=DOusXsnMpdY" target="_blank">How to Use Split Screen in UMind �C Multi-App &amp; Multi-Screen Guide</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=DOusXsnMpdY" target="_blank" class="url-link">https://www.youtube.com/watch?v=DOusXsnMpdY</a></td>
+      <td class="desc">Discover how to use the Split Screen function in UMind</td>
+    </tr>
+    <tr data-cat="education">
+      <td class="num">33</td>
+      <td class="title"><span class="cat-tag" style="background:#e8f5e9;color:#388e3c;">Education</span><a href="https://www.youtube.com/watch?v=KPA1V1SZQlE" target="_blank">Riotouch UMind �C Explore Hundreds of Interactive 3D Resources</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=KPA1V1SZQlE" target="_blank" class="url-link">https://www.youtube.com/watch?v=KPA1V1SZQlE</a></td>
+      <td class="desc">Discover the power of our smart all in one device</td>
+    </tr>
+    <tr data-cat="tutorials">
+      <td class="num">34</td>
+      <td class="title"><span class="cat-tag" style="background:#fff8e1;color:#ff8f00;">Tutorials</span><a href="https://www.youtube.com/watch?v=sOlYEEDAlpU" target="_blank">How to Use UMark �C Annotate Any Screen, Save &amp; Share in Seconds</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=sOlYEEDAlpU" target="_blank" class="url-link">https://www.youtube.com/watch?v=sOlYEEDAlpU</a></td>
+      <td class="desc">Learn how to use UMark to annotate on any screen</td>
+    </tr>
+    <tr data-cat="education">
+      <td class="num">35</td>
+      <td class="title"><span class="cat-tag" style="background:#e8f5e9;color:#388e3c;">Education</span><a href="https://www.youtube.com/watch?v=9sDb9nQRWho" target="_blank">How to Use UVote in Daisy OS �C Easy Classroom Voting Tool</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=9sDb9nQRWho" target="_blank" class="url-link">https://www.youtube.com/watch?v=9sDb9nQRWho</a></td>
+      <td class="desc">Discover how to use UVote an interactive classroom voting tool</td>
+    </tr>
+    <tr data-cat="software">
+      <td class="num">36</td>
+      <td class="title"><span class="cat-tag" style="background:#f3e5f5;color:#7b1fa2;">Software</span><a href="https://www.youtube.com/watch?v=PE_rJ4iyKrw" target="_blank">Daisy OS Tool - UCut: One-stop Screenshot &amp; Intelligent Sharing Tool</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=PE_rJ4iyKrw" target="_blank" class="url-link">https://www.youtube.com/watch?v=PE_rJ4iyKrw</a></td>
+      <td class="desc">Transform your teaching with UCut C the ultimate screenshot tool</td>
+    </tr>
+    <tr data-cat="software">
+      <td class="num">37</td>
+      <td class="title"><span class="cat-tag" style="background:#f3e5f5;color:#7b1fa2;">Software</span><a href="https://www.youtube.com/watch?v=gjgAHg1nkHM" target="_blank">How to use Riotouch Urecord | 4K ultra-clear recording | Smart Remote Learning</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=gjgAHg1nkHM" target="_blank" class="url-link">https://www.youtube.com/watch?v=gjgAHg1nkHM</a></td>
+      <td class="desc">Discover URecord Your All in One 4K Recording Studio In</td>
+    </tr>
+    <tr data-cat="software">
+      <td class="num">38</td>
+      <td class="title"><span class="cat-tag" style="background:#f3e5f5;color:#7b1fa2;">Software</span><a href="https://www.youtube.com/watch?v=y-CUsGe6A1c" target="_blank">How to use Riotouch Ufile | Efficient File Management Software | AI Analysis</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=y-CUsGe6A1c" target="_blank" class="url-link">https://www.youtube.com/watch?v=y-CUsGe6A1c</a></td>
+      <td class="desc">Discover how Ufile revolutionizes file management for schools and businesses</td>
+    </tr>
+    <tr data-cat="tutorials">
+      <td class="num">39</td>
+      <td class="title"><span class="cat-tag" style="background:#fff8e1;color:#ff8f00;">Tutorials</span><a href="https://www.youtube.com/watch?v=T8Iq0OiLpVA" target="_blank">How to Use UMind with Your Phone | Riotouch RK3588</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=T8Iq0OiLpVA" target="_blank" class="url-link">https://www.youtube.com/watch?v=T8Iq0OiLpVA</a></td>
+      <td class="desc">Discover how to easily control UMind using just your phone</td>
+    </tr>
+    <tr data-cat="ai">
+      <td class="num">40</td>
+      <td class="title"><span class="cat-tag" style="background:#fff3e0;color:#f57c00;">Ai</span><a href="https://www.youtube.com/watch?v=c-9O5ThX8hs" target="_blank">AI Assistant: Full Voice Control for Smarter Teaching | Riotouch AI</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=c-9O5ThX8hs" target="_blank" class="url-link">https://www.youtube.com/watch?v=c-9O5ThX8hs</a></td>
+      <td class="desc">Discover how our advanced AI Voice Assistant transforms classroom interaction</td>
+    </tr>
+    <tr data-cat="ai">
+      <td class="num">41</td>
+      <td class="title"><span class="cat-tag" style="background:#fff3e0;color:#f57c00;">Ai</span><a href="https://www.youtube.com/watch?v=uqc19w3-GBU" target="_blank">AI Knowledge: Your School��s Smart Knowledge Hub | Riotouch AI</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=uqc19w3-GBU" target="_blank" class="url-link">https://www.youtube.com/watch?v=uqc19w3-GBU</a></td>
+      <td class="desc">Discover how AI Knowledge transforms your documents into a smart</td>
+    </tr>
+    <tr data-cat="ai">
+      <td class="num">42</td>
+      <td class="title"><span class="cat-tag" style="background:#fff3e0;color:#f57c00;">Ai</span><a href="https://www.youtube.com/watch?v=0OfXSNNbktY" target="_blank">Riotouch AI: Revolutionize Learning with AI Summary, Flash Card &amp; Guide Maker</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=0OfXSNNbktY" target="_blank" class="url-link">https://www.youtube.com/watch?v=0OfXSNNbktY</a></td>
+      <td class="desc">Riotouch AI is here to transform how you learn and</td>
+    </tr>
+    <tr data-cat="ai">
+      <td class="num">43</td>
+      <td class="title"><span class="cat-tag" style="background:#fff3e0;color:#f57c00;">Ai</span><a href="https://www.youtube.com/watch?v=SgQgwk49u9c" target="_blank">How does AI Solve Math Problems in the Classroom? | Math Solver | Riotouch AI</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=SgQgwk49u9c" target="_blank" class="url-link">https://www.youtube.com/watch?v=SgQgwk49u9c</a></td>
+      <td class="desc">See how AI helps students solve different types of math</td>
+    </tr>
+    <tr data-cat="ai">
+      <td class="num">44</td>
+      <td class="title"><span class="cat-tag" style="background:#fff3e0;color:#f57c00;">Ai</span><a href="https://www.youtube.com/watch?v=oPTS9vfny0o" target="_blank">Riotouch AI Education: Auto Lessons, Smart Quizzes &amp; Summary Image in One Platform | RK3588</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=oPTS9vfny0o" target="_blank" class="url-link">https://www.youtube.com/watch?v=oPTS9vfny0o</a></td>
+      <td class="desc">AI Education is your all in one smart teaching assistant</td>
+    </tr>
+    <tr data-cat="events">
+      <td class="num">45</td>
+      <td class="title"><span class="cat-tag" style="background:#fce4ec;color:#c2185b;">Events</span><a href="https://www.youtube.com/watch?v=YiPydfu6l6Y" target="_blank">Riotouch at GESS Saudi 2025 | Smart Panels, AI Teaching &amp; EdTech Solutions | Riotouch RK3588</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=YiPydfu6l6Y" target="_blank" class="url-link">https://www.youtube.com/watch?v=YiPydfu6l6Y</a></td>
+      <td class="desc">Join Riotouch at GESS Saudi 2025 from May 26 C28</td>
+    </tr>
+    <tr data-cat="ai">
+      <td class="num">46</td>
+      <td class="title"><span class="cat-tag" style="background:#fff3e0;color:#f57c00;">Ai</span><a href="https://www.youtube.com/watch?v=6cIQ_FurxZ4" target="_blank">Riotouch AI: Real-Time Translation Tool for Multilingual Meetings &amp; Global Collaboration</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=6cIQ_FurxZ4" target="_blank" class="url-link">https://www.youtube.com/watch?v=6cIQ_FurxZ4</a></td>
+      <td class="desc">Break language barriers with Riotouch AI s Real Time Synchronous</td>
+    </tr>
+    <tr data-cat="education">
+      <td class="num">47</td>
+      <td class="title"><span class="cat-tag" style="background:#e8f5e9;color:#388e3c;">Education</span><a href="https://www.youtube.com/watch?v=nTT5wuDzyRY" target="_blank">Riotouch Scientific Calculator: A Must-Have Tool for Every Teacher | Daisy OS</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=nTT5wuDzyRY" target="_blank" class="url-link">https://www.youtube.com/watch?v=nTT5wuDzyRY</a></td>
+      <td class="desc">Discover how the Riotouch Daisy OS scientific calculator simplifies complex</td>
+    </tr>
+    <tr data-cat="ai">
+      <td class="num">48</td>
+      <td class="title"><span class="cat-tag" style="background:#fff3e0;color:#f57c00;">Ai</span><a href="https://www.youtube.com/watch?v=YZJkzX8beyY" target="_blank">Riotouch AI: Smart Classroom Q&amp;A, AI-Powered Question Generation &amp; Global Learning Tools</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=YZJkzX8beyY" target="_blank" class="url-link">https://www.youtube.com/watch?v=YZJkzX8beyY</a></td>
+      <td class="desc">Transform your classroom with Riotouch AI Question Answer Empower teachers</td>
+    </tr>
+    <tr data-cat="education">
+      <td class="num">49</td>
+      <td class="title"><span class="cat-tag" style="background:#e8f5e9;color:#388e3c;">Education</span><a href="https://www.youtube.com/watch?v=ZjpcDqZyQAg" target="_blank">Riotouch UMind | Vote | Teaching Tools | Improve Classroom Efficiency with Riotouch Umind Vote</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=ZjpcDqZyQAg" target="_blank" class="url-link">https://www.youtube.com/watch?v=ZjpcDqZyQAg</a></td>
+      <td class="desc">Discover how to transform your classroom with Riotouch Umind s</td>
+    </tr>
+    <tr data-cat="ai">
+      <td class="num">50</td>
+      <td class="title"><span class="cat-tag" style="background:#fff3e0;color:#f57c00;">Ai</span><a href="https://www.youtube.com/watch?v=Lrh95LKbaz8" target="_blank">How to use the AI in lessons and teachings | Riotouch AI Lessons | AI Voice |Riotouch Umind</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=Lrh95LKbaz8" target="_blank" class="url-link">https://www.youtube.com/watch?v=Lrh95LKbaz8</a></td>
+      <td class="desc">Riotouch UMind the AI powered interactive flat panel with One</td>
+    </tr>
+    <tr data-cat="ai">
+      <td class="num">51</td>
+      <td class="title"><span class="cat-tag" style="background:#fff3e0;color:#f57c00;">Ai</span><a href="https://www.youtube.com/watch?v=L704qREO2V4" target="_blank">The Q&amp;A That Teaches Itself: How UMind's AI Builds Quizzes from Student Questions | Riotouch AI</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=L704qREO2V4" target="_blank" class="url-link">https://www.youtube.com/watch?v=L704qREO2V4</a></td>
+      <td class="desc">Say goodbye to boring lessons UMind brings interactive and AI</td>
+    </tr>
+    <tr data-cat="products">
+      <td class="num">52</td>
+      <td class="title"><span class="cat-tag" style="background:#e3f2fd;color:#1976d2;">Products</span><a href="https://www.youtube.com/watch?v=1Cq4mjkAWZk" target="_blank">&amp;   !</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=1Cq4mjkAWZk" target="_blank" class="url-link">https://www.youtube.com/watch?v=1Cq4mjkAWZk</a></td>
+      <td class="desc">1</td>
+    </tr>
+    <tr data-cat="ai">
+      <td class="num">53</td>
+      <td class="title"><span class="cat-tag" style="background:#fff3e0;color:#f57c00;">Ai</span><a href="https://www.youtube.com/watch?v=H5Yyw_M-rmU" target="_blank">Text to Image &amp; Video with Riotouch AI Whiteboard | AI Content Creation Made Simple | RK3588</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=H5Yyw_M-rmU" target="_blank" class="url-link">https://www.youtube.com/watch?v=H5Yyw_M-rmU</a></td>
+      <td class="desc">Turn Your Words into Visual Magic with Riotouch AI Riotouch</td>
+    </tr>
+    <tr data-cat="products">
+      <td class="num">54</td>
+      <td class="title"><span class="cat-tag" style="background:#e3f2fd;color:#1976d2;">Products</span><a href="https://www.youtube.com/watch?v=fufwh5lBuLQ" target="_blank">AI:  AI  !</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=fufwh5lBuLQ" target="_blank" class="url-link">https://www.youtube.com/watch?v=fufwh5lBuLQ</a></td>
+      <td class="desc">AI OpenAI DeepSeek AI</td>
+    </tr>
+    <tr data-cat="ai">
+      <td class="num">55</td>
+      <td class="title"><span class="cat-tag" style="background:#fff3e0;color:#f57c00;">Ai</span><a href="https://www.youtube.com/watch?v=EKJ_nhn97FE" target="_blank">Differentiated Learning with AI - How Riotouch AI Makes It Possible | RK3588 | AI Whiteboard</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=EKJ_nhn97FE" target="_blank" class="url-link">https://www.youtube.com/watch?v=EKJ_nhn97FE</a></td>
+      <td class="desc">Introducing our AI powered whiteboard software Now you can enhance</td>
+    </tr>
+    <tr data-cat="software">
+      <td class="num">56</td>
+      <td class="title"><span class="cat-tag" style="background:#f3e5f5;color:#7b1fa2;">Software</span><a href="https://www.youtube.com/watch?v=2BrudIiPn0c" target="_blank">Record, Review, and Revise with URrecord!</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=2BrudIiPn0c" target="_blank" class="url-link">https://www.youtube.com/watch?v=2BrudIiPn0c</a></td>
+      <td class="desc">Are you a student looking to ace your classes Or</td>
+    </tr>
+    <tr data-cat="software">
+      <td class="num">57</td>
+      <td class="title"><span class="cat-tag" style="background:#f3e5f5;color:#7b1fa2;">Software</span><a href="https://www.youtube.com/watch?v=_67e1fJiBLM" target="_blank">Introducing Sample-Live: Real-Time Screen Synchronization!</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=_67e1fJiBLM" target="_blank" class="url-link">https://www.youtube.com/watch?v=_67e1fJiBLM</a></td>
+      <td class="desc">With our Sample Live feature you can easily create a</td>
+    </tr>
+    <tr data-cat="software">
+      <td class="num">58</td>
+      <td class="title"><span class="cat-tag" style="background:#f3e5f5;color:#7b1fa2;">Software</span><a href="https://www.youtube.com/watch?v=bSz-_1aAl0Q" target="_blank">Efficient Classroom Timing: Ustopwatch &amp; UTimer Make Quizzes Easy!</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=bSz-_1aAl0Q" target="_blank" class="url-link">https://www.youtube.com/watch?v=bSz-_1aAl0Q</a></td>
+      <td class="desc">Whether you re running a pop quiz or a timed</td>
+    </tr>
+    <tr data-cat="about">
+      <td class="num">59</td>
+      <td class="title"><span class="cat-tag" style="background:#eceff1;color:#546e7a;">About</span><a href="https://www.youtube.com/watch?v=oWdSC-uOKVE" target="_blank">Here��s to a successful start to the new year!</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=oWdSC-uOKVE" target="_blank" class="url-link">https://www.youtube.com/watch?v=oWdSC-uOKVE</a></td>
+      <td class="desc">Start of a new year a fresh beginning Here s</td>
+    </tr>
+    <tr data-cat="software">
+      <td class="num">60</td>
+      <td class="title"><span class="cat-tag" style="background:#f3e5f5;color:#7b1fa2;">Software</span><a href="https://www.youtube.com/watch?v=MvgqRX7K5DI" target="_blank">How to Use UPicture for Seamless Photo Editing &amp; Text Recognition | Smart Whiteboard Software</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=MvgqRX7K5DI" target="_blank" class="url-link">https://www.youtube.com/watch?v=MvgqRX7K5DI</a></td>
+      <td class="desc">Discover the powerful features of UPicture In this video we</td>
+    </tr>
+    <tr data-cat="software">
+      <td class="num">61</td>
+      <td class="title"><span class="cat-tag" style="background:#f3e5f5;color:#7b1fa2;">Software</span><a href="https://www.youtube.com/watch?v=3QLsN8QT7PM" target="_blank">UCut: One-stop screenshot and intelligent sharing tool | Riotouch RK3588</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=3QLsN8QT7PM" target="_blank" class="url-link">https://www.youtube.com/watch?v=3QLsN8QT7PM</a></td>
+      <td class="desc">UCut is an intelligent tool which integrates screenshot editing and</td>
+    </tr>
+    <tr data-cat="software">
+      <td class="num">62</td>
+      <td class="title"><span class="cat-tag" style="background:#f3e5f5;color:#7b1fa2;">Software</span><a href="https://www.youtube.com/watch?v=pkDAJcg6YhI" target="_blank">UFreeze Classroom Management Tool: Boost Student Focus! | Riotouch RK3588</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=pkDAJcg6YhI" target="_blank" class="url-link">https://www.youtube.com/watch?v=pkDAJcg6YhI</a></td>
+      <td class="desc">Tired of classroom distractions UFreeze is your solution Instantly lock</td>
+    </tr>
+    <tr data-cat="software">
+      <td class="num">63</td>
+      <td class="title"><span class="cat-tag" style="background:#f3e5f5;color:#7b1fa2;">Software</span><a href="https://www.youtube.com/watch?v=0Mp70QzGknY" target="_blank">Discover the Power of UMark!</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=0Mp70QzGknY" target="_blank" class="url-link">https://www.youtube.com/watch?v=0Mp70QzGknY</a></td>
+      <td class="desc">Easily annotate customize save and share your ideas with UMark</td>
+    </tr>
+    <tr data-cat="software">
+      <td class="num">64</td>
+      <td class="title"><span class="cat-tag" style="background:#f3e5f5;color:#7b1fa2;">Software</span><a href="https://www.youtube.com/watch?v=yxKl48nlZ5s" target="_blank">Experience Effortless Multi-Account Switching!</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=yxKl48nlZ5s" target="_blank" class="url-link">https://www.youtube.com/watch?v=yxKl48nlZ5s</a></td>
+      <td class="desc">Tired of logging in and out of accounts With our</td>
+    </tr>
+    <tr data-cat="about">
+      <td class="num">65</td>
+      <td class="title"><span class="cat-tag" style="background:#eceff1;color:#546e7a;">About</span><a href="https://www.youtube.com/watch?v=B3wVgRvMEbU" target="_blank">Hello 2025��Happy New Year</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=B3wVgRvMEbU" target="_blank" class="url-link">https://www.youtube.com/watch?v=B3wVgRvMEbU</a></td>
+      <td class="desc">As we bid farewell to 2024 we re proud to</td>
+    </tr>
+    <tr data-cat="software">
+      <td class="num">66</td>
+      <td class="title"><span class="cat-tag" style="background:#f3e5f5;color:#7b1fa2;">Software</span><a href="https://www.youtube.com/watch?v=NLy3iX3mXfo" target="_blank">Streamline Operations with Our Advanced Cloud Solution | DMS, OTA &amp; More</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=NLy3iX3mXfo" target="_blank" class="url-link">https://www.youtube.com/watch?v=NLy3iX3mXfo</a></td>
+      <td class="desc">Discover the ultimate cloud platform designed to revolutionize device management</td>
+    </tr>
+    <tr data-cat="software">
+      <td class="num">67</td>
+      <td class="title"><span class="cat-tag" style="background:#f3e5f5;color:#7b1fa2;">Software</span><a href="https://www.youtube.com/watch?v=nLkO3RH3bE8" target="_blank">Explore DAISY OS: The All-in-One Interactive Software</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=nLkO3RH3bE8" target="_blank" class="url-link">https://www.youtube.com/watch?v=nLkO3RH3bE8</a></td>
+      <td class="desc">Discover Daisy OS the all encompassing software suite designed for</td>
+    </tr>
+    <tr data-cat="software">
+      <td class="num">68</td>
+      <td class="title"><span class="cat-tag" style="background:#f3e5f5;color:#7b1fa2;">Software</span><a href="https://www.youtube.com/watch?v=HYB6NwxhMWg" target="_blank">Unlock Daisy OS: Smart Display Settings Simplified</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=HYB6NwxhMWg" target="_blank" class="url-link">https://www.youtube.com/watch?v=HYB6NwxhMWg</a></td>
+      <td class="desc">Discover how Daisy OS enhances your smart interactive display experience</td>
+    </tr>
+    <tr data-cat="education">
+      <td class="num">69</td>
+      <td class="title"><span class="cat-tag" style="background:#e8f5e9;color:#388e3c;">Education</span><a href="https://www.youtube.com/watch?v=uWe-zz1SMbE" target="_blank">Revolutionize Education with Umind</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=uWe-zz1SMbE" target="_blank" class="url-link">https://www.youtube.com/watch?v=uWe-zz1SMbE</a></td>
+      <td class="desc">All in One Smart Features Recognize Functions Formulas for more</td>
+    </tr>
+    <tr data-cat="software">
+      <td class="num">70</td>
+      <td class="title"><span class="cat-tag" style="background:#f3e5f5;color:#7b1fa2;">Software</span><a href="https://www.youtube.com/watch?v=z13lNkAQLRI" target="_blank">Take Control Like Never Before with Riotouch��s DMS Platform!</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=z13lNkAQLRI" target="_blank" class="url-link">https://www.youtube.com/watch?v=z13lNkAQLRI</a></td>
+      <td class="desc">Key Features of Riotouch DMS 1 Easily configure your panel</td>
+    </tr>
+    <tr data-cat="software">
+      <td class="num">71</td>
+      <td class="title"><span class="cat-tag" style="background:#f3e5f5;color:#7b1fa2;">Software</span><a href="https://www.youtube.com/watch?v=haoJAsuhFMo" target="_blank">Explore Files with Ease on Riotouch Interactive Screens!</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=haoJAsuhFMo" target="_blank" class="url-link">https://www.youtube.com/watch?v=haoJAsuhFMo</a></td>
+      <td class="desc">With Ufile on Riotouch preview and open multiple file formats</td>
+    </tr>
+    <tr data-cat="software">
+      <td class="num">72</td>
+      <td class="title"><span class="cat-tag" style="background:#f3e5f5;color:#7b1fa2;">Software</span><a href="https://www.youtube.com/watch?v=un5rlglcHl4" target="_blank">New in Ufile: Enhanced Preview &amp; Import Features!</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=un5rlglcHl4" target="_blank" class="url-link">https://www.youtube.com/watch?v=un5rlglcHl4</a></td>
+      <td class="desc">Now you can 1 Preview Files Online C Check content</td>
+    </tr>
+    <tr data-cat="software">
+      <td class="num">73</td>
+      <td class="title"><span class="cat-tag" style="background:#f3e5f5;color:#7b1fa2;">Software</span><a href="https://www.youtube.com/watch?v=g4b2Znd-9GI" target="_blank">Discover Urecord: The Smart Feature for Notes and Recordings on Interactive Screens</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=g4b2Znd-9GI" target="_blank" class="url-link">https://www.youtube.com/watch?v=g4b2Znd-9GI</a></td>
+      <td class="desc">Urecord A new app developed by Riotouch can easy to</td>
+    </tr>
+    <tr data-cat="software">
+      <td class="num">74</td>
+      <td class="title"><span class="cat-tag" style="background:#f3e5f5;color:#7b1fa2;">Software</span><a href="https://www.youtube.com/watch?v=pcpGBX3uO_4" target="_blank">Lock Screen����Protect Your Screen with a Password</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=pcpGBX3uO_4" target="_blank" class="url-link">https://www.youtube.com/watch?v=pcpGBX3uO_4</a></td>
+      <td class="desc">Secure your smart interactive screen with our robust password protected</td>
+    </tr>
+    <tr data-cat="education">
+      <td class="num">75</td>
+      <td class="title"><span class="cat-tag" style="background:#e8f5e9;color:#388e3c;">Education</span><a href="https://www.youtube.com/watch?v=cZJURQDER9I" target="_blank">Umind #Whiteboard  by #Riotouch: Comprehensive File Support</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=cZJURQDER9I" target="_blank" class="url-link">https://www.youtube.com/watch?v=cZJURQDER9I</a></td>
+      <td class="desc">Seamless integration for a wide range of file formats Microsoft</td>
+    </tr>
+    <tr data-cat="education">
+      <td class="num">76</td>
+      <td class="title"><span class="cat-tag" style="background:#e8f5e9;color:#388e3c;">Education</span><a href="https://www.youtube.com/watch?v=wvHyEtG7Pco" target="_blank">Transform Learning with 3D Education on Smart Screens</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=wvHyEtG7Pco" target="_blank" class="url-link">https://www.youtube.com/watch?v=wvHyEtG7Pco</a></td>
+      <td class="desc">Experience the future of education with our Smart Interactive Screens</td>
+    </tr>
+    <tr data-cat="software">
+      <td class="num">77</td>
+      <td class="title"><span class="cat-tag" style="background:#f3e5f5;color:#7b1fa2;">Software</span><a href="https://www.youtube.com/watch?v=zfsFRioqWTk" target="_blank">Maximize Efficiency with IFPDS Screen's Ufile File Preview Feature</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=zfsFRioqWTk" target="_blank" class="url-link">https://www.youtube.com/watch?v=zfsFRioqWTk</a></td>
+      <td class="desc">Discover the convenience of previewing multi format Ufile files directly</td>
+    </tr>
+    <tr data-cat="products">
+      <td class="num">78</td>
+      <td class="title"><span class="cat-tag" style="background:#e3f2fd;color:#1976d2;">Products</span><a href="https://www.youtube.com/watch?v=xyytroOBshY" target="_blank">Experience the All-In-One Riotouch AI Camera: Auto-Frame, Panoramic View, and Speaker Focus</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=xyytroOBshY" target="_blank" class="url-link">https://www.youtube.com/watch?v=xyytroOBshY</a></td>
+      <td class="desc">Riotouch AI Camera with advanced Auto Frame technology it keeps</td>
+    </tr>
+    <tr data-cat="software">
+      <td class="num">79</td>
+      <td class="title"><span class="cat-tag" style="background:#f3e5f5;color:#7b1fa2;">Software</span><a href="https://www.youtube.com/watch?v=uYMi69qowG0" target="_blank">UFile Privacy Policy</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=uYMi69qowG0" target="_blank" class="url-link">https://www.youtube.com/watch?v=uYMi69qowG0</a></td>
+      <td class="desc">NA</td>
+    </tr>
+    <tr data-cat="products">
+      <td class="num">80</td>
+      <td class="title"><span class="cat-tag" style="background:#e3f2fd;color:#1976d2;">Products</span><a href="https://www.youtube.com/watch?v=SqSxS_nFki0" target="_blank">Universal Mobile TV Stand</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=SqSxS_nFki0" target="_blank" class="url-link">https://www.youtube.com/watch?v=SqSxS_nFki0</a></td>
+      <td class="desc">Adapt to 55 110 inch large screen Efficient conference office</td>
+    </tr>
+    <tr data-cat="software">
+      <td class="num">81</td>
+      <td class="title"><span class="cat-tag" style="background:#f3e5f5;color:#7b1fa2;">Software</span><a href="https://www.youtube.com/watch?v=wHggRnrswC4" target="_blank">Discover the Ufile Management Experience!</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=wHggRnrswC4" target="_blank" class="url-link">https://www.youtube.com/watch?v=wHggRnrswC4</a></td>
+      <td class="desc">Introducing our advanced File Manager designed to seamlessly integrate with</td>
+    </tr>
+    <tr data-cat="education">
+      <td class="num">82</td>
+      <td class="title"><span class="cat-tag" style="background:#e8f5e9;color:#388e3c;">Education</span><a href="https://www.youtube.com/watch?v=lRJcHufzh2U" target="_blank">PhET  introduces and welcomes Riotouch</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=lRJcHufzh2U" target="_blank" class="url-link">https://www.youtube.com/watch?v=lRJcHufzh2U</a></td>
+      <td class="desc">Kathy Perkins Director of PhET proudly introduces and welcomes our</td>
+    </tr>
+    <tr data-cat="products">
+      <td class="num">83</td>
+      <td class="title"><span class="cat-tag" style="background:#e3f2fd;color:#1976d2;">Products</span><a href="https://www.youtube.com/watch?v=bYM3epJDK7k" target="_blank">Big size interactive flat pannel</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=bYM3epJDK7k" target="_blank" class="url-link">https://www.youtube.com/watch?v=bYM3epJDK7k</a></td>
+      <td class="desc">Riotouch features ultra large interactive touch screens ranging from 98</td>
+    </tr>
+    <tr data-cat="software">
+      <td class="num">84</td>
+      <td class="title"><span class="cat-tag" style="background:#f3e5f5;color:#7b1fa2;">Software</span><a href="https://www.youtube.com/watch?v=07788RTgTy4" target="_blank">Riotouch Ufile</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=07788RTgTy4" target="_blank" class="url-link">https://www.youtube.com/watch?v=07788RTgTy4</a></td>
+      <td class="desc">One single login to access Google Drive One Drive or</td>
+    </tr>
+    <tr data-cat="ai">
+      <td class="num">85</td>
+      <td class="title"><span class="cat-tag" style="background:#fff3e0;color:#f57c00;">Ai</span><a href="https://www.youtube.com/watch?v=7npPNZCX1Zw" target="_blank">AI powered whiteboard software Umind</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=7npPNZCX1Zw" target="_blank" class="url-link">https://www.youtube.com/watch?v=7npPNZCX1Zw</a></td>
+      <td class="desc">Unleash Your Imagination through Umind s AI Pen A Seamless</td>
+    </tr>
+    <tr data-cat="products">
+      <td class="num">86</td>
+      <td class="title"><span class="cat-tag" style="background:#e3f2fd;color:#1976d2;">Products</span><a href="https://www.youtube.com/watch?v=TaqpVms2G6c" target="_blank">ADV311D2</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=TaqpVms2G6c" target="_blank" class="url-link">https://www.youtube.com/watch?v=TaqpVms2G6c</a></td>
+      <td class="desc">Experience Unprecedented Collaboration with ADV311D2 Featuring an expansive multi size</td>
+    </tr>
+    <tr data-cat="education">
+      <td class="num">87</td>
+      <td class="title"><span class="cat-tag" style="background:#e8f5e9;color:#388e3c;">Education</span><a href="https://www.youtube.com/watch?v=iHfH4WbQLi8" target="_blank">Teaching Resource</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=iHfH4WbQLi8" target="_blank" class="url-link">https://www.youtube.com/watch?v=iHfH4WbQLi8</a></td>
+      <td class="desc">Unlock the full potential of your teaching with Teaching Resource</td>
+    </tr>
+    <tr data-cat="software">
+      <td class="num">88</td>
+      <td class="title"><span class="cat-tag" style="background:#f3e5f5;color:#7b1fa2;">Software</span><a href="https://www.youtube.com/watch?v=rfgew5wptxk" target="_blank">.Riotouch Software - Umind</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=rfgew5wptxk" target="_blank" class="url-link">https://www.youtube.com/watch?v=rfgew5wptxk</a></td>
+      <td class="desc">Discover Riotouch Umind the whiteboard app designed to enhance your</td>
+    </tr>
+    <tr data-cat="products">
+      <td class="num">89</td>
+      <td class="title"><span class="cat-tag" style="background:#e3f2fd;color:#1976d2;">Products</span><a href="https://www.youtube.com/watch?v=gyXAITq4nqs" target="_blank">RK3588</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=gyXAITq4nqs" target="_blank" class="url-link">https://www.youtube.com/watch?v=gyXAITq4nqs</a></td>
+      <td class="desc">Revolutionize the way you collaborate with the RioTouch RK3588 Interactive</td>
+    </tr>
+    <tr data-cat="products">
+      <td class="num">90</td>
+      <td class="title"><span class="cat-tag" style="background:#e3f2fd;color:#1976d2;">Products</span><a href="https://www.youtube.com/watch?v=MrsqUGzzgEs" target="_blank">OEMODM Packing</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=MrsqUGzzgEs" target="_blank" class="url-link">https://www.youtube.com/watch?v=MrsqUGzzgEs</a></td>
+      <td class="desc">Product packaging can also provide customized services the central area</td>
+    </tr>
+    <tr data-cat="software">
+      <td class="num">91</td>
+      <td class="title"><span class="cat-tag" style="background:#f3e5f5;color:#7b1fa2;">Software</span><a href="https://www.youtube.com/watch?v=zo64jNzOjkQ" target="_blank">DMS class monitoring</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=zo64jNzOjkQ" target="_blank" class="url-link">https://www.youtube.com/watch?v=zo64jNzOjkQ</a></td>
+      <td class="desc">Strongest Interactive flat panel Device Management system One device Monitoring</td>
+    </tr>
+    <tr data-cat="factory">
+      <td class="num">92</td>
+      <td class="title"><span class="cat-tag" style="background:#e0f2f1;color:#00695c;">Factory</span><a href="https://www.youtube.com/watch?v=9SwJNfiD0yU" target="_blank">Riotouch Interactive Flat Panels Production Process</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=9SwJNfiD0yU" target="_blank" class="url-link">https://www.youtube.com/watch?v=9SwJNfiD0yU</a></td>
+      <td class="desc">smartboard interactivedisplay interactivewhiteboard ifp oemodm</td>
+    </tr>
+    <tr data-cat="software">
+      <td class="num">93</td>
+      <td class="title"><span class="cat-tag" style="background:#f3e5f5;color:#7b1fa2;">Software</span><a href="https://www.youtube.com/watch?v=AjZugqKniyE" target="_blank">Riotouch Smart Class Cloud Solutions</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=AjZugqKniyE" target="_blank" class="url-link">https://www.youtube.com/watch?v=AjZugqKniyE</a></td>
+      <td class="desc">usermanagement ota dms text message announcement appstoremanagement Learning Resources</td>
+    </tr>
+    <tr data-cat="software">
+      <td class="num">94</td>
+      <td class="title"><span class="cat-tag" style="background:#f3e5f5;color:#7b1fa2;">Software</span><a href="https://www.youtube.com/watch?v=Z4L2TG7ILPI" target="_blank">Umind-eraser</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=Z4L2TG7ILPI" target="_blank" class="url-link">https://www.youtube.com/watch?v=Z4L2TG7ILPI</a></td>
+      <td class="desc">Using the eraser function of Umind software you can erase</td>
+    </tr>
+    <tr data-cat="software">
+      <td class="num">95</td>
+      <td class="title"><span class="cat-tag" style="background:#f3e5f5;color:#7b1fa2;">Software</span><a href="https://www.youtube.com/watch?v=1k_0rD-QAnI" target="_blank">Umind-share QR code</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=1k_0rD-QAnI" target="_blank" class="url-link">https://www.youtube.com/watch?v=1k_0rD-QAnI</a></td>
+      <td class="desc">Use the Umind software QR code function to scan the</td>
+    </tr>
+    <tr data-cat="software">
+      <td class="num">96</td>
+      <td class="title"><span class="cat-tag" style="background:#f3e5f5;color:#7b1fa2;">Software</span><a href="https://www.youtube.com/watch?v=01s16fc7kwM" target="_blank">Umind-save files in multiple formats</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=01s16fc7kwM" target="_blank" class="url-link">https://www.youtube.com/watch?v=01s16fc7kwM</a></td>
+      <td class="desc">Using Umind software you can save your writings in different</td>
+    </tr>
+    <tr data-cat="products">
+      <td class="num">97</td>
+      <td class="title"><span class="cat-tag" style="background:#e3f2fd;color:#1976d2;">Products</span><a href="https://www.youtube.com/watch?v=woJhC10ZckY" target="_blank">OEM/ODM for motherboard</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=woJhC10ZckY" target="_blank" class="url-link">https://www.youtube.com/watch?v=woJhC10ZckY</a></td>
+      <td class="desc">Different motherboards cater to varied customer needs providing value and</td>
+    </tr>
+    <tr data-cat="products">
+      <td class="num">98</td>
+      <td class="title"><span class="cat-tag" style="background:#e3f2fd;color:#1976d2;">Products</span><a href="https://www.youtube.com/watch?v=-PZ0RHE5j7Q" target="_blank">ID design for OEM/ODM solutions</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=-PZ0RHE5j7Q" target="_blank" class="url-link">https://www.youtube.com/watch?v=-PZ0RHE5j7Q</a></td>
+      <td class="desc">Various design configurations across different series to meet diverse needs</td>
+    </tr>
+    <tr data-cat="factory">
+      <td class="num">99</td>
+      <td class="title"><span class="cat-tag" style="background:#e0f2f1;color:#00695c;">Factory</span><a href="https://www.youtube.com/watch?v=S5BlhDwqJdc" target="_blank">SKD/CKD production line</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=S5BlhDwqJdc" target="_blank" class="url-link">https://www.youtube.com/watch?v=S5BlhDwqJdc</a></td>
+      <td class="desc">Riotouch Top CKD Interactive Whiteboard Manufacturer from China offering high</td>
+    </tr>
+    <tr data-cat="products">
+      <td class="num">100</td>
+      <td class="title"><span class="cat-tag" style="background:#e3f2fd;color:#1976d2;">Products</span><a href="https://www.youtube.com/watch?v=nGTReGpOsh8" target="_blank">T982</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=nGTReGpOsh8" target="_blank" class="url-link">https://www.youtube.com/watch?v=nGTReGpOsh8</a></td>
+      <td class="desc">interactivedisplays education whiteboard interactive</td>
+    </tr>
+    <tr data-cat="products">
+      <td class="num">101</td>
+      <td class="title"><span class="cat-tag" style="background:#e3f2fd;color:#1976d2;">Products</span><a href="https://www.youtube.com/watch?v=w1M0UGrsDMw" target="_blank">ADV100</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=w1M0UGrsDMw" target="_blank" class="url-link">https://www.youtube.com/watch?v=w1M0UGrsDMw</a></td>
+      <td class="desc">interactivedisplays education whiteboard interactive k12</td>
+    </tr>
+    <tr data-cat="products">
+      <td class="num">102</td>
+      <td class="title"><span class="cat-tag" style="background:#e3f2fd;color:#1976d2;">Products</span><a href="https://www.youtube.com/watch?v=DNGYCFLOmA8" target="_blank">Interactive Flat Panel</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=DNGYCFLOmA8" target="_blank" class="url-link">https://www.youtube.com/watch?v=DNGYCFLOmA8</a></td>
+      <td class="desc">Discover Interactive Displays That are Revolutionizing Modern Classrooms and Businesses</td>
+    </tr>
+    <tr data-cat="products">
+      <td class="num">103</td>
+      <td class="title"><span class="cat-tag" style="background:#e3f2fd;color:#1976d2;">Products</span><a href="https://www.youtube.com/watch?v=8piQNCLM8TA" target="_blank">ADV311D2</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=8piQNCLM8TA" target="_blank" class="url-link">https://www.youtube.com/watch?v=8piQNCLM8TA</a></td>
+      <td class="desc">Riotouch Interactive Board Enriches Meetings And Lessons With Advanced Technology</td>
+    </tr>
+    <tr data-cat="events">
+      <td class="num">104</td>
+      <td class="title"><span class="cat-tag" style="background:#fce4ec;color:#c2185b;">Events</span><a href="https://www.youtube.com/watch?v=Vzz3oSZbj0E" target="_blank">MMCO in Russia</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=Vzz3oSZbj0E" target="_blank" class="url-link">https://www.youtube.com/watch?v=Vzz3oSZbj0E</a></td>
+      <td class="desc">MMCO in Russia Education exhibiting in Moscow DMS MDM with</td>
+    </tr>
+    <tr data-cat="about">
+      <td class="num">105</td>
+      <td class="title"><span class="cat-tag" style="background:#eceff1;color:#546e7a;">About</span><a href="https://www.youtube.com/watch?v=GMt8PtT1rqg" target="_blank">Coming back to work after the Spring Festival</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=GMt8PtT1rqg" target="_blank" class="url-link">https://www.youtube.com/watch?v=GMt8PtT1rqg</a></td>
+      <td class="desc">Happy 2024 Coming back to work after the Spring Festival</td>
+    </tr>
+    <tr data-cat="events">
+      <td class="num">106</td>
+      <td class="title"><span class="cat-tag" style="background:#fce4ec;color:#c2185b;">Events</span><a href="https://www.youtube.com/watch?v=fIqFkJ4i21o" target="_blank">Exciting News from CES 2024!</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=fIqFkJ4i21o" target="_blank" class="url-link">https://www.youtube.com/watch?v=fIqFkJ4i21o</a></td>
+      <td class="desc">Partycube steals the spotlight with its innovative features and electrifying</td>
+    </tr>
+    <tr data-cat="about">
+      <td class="num">107</td>
+      <td class="title"><span class="cat-tag" style="background:#eceff1;color:#546e7a;">About</span><a href="https://www.youtube.com/watch?v=OeVEfx4zKI0" target="_blank">Riotouch Interactive Board Manufacturer</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=OeVEfx4zKI0" target="_blank" class="url-link">https://www.youtube.com/watch?v=OeVEfx4zKI0</a></td>
+      <td class="desc">Riotouch A premier interactive board manufacturer offering OEM and ODM</td>
+    </tr>
+    <tr data-cat="education">
+      <td class="num">108</td>
+      <td class="title"><span class="cat-tag" style="background:#e8f5e9;color:#388e3c;">Education</span><a href="https://www.youtube.com/watch?v=FiSNjaBH1G0" target="_blank">Interactive Whiteboard Functions</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=FiSNjaBH1G0" target="_blank" class="url-link">https://www.youtube.com/watch?v=FiSNjaBH1G0</a></td>
+      <td class="desc">Unleash the magic of our interactive whiteboard Remote Unlocking Control</td>
+    </tr>
+    <tr data-cat="products">
+      <td class="num">109</td>
+      <td class="title"><span class="cat-tag" style="background:#e3f2fd;color:#1976d2;">Products</span><a href="https://www.youtube.com/watch?v=6ApKgTkMJvs" target="_blank">New PartyCube Arrving!</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=6ApKgTkMJvs" target="_blank" class="url-link">https://www.youtube.com/watch?v=6ApKgTkMJvs</a></td>
+      <td class="desc">New PartyCube Arrving Tell us which color you like and</td>
+    </tr>
+    <tr data-cat="about">
+      <td class="num">110</td>
+      <td class="title"><span class="cat-tag" style="background:#eceff1;color:#546e7a;">About</span><a href="https://www.youtube.com/watch?v=sKxpU4udePI" target="_blank">Greeting from Riotouch, we are offering interactive smart board</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=sKxpU4udePI" target="_blank" class="url-link">https://www.youtube.com/watch?v=sKxpU4udePI</a></td>
+      <td class="desc">Greeting from Riotouch we are offering interactive smart board for</td>
+    </tr>
+    <tr data-cat="products">
+      <td class="num">111</td>
+      <td class="title"><span class="cat-tag" style="background:#e3f2fd;color:#1976d2;">Products</span><a href="https://www.youtube.com/watch?v=bXeO2lioEYQ" target="_blank">Nano Smart Blackboard From Riotouch</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=bXeO2lioEYQ" target="_blank" class="url-link">https://www.youtube.com/watch?v=bXeO2lioEYQ</a></td>
+      <td class="desc">Nano Smart Blackboard open your new era of smart classroom</td>
+    </tr>
+    <tr data-cat="factory">
+      <td class="num">112</td>
+      <td class="title"><span class="cat-tag" style="background:#e0f2f1;color:#00695c;">Factory</span><a href="https://www.youtube.com/watch?v=A1ZIeLtg2-Y" target="_blank">Riotouch Professional Factory of Interactive Board</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=A1ZIeLtg2-Y" target="_blank" class="url-link">https://www.youtube.com/watch?v=A1ZIeLtg2-Y</a></td>
+      <td class="desc">Thanks for every business partner visting Riotouch As a professional</td>
+    </tr>
+    <tr data-cat="about">
+      <td class="num">113</td>
+      <td class="title"><span class="cat-tag" style="background:#eceff1;color:#546e7a;">About</span><a href="https://www.youtube.com/watch?v=5yAWjppWviA" target="_blank">Welcome to Riotouch</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=5yAWjppWviA" target="_blank" class="url-link">https://www.youtube.com/watch?v=5yAWjppWviA</a></td>
+      <td class="desc">Welcome to visit Riotouch Professional Interactive Display Manufacturer Globally looking</td>
+    </tr>
+    <tr data-cat="events">
+      <td class="num">114</td>
+      <td class="title"><span class="cat-tag" style="background:#fce4ec;color:#c2185b;">Events</span><a href="https://www.youtube.com/watch?v=Sr-e-pvaBPs" target="_blank">Electrolar Show Brazil 2023</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=Sr-e-pvaBPs" target="_blank" class="url-link">https://www.youtube.com/watch?v=Sr-e-pvaBPs</a></td>
+      <td class="desc">We just finished Electrolar Show Brazil 2023 during the show</td>
+    </tr>
+    <tr data-cat="education">
+      <td class="num">115</td>
+      <td class="title"><span class="cat-tag" style="background:#e8f5e9;color:#388e3c;">Education</span><a href="https://www.youtube.com/watch?v=hEy3aw17tDw" target="_blank">interactive Whiteboard, make more interactive education</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=hEy3aw17tDw" target="_blank" class="url-link">https://www.youtube.com/watch?v=hEy3aw17tDw</a></td>
+      <td class="desc">interactive Whiteboard make more interactive education Globally looking for resellers</td>
+    </tr>
+    <tr data-cat="education">
+      <td class="num">116</td>
+      <td class="title"><span class="cat-tag" style="background:#e8f5e9;color:#388e3c;">Education</span><a href="https://www.youtube.com/watch?v=3d7BJkf_xcc" target="_blank">Interactive Whiteboard &amp; Funny Classroom</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=3d7BJkf_xcc" target="_blank" class="url-link">https://www.youtube.com/watch?v=3d7BJkf_xcc</a></td>
+      <td class="desc">Interactive whiteboard can make you a funny classroom see how</td>
+    </tr>
+    <tr data-cat="products">
+      <td class="num">117</td>
+      <td class="title"><span class="cat-tag" style="background:#e3f2fd;color:#1976d2;">Products</span><a href="https://www.youtube.com/watch?v=Y1qah08usmg" target="_blank">OPS Computer, Make your interactive screen better proformance</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=Y1qah08usmg" target="_blank" class="url-link">https://www.youtube.com/watch?v=Y1qah08usmg</a></td>
+      <td class="desc">Looking for OPS System Want to have better proformance in</td>
+    </tr>
+    <tr data-cat="events">
+      <td class="num">118</td>
+      <td class="title"><span class="cat-tag" style="background:#fce4ec;color:#c2185b;">Events</span><a href="https://www.youtube.com/watch?v=gPzsH39kEVc" target="_blank">Electrolar Show Brazil 2023, Coming soon</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=gPzsH39kEVc" target="_blank" class="url-link">https://www.youtube.com/watch?v=gPzsH39kEVc</a></td>
+      <td class="desc">ElectrolarShowBrazil2023 Riotouch New Products Looking Forward To It Globally looking</td>
+    </tr>
+    <tr data-cat="education">
+      <td class="num">119</td>
+      <td class="title"><span class="cat-tag" style="background:#e8f5e9;color:#388e3c;">Education</span><a href="https://www.youtube.com/watch?v=LGL1p2a2U60" target="_blank">Riotouch Smart Classroom</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=LGL1p2a2U60" target="_blank" class="url-link">https://www.youtube.com/watch?v=LGL1p2a2U60</a></td>
+      <td class="desc">Let riotouch help you to build a smart era for</td>
+    </tr>
+    <tr data-cat="products">
+      <td class="num">120</td>
+      <td class="title"><span class="cat-tag" style="background:#e3f2fd;color:#1976d2;">Products</span><a href="https://www.youtube.com/watch?v=2d_f5VcauZM" target="_blank">Interactive Nano Blackboard</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=2d_f5VcauZM" target="_blank" class="url-link">https://www.youtube.com/watch?v=2d_f5VcauZM</a></td>
+      <td class="desc">If you are looking for a new technology classroom you</td>
+    </tr>
+    <tr data-cat="factory">
+      <td class="num">121</td>
+      <td class="title"><span class="cat-tag" style="background:#e0f2f1;color:#00695c;">Factory</span><a href="https://www.youtube.com/watch?v=2S6TlydJOxo" target="_blank">New Exhibition Hall</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=2S6TlydJOxo" target="_blank" class="url-link">https://www.youtube.com/watch?v=2S6TlydJOxo</a></td>
+      <td class="desc">Our new exhibition hall has been done if you are</td>
+    </tr>
+    <tr data-cat="factory">
+      <td class="num">122</td>
+      <td class="title"><span class="cat-tag" style="background:#e0f2f1;color:#00695c;">Factory</span><a href="https://www.youtube.com/watch?v=H3fJiM-Xdfs" target="_blank">Visit Riotouch OEM/ODM Factory</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=H3fJiM-Xdfs" target="_blank" class="url-link">https://www.youtube.com/watch?v=H3fJiM-Xdfs</a></td>
+      <td class="desc">Riotouch Professional Interactive Display OEM ODM Manufacturer Stay with us</td>
+    </tr>
+    <tr data-cat="products">
+      <td class="num">123</td>
+      <td class="title"><span class="cat-tag" style="background:#e3f2fd;color:#1976d2;">Products</span><a href="https://www.youtube.com/watch?v=UO-T1jYSalU" target="_blank">Don't miss out Partycube Karaoke System.</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=UO-T1jYSalU" target="_blank" class="url-link">https://www.youtube.com/watch?v=UO-T1jYSalU</a></td>
+      <td class="desc">Don t miss out Partycube Karaoke System Globally looking for</td>
+    </tr>
+    <tr data-cat="factory">
+      <td class="num">124</td>
+      <td class="title"><span class="cat-tag" style="background:#e0f2f1;color:#00695c;">Factory</span><a href="https://www.youtube.com/watch?v=535uWuGcHgg" target="_blank">new exhibition hall</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=535uWuGcHgg" target="_blank" class="url-link">https://www.youtube.com/watch?v=535uWuGcHgg</a></td>
+      <td class="desc">Hi Welcome to visit our new exhibition hall in 2023</td>
+    </tr>
+    <tr data-cat="about">
+      <td class="num">125</td>
+      <td class="title"><span class="cat-tag" style="background:#eceff1;color:#546e7a;">About</span><a href="https://www.youtube.com/watch?v=WXPaugVO3ws" target="_blank">2023 Visit China, Visit DongGuan, Visit Riotouch!</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=WXPaugVO3ws" target="_blank" class="url-link">https://www.youtube.com/watch?v=WXPaugVO3ws</a></td>
+      <td class="desc">2023 Visit China Visit DongGuan Visit Riotouch How long you</td>
+    </tr>
+    <tr data-cat="events">
+      <td class="num">126</td>
+      <td class="title"><span class="cat-tag" style="background:#fce4ec;color:#c2185b;">Events</span><a href="https://www.youtube.com/watch?v=hXJc5CWOiq4" target="_blank">Wonderful Moments ISE 2023</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=hXJc5CWOiq4" target="_blank" class="url-link">https://www.youtube.com/watch?v=hXJc5CWOiq4</a></td>
+      <td class="desc">023 ISE Wonderful Show Globally looking for resellers and OEM</td>
+    </tr>
+    <tr data-cat="about">
+      <td class="num">127</td>
+      <td class="title"><span class="cat-tag" style="background:#eceff1;color:#546e7a;">About</span><a href="https://www.youtube.com/watch?v=i_Z7iD4FXpM" target="_blank">HAPPY LUNAR NEW YEAR</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=i_Z7iD4FXpM" target="_blank" class="url-link">https://www.youtube.com/watch?v=i_Z7iD4FXpM</a></td>
+      <td class="desc">Happy Lunar New Year Of 2023 Better luck and wealth</td>
+    </tr>
+    <tr data-cat="about">
+      <td class="num">128</td>
+      <td class="title"><span class="cat-tag" style="background:#eceff1;color:#546e7a;">About</span><a href="https://www.youtube.com/watch?v=CxOP1wX15fc" target="_blank">Merry Christmas</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=CxOP1wX15fc" target="_blank" class="url-link">https://www.youtube.com/watch?v=CxOP1wX15fc</a></td>
+      <td class="desc">Merry Christmas and Lets welcome 2023 with hope and faith</td>
+    </tr>
+    <tr data-cat="about">
+      <td class="num">129</td>
+      <td class="title"><span class="cat-tag" style="background:#eceff1;color:#546e7a;">About</span><a href="https://www.youtube.com/watch?v=ixOac6nphwo" target="_blank">Riotouch global business trip</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=ixOac6nphwo" target="_blank" class="url-link">https://www.youtube.com/watch?v=ixOac6nphwo</a></td>
+      <td class="desc">Another group of Riotouch soldiers take global business trip Lets</td>
+    </tr>
+    <tr data-cat="events">
+      <td class="num">130</td>
+      <td class="title"><span class="cat-tag" style="background:#fce4ec;color:#c2185b;">Events</span><a href="https://www.youtube.com/watch?v=Xs7WOvFk5Rg" target="_blank">ISE2033-Barcelona</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=Xs7WOvFk5Rg" target="_blank" class="url-link">https://www.youtube.com/watch?v=Xs7WOvFk5Rg</a></td>
+      <td class="desc">Embrace New Era Know New Technology Riotouch is about to</td>
+    </tr>
+    <tr data-cat="about">
+      <td class="num">131</td>
+      <td class="title"><span class="cat-tag" style="background:#eceff1;color:#546e7a;">About</span><a href="https://www.youtube.com/watch?v=7F7A6Ekdp_w" target="_blank">Riotouch Business Trip Season - Central Asia and Turkey</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=7F7A6Ekdp_w" target="_blank" class="url-link">https://www.youtube.com/watch?v=7F7A6Ekdp_w</a></td>
+      <td class="desc">After three years long covid 19 lockdown of international trip</td>
+    </tr>
+    <tr data-cat="about">
+      <td class="num">132</td>
+      <td class="title"><span class="cat-tag" style="background:#eceff1;color:#546e7a;">About</span><a href="https://www.youtube.com/watch?v=SbCGlUlwimI" target="_blank">Enjoy Worldcup 2022</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=SbCGlUlwimI" target="_blank" class="url-link">https://www.youtube.com/watch?v=SbCGlUlwimI</a></td>
+      <td class="desc">How you feel about first week of Qatar Worldcup 2022</td>
+    </tr>
+    <tr data-cat="events">
+      <td class="num">133</td>
+      <td class="title"><span class="cat-tag" style="background:#fce4ec;color:#c2185b;">Events</span><a href="https://www.youtube.com/watch?v=Be035nisj7c" target="_blank">ISE 2023, Expecting Newest Products &amp; Solutions.</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=Be035nisj7c" target="_blank" class="url-link">https://www.youtube.com/watch?v=Be035nisj7c</a></td>
+      <td class="desc">ISE 2023 Expecting Newest Products Solutions We have many suprising</td>
+    </tr>
+    <tr data-cat="tutorials">
+      <td class="num">134</td>
+      <td class="title"><span class="cat-tag" style="background:#fff8e1;color:#ff8f00;">Tutorials</span><a href="https://www.youtube.com/watch?v=D_3fVnY8ZuM" target="_blank">Screen projection of iPhone</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=D_3fVnY8ZuM" target="_blank" class="url-link">https://www.youtube.com/watch?v=D_3fVnY8ZuM</a></td>
+      <td class="desc">Globally looking for resellers and OEM ODM business cooperation more</td>
+    </tr>
+    <tr data-cat="about">
+      <td class="num">135</td>
+      <td class="title"><span class="cat-tag" style="background:#eceff1;color:#546e7a;">About</span><a href="https://www.youtube.com/watch?v=b8sRvtWZ8KI" target="_blank">Get Interactive Display Demo</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=b8sRvtWZ8KI" target="_blank" class="url-link">https://www.youtube.com/watch?v=b8sRvtWZ8KI</a></td>
+      <td class="desc">Have you think about change your traditional whiteboard to a</td>
+    </tr>
+    <tr data-cat="education">
+      <td class="num">136</td>
+      <td class="title"><span class="cat-tag" style="background:#e8f5e9;color:#388e3c;">Education</span><a href="https://www.youtube.com/watch?v=HIlm8mVZIVA" target="_blank">How Interactive Whiteboard Change Your Classroom - Part Two</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=HIlm8mVZIVA" target="_blank" class="url-link">https://www.youtube.com/watch?v=HIlm8mVZIVA</a></td>
+      <td class="desc">How Interactive Whiteboard Change Your Classroom Let s See Part</td>
+    </tr>
+    <tr data-cat="education">
+      <td class="num">137</td>
+      <td class="title"><span class="cat-tag" style="background:#e8f5e9;color:#388e3c;">Education</span><a href="https://www.youtube.com/watch?v=D35lWWFwtIs" target="_blank">How Interactive Whiteboard Make Difference In Your Classroom? - Part One</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=D35lWWFwtIs" target="_blank" class="url-link">https://www.youtube.com/watch?v=D35lWWFwtIs</a></td>
+      <td class="desc">How Interactive Whiteboard Make Difference In Your Classroom If You</td>
+    </tr>
+    <tr data-cat="about">
+      <td class="num">138</td>
+      <td class="title"><span class="cat-tag" style="background:#eceff1;color:#546e7a;">About</span><a href="https://www.youtube.com/watch?v=JrWOGDp7BGc" target="_blank">Happy Middle Autumn</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=JrWOGDp7BGc" target="_blank" class="url-link">https://www.youtube.com/watch?v=JrWOGDp7BGc</a></td>
+      <td class="desc">Happy Middle Autumn and we are going to bomb the</td>
+    </tr>
+    <tr data-cat="products">
+      <td class="num">139</td>
+      <td class="title"><span class="cat-tag" style="background:#e3f2fd;color:#1976d2;">Products</span><a href="https://www.youtube.com/watch?v=2DKfIR2-QFg" target="_blank">What's behind the LTADV982?</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=2DKfIR2-QFg" target="_blank" class="url-link">https://www.youtube.com/watch?v=2DKfIR2-QFg</a></td>
+      <td class="desc">Let s see how various can all these ports from</td>
+    </tr>
+    <tr data-cat="factory">
+      <td class="num">140</td>
+      <td class="title"><span class="cat-tag" style="background:#e0f2f1;color:#00695c;">Factory</span><a href="https://www.youtube.com/watch?v=V1wUBfdbQEA" target="_blank">Riotouch Factory Show - Final Part</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=V1wUBfdbQEA" target="_blank" class="url-link">https://www.youtube.com/watch?v=V1wUBfdbQEA</a></td>
+      <td class="desc">Riotouch Factory Show Final Part As a Professional Interactive display</td>
+    </tr>
+    <tr data-cat="products">
+      <td class="num">141</td>
+      <td class="title"><span class="cat-tag" style="background:#e3f2fd;color:#1976d2;">Products</span><a href="https://www.youtube.com/watch?v=1ME-Fh06-P0" target="_blank">LT982 Amazing Functions</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=1ME-Fh06-P0" target="_blank" class="url-link">https://www.youtube.com/watch?v=1ME-Fh06-P0</a></td>
+      <td class="desc">1 Full Functions USB C Ports 2 Scan To Save</td>
+    </tr>
+    <tr data-cat="factory">
+      <td class="num">142</td>
+      <td class="title"><span class="cat-tag" style="background:#e0f2f1;color:#00695c;">Factory</span><a href="https://www.youtube.com/watch?v=2F_bJlMR9yU" target="_blank">Riotouch Factory Show - Second Part</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=2F_bJlMR9yU" target="_blank" class="url-link">https://www.youtube.com/watch?v=2F_bJlMR9yU</a></td>
+      <td class="desc">Learn how interactive display been made out and see how</td>
+    </tr>
+    <tr data-cat="factory">
+      <td class="num">143</td>
+      <td class="title"><span class="cat-tag" style="background:#e0f2f1;color:#00695c;">Factory</span><a href="https://www.youtube.com/watch?v=VVzoeEUi4M4" target="_blank">Riotouch Factory Show - First Part</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=VVzoeEUi4M4" target="_blank" class="url-link">https://www.youtube.com/watch?v=VVzoeEUi4M4</a></td>
+      <td class="desc">Riotouch Factory Show First Part If you re curious about</td>
+    </tr>
+    <tr data-cat="software">
+      <td class="num">144</td>
+      <td class="title"><span class="cat-tag" style="background:#f3e5f5;color:#7b1fa2;">Software</span><a href="https://www.youtube.com/watch?v=3LORL4Us8k8" target="_blank">Interactive Whiteboard Software</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=3LORL4Us8k8" target="_blank" class="url-link">https://www.youtube.com/watch?v=3LORL4Us8k8</a></td>
+      <td class="desc">NA</td>
+    </tr>
+    <tr data-cat="software">
+      <td class="num">145</td>
+      <td class="title"><span class="cat-tag" style="background:#f3e5f5;color:#7b1fa2;">Software</span><a href="https://www.youtube.com/watch?v=tX425Hrd63o" target="_blank">Part �� for Amazing U-mind Whiteboard App</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=tX425Hrd63o" target="_blank" class="url-link">https://www.youtube.com/watch?v=tX425Hrd63o</a></td>
+      <td class="desc">What You Can See In Part 1 Freely Adjust Elements</td>
+    </tr>
+    <tr data-cat="software">
+      <td class="num">146</td>
+      <td class="title"><span class="cat-tag" style="background:#f3e5f5;color:#7b1fa2;">Software</span><a href="https://www.youtube.com/watch?v=dWG6znWuhj0" target="_blank">U-mind Whiteboard App - Part ��</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=dWG6znWuhj0" target="_blank" class="url-link">https://www.youtube.com/watch?v=dWG6znWuhj0</a></td>
+      <td class="desc">How amazing can U mind whiteboard software be Check this</td>
+    </tr>
+    <tr data-cat="software">
+      <td class="num">147</td>
+      <td class="title"><span class="cat-tag" style="background:#f3e5f5;color:#7b1fa2;">Software</span><a href="https://www.youtube.com/watch?v=XAUpJk03kwc" target="_blank">Scan to Save&amp;Share</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=XAUpJk03kwc" target="_blank" class="url-link">https://www.youtube.com/watch?v=XAUpJk03kwc</a></td>
+      <td class="desc">Easy take away contents from class and meeting energize your</td>
+    </tr>
+    <tr data-cat="about">
+      <td class="num">148</td>
+      <td class="title"><span class="cat-tag" style="background:#eceff1;color:#546e7a;">About</span><a href="https://www.youtube.com/watch?v=8E3516nBzGU" target="_blank">Riotouch Interactive Display Manufacturer</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=8E3516nBzGU" target="_blank" class="url-link">https://www.youtube.com/watch?v=8E3516nBzGU</a></td>
+      <td class="desc">Hello welcome to Riotouch we dedicate to produce better interactive</td>
+    </tr>
+    <tr data-cat="products">
+      <td class="num">149</td>
+      <td class="title"><span class="cat-tag" style="background:#e3f2fd;color:#1976d2;">Products</span><a href="https://www.youtube.com/watch?v=SQwc37lLfHc" target="_blank">Smart Blackboard, Interactive Education</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=SQwc37lLfHc" target="_blank" class="url-link">https://www.youtube.com/watch?v=SQwc37lLfHc</a></td>
+      <td class="desc">Riotouch Smart Blackboard easily make your classroom alive combine tradition</td>
+    </tr>
+    <tr data-cat="factory">
+      <td class="num">150</td>
+      <td class="title"><span class="cat-tag" style="background:#e0f2f1;color:#00695c;">Factory</span><a href="https://www.youtube.com/watch?v=3HZvcjhtj50" target="_blank">Riotouch Factory Trip - No.1</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=3HZvcjhtj50" target="_blank" class="url-link">https://www.youtube.com/watch?v=3HZvcjhtj50</a></td>
+      <td class="desc">Curious about how interactive displays been made out Join the</td>
+    </tr>
+    <tr data-cat="education">
+      <td class="num">151</td>
+      <td class="title"><span class="cat-tag" style="background:#e8f5e9;color:#388e3c;">Education</span><a href="https://www.youtube.com/watch?v=YnG9aRIBN2Y" target="_blank">Riotouch Interactive Whiteboard For Better Classroom Experience</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=YnG9aRIBN2Y" target="_blank" class="url-link">https://www.youtube.com/watch?v=YnG9aRIBN2Y</a></td>
+      <td class="desc">Riotouch Interactive Display bring you with a better classroom experience</td>
+    </tr>
+    <tr data-cat="education">
+      <td class="num">152</td>
+      <td class="title"><span class="cat-tag" style="background:#e8f5e9;color:#388e3c;">Education</span><a href="https://www.youtube.com/watch?v=7z0tIAS3YMI" target="_blank">More Interactive Education In Riotouch</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=7z0tIAS3YMI" target="_blank" class="url-link">https://www.youtube.com/watch?v=7z0tIAS3YMI</a></td>
+      <td class="desc">In digital era we need a brand new classroom experience</td>
+    </tr>
+    <tr data-cat="about">
+      <td class="num">153</td>
+      <td class="title"><span class="cat-tag" style="background:#eceff1;color:#546e7a;">About</span><a href="https://www.youtube.com/watch?v=K9tqiq1xVSo" target="_blank">Rio Touch Interactive</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=K9tqiq1xVSo" target="_blank" class="url-link">https://www.youtube.com/watch?v=K9tqiq1xVSo</a></td>
+      <td class="desc">Riotouch has been a supplier of educational equipment since 2010</td>
+    </tr>
+    <tr data-cat="products">
+      <td class="num">154</td>
+      <td class="title"><span class="cat-tag" style="background:#e3f2fd;color:#1976d2;">Products</span><a href="https://www.youtube.com/watch?v=NJm1KUvJz-U" target="_blank">Riotouch Android 11 Interactive panels with Android whiteboard software</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=NJm1KUvJz-U" target="_blank" class="url-link">https://www.youtube.com/watch?v=NJm1KUvJz-U</a></td>
+      <td class="desc">Riotouch Android 11 LTADV311D2 Interactive flat panel with powerful Android</td>
+    </tr>
+    <tr data-cat="about">
+      <td class="num">155</td>
+      <td class="title"><span class="cat-tag" style="background:#eceff1;color:#546e7a;">About</span><a href="https://www.youtube.com/watch?v=15yWmTcEUSc" target="_blank">Happy New Year Wishes from Riotouch</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=15yWmTcEUSc" target="_blank" class="url-link">https://www.youtube.com/watch?v=15yWmTcEUSc</a></td>
+      <td class="desc">Riotouch Team wish all our friends health happiness wealth and</td>
+    </tr>
+    <tr data-cat="products">
+      <td class="num">156</td>
+      <td class="title"><span class="cat-tag" style="background:#e3f2fd;color:#1976d2;">Products</span><a href="https://www.youtube.com/watch?v=iQ7sTKpvhXg" target="_blank">Riotouch Interactive panel for Entertainment.</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=iQ7sTKpvhXg" target="_blank" class="url-link">https://www.youtube.com/watch?v=iQ7sTKpvhXg</a></td>
+      <td class="desc">Riotouch Interactive panels for entertainment the Artifact To Pass The</td>
+    </tr>
+    <tr data-cat="software">
+      <td class="num">157</td>
+      <td class="title"><span class="cat-tag" style="background:#f3e5f5;color:#7b1fa2;">Software</span><a href="https://www.youtube.com/watch?v=1M271W1s3FY" target="_blank">Different functions in Riotouch developed whiteboard app Umind</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=1M271W1s3FY" target="_blank" class="url-link">https://www.youtube.com/watch?v=1M271W1s3FY</a></td>
+      <td class="desc">NA</td>
+    </tr>
+    <tr data-cat="software">
+      <td class="num">158</td>
+      <td class="title"><span class="cat-tag" style="background:#f3e5f5;color:#7b1fa2;">Software</span><a href="https://www.youtube.com/watch?v=RJqDYsY9BVU" target="_blank">Riotouch developed whiteboard app Umind for interactive education and collaboration</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=RJqDYsY9BVU" target="_blank" class="url-link">https://www.youtube.com/watch?v=RJqDYsY9BVU</a></td>
+      <td class="desc">1 Easy UI design easy to use 2 Different functions</td>
+    </tr>
+    <tr data-cat="products">
+      <td class="num">159</td>
+      <td class="title"><span class="cat-tag" style="background:#e3f2fd;color:#1976d2;">Products</span><a href="https://www.youtube.com/watch?v=3I_tij3Ntuk" target="_blank">Riotouch Android 11.0 Interactive Flat Panel with Dual Recognition Stylus</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=3I_tij3Ntuk" target="_blank" class="url-link">https://www.youtube.com/watch?v=3I_tij3Ntuk</a></td>
+      <td class="desc">Dual stylus can be recognized with different thickness and color</td>
+    </tr>
+    <tr data-cat="products">
+      <td class="num">160</td>
+      <td class="title"><span class="cat-tag" style="background:#e3f2fd;color:#1976d2;">Products</span><a href="https://www.youtube.com/watch?v=cW4gjNAdliM" target="_blank">DIY Assemble the Classroom Smart Interactive Whiteboard SKD</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=cW4gjNAdliM" target="_blank" class="url-link">https://www.youtube.com/watch?v=cW4gjNAdliM</a></td>
+      <td class="desc">Do you want to save some shipping cost when import</td>
+    </tr>
+    <tr data-cat="about">
+      <td class="num">161</td>
+      <td class="title"><span class="cat-tag" style="background:#eceff1;color:#546e7a;">About</span><a href="https://www.youtube.com/watch?v=fXYK_3Rq5Cs" target="_blank">About Riotouch</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=fXYK_3Rq5Cs" target="_blank" class="url-link">https://www.youtube.com/watch?v=fXYK_3Rq5Cs</a></td>
+      <td class="desc">Riotouch has been a supplier of educational equipment since 2010</td>
+    </tr>
+    <tr data-cat="conference">
+      <td class="num">162</td>
+      <td class="title"><span class="cat-tag" style="background:#e8f5e9;color:#388e3c;">Conference</span><a href="https://www.youtube.com/watch?v=zx-hWGjDJIM" target="_blank">Riotouch Conference IFP</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=zx-hWGjDJIM" target="_blank" class="url-link">https://www.youtube.com/watch?v=zx-hWGjDJIM</a></td>
+      <td class="desc">Riotouch Interactive Flat Panel offers an all in one solutions</td>
+    </tr>
+    <tr data-cat="software">
+      <td class="num">163</td>
+      <td class="title"><span class="cat-tag" style="background:#f3e5f5;color:#7b1fa2;">Software</span><a href="https://www.youtube.com/watch?v=u5z_1Slnzlw" target="_blank">Ucut - Screen shot freely with any sharp you need, and send to whiteboard directly</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=u5z_1Slnzlw" target="_blank" class="url-link">https://www.youtube.com/watch?v=u5z_1Slnzlw</a></td>
+      <td class="desc">Usystem include some useful tools help you improve your teaching</td>
+    </tr>
+    <tr data-cat="software">
+      <td class="num">164</td>
+      <td class="title"><span class="cat-tag" style="background:#f3e5f5;color:#7b1fa2;">Software</span><a href="https://www.youtube.com/watch?v=5ny7c9nbqkE" target="_blank">Riotouch interactive flat panel with Eshare app</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=5ny7c9nbqkE" target="_blank" class="url-link">https://www.youtube.com/watch?v=5ny7c9nbqkE</a></td>
+      <td class="desc">Connect your laptop smart phone with Roitouch interactive panel wireless</td>
+    </tr>
+    <tr data-cat="tutorials">
+      <td class="num">165</td>
+      <td class="title"><span class="cat-tag" style="background:#fff8e1;color:#ff8f00;">Tutorials</span><a href="https://www.youtube.com/watch?v=4pm1DliCYvY" target="_blank">How to upgrade/factory reset your Android 5.0 interactive flat panel</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=4pm1DliCYvY" target="_blank" class="url-link">https://www.youtube.com/watch?v=4pm1DliCYvY</a></td>
+      <td class="desc">Riotouch Android 5 0 touch screen monitor upgrade and factory</td>
+    </tr>
+    <tr data-cat="tutorials">
+      <td class="num">166</td>
+      <td class="title"><span class="cat-tag" style="background:#fff8e1;color:#ff8f00;">Tutorials</span><a href="https://www.youtube.com/watch?v=ziUukMWxEvo" target="_blank">How to calibrate the shortcut of Riotouch Interactive whiteboard</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=ziUukMWxEvo" target="_blank" class="url-link">https://www.youtube.com/watch?v=ziUukMWxEvo</a></td>
+      <td class="desc">Easy to calibrate the shortcut for the interactive whiteboard</td>
+    </tr>
+    <tr data-cat="tutorials">
+      <td class="num">167</td>
+      <td class="title"><span class="cat-tag" style="background:#fff8e1;color:#ff8f00;">Tutorials</span><a href="https://www.youtube.com/watch?v=7iupUqO8eW0" target="_blank">How to set boot logo with your Android 5.0.1 interactive panel</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=7iupUqO8eW0" target="_blank" class="url-link">https://www.youtube.com/watch?v=7iupUqO8eW0</a></td>
+      <td class="desc">It s easy to do it Just follow us Don</td>
+    </tr>
+    <tr data-cat="about">
+      <td class="num">168</td>
+      <td class="title"><span class="cat-tag" style="background:#eceff1;color:#546e7a;">About</span><a href="https://www.youtube.com/watch?v=UNluOBQOjXk" target="_blank">Know Riotouch a little more, professor of IWB &amp; interactive flat panel designer and manufacturer</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=UNluOBQOjXk" target="_blank" class="url-link">https://www.youtube.com/watch?v=UNluOBQOjXk</a></td>
+      <td class="desc">Riotouch spcialize in IWB interactive flat panel since 2009 With</td>
+    </tr>
+    <tr data-cat="products">
+      <td class="num">169</td>
+      <td class="title"><span class="cat-tag" style="background:#e3f2fd;color:#1976d2;">Products</span><a href="https://www.youtube.com/watch?v=TiAgwbLOhXE" target="_blank">Riotouch P-CAP interactive display U+ series</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=TiAgwbLOhXE" target="_blank" class="url-link">https://www.youtube.com/watch?v=TiAgwbLOhXE</a></td>
+      <td class="desc">Riotouch conference solution for group video call 1 Higher end</td>
+    </tr>
+    <tr data-cat="products">
+      <td class="num">170</td>
+      <td class="title"><span class="cat-tag" style="background:#e3f2fd;color:#1976d2;">Products</span><a href="https://www.youtube.com/watch?v=6mzHsr6tKxw" target="_blank">Riotouch LT Interactive display</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=6mzHsr6tKxw" target="_blank" class="url-link">https://www.youtube.com/watch?v=6mzHsr6tKxw</a></td>
+      <td class="desc">Riotouch Interactive display 1 Android 8 0 DDR4 4G Ram</td>
+    </tr>
+    <tr data-cat="products">
+      <td class="num">171</td>
+      <td class="title"><span class="cat-tag" style="background:#e3f2fd;color:#1976d2;">Products</span><a href="https://www.youtube.com/watch?v=NpCyzpz5bNI" target="_blank">Riotouch M smart blackboard</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=NpCyzpz5bNI" target="_blank" class="url-link">https://www.youtube.com/watch?v=NpCyzpz5bNI</a></td>
+      <td class="desc">Riotouch interactive smart blackboards with two foldable removable chalks markers</td>
+    </tr>
+    <tr data-cat="products">
+      <td class="num">172</td>
+      <td class="title"><span class="cat-tag" style="background:#e3f2fd;color:#1976d2;">Products</span><a href="https://www.youtube.com/watch?v=fQfipY3jP5E" target="_blank">Riotouch Android 9.0 interactive flat panel</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=fQfipY3jP5E" target="_blank" class="url-link">https://www.youtube.com/watch?v=fQfipY3jP5E</a></td>
+      <td class="desc">Riotouch new cost effective model Android 9 0 IFP for</td>
+    </tr>
+    <tr data-cat="products">
+      <td class="num">173</td>
+      <td class="title"><span class="cat-tag" style="background:#e3f2fd;color:#1976d2;">Products</span><a href="https://www.youtube.com/watch?v=eOI5naKa0Go" target="_blank">Riotouch Smart blackboard</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=eOI5naKa0Go" target="_blank" class="url-link">https://www.youtube.com/watch?v=eOI5naKa0Go</a></td>
+      <td class="desc">Riotouch smart blackboard for education Writing by chalk and mark</td>
+    </tr>
+    <tr data-cat="software">
+      <td class="num">174</td>
+      <td class="title"><span class="cat-tag" style="background:#f3e5f5;color:#7b1fa2;">Software</span><a href="https://www.youtube.com/watch?v=4b8_qnKXp-0" target="_blank">Riotouch small tools in center</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=4b8_qnKXp-0" target="_blank" class="url-link">https://www.youtube.com/watch?v=4b8_qnKXp-0</a></td>
+      <td class="desc">Some Humanized tools in Android 8 0 slide center</td>
+    </tr>
+    <tr data-cat="products">
+      <td class="num">175</td>
+      <td class="title"><span class="cat-tag" style="background:#e3f2fd;color:#1976d2;">Products</span><a href="https://www.youtube.com/watch?v=PAalEcmJ7ew" target="_blank">RioTouch PCAP Interactive Flat Panel | U+ Model</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=PAalEcmJ7ew" target="_blank" class="url-link">https://www.youtube.com/watch?v=PAalEcmJ7ew</a></td>
+      <td class="desc">RioTouch Infrared Interactive Flat Panel Overlook Slim Bezel 40 Points</td>
+    </tr>
+    <tr data-cat="software">
+      <td class="num">176</td>
+      <td class="title"><span class="cat-tag" style="background:#f3e5f5;color:#7b1fa2;">Software</span><a href="https://www.youtube.com/watch?v=MN7-wbVDfCU" target="_blank">Riotouch Android 8.0 smart board customized settings</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=MN7-wbVDfCU" target="_blank" class="url-link">https://www.youtube.com/watch?v=MN7-wbVDfCU</a></td>
+      <td class="desc">Design your panel name freely OEM ODM service for about</td>
+    </tr>
+    <tr data-cat="software">
+      <td class="num">177</td>
+      <td class="title"><span class="cat-tag" style="background:#f3e5f5;color:#7b1fa2;">Software</span><a href="https://www.youtube.com/watch?v=Jzqb2wxM518" target="_blank">Riotouch Interactive Flat Panel Upicture &amp; Uplay Presentation</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=Jzqb2wxM518" target="_blank" class="url-link">https://www.youtube.com/watch?v=Jzqb2wxM518</a></td>
+      <td class="desc">Support different picture or video format Simple but useful Annotation</td>
+    </tr>
+    <tr data-cat="software">
+      <td class="num">178</td>
+      <td class="title"><span class="cat-tag" style="background:#f3e5f5;color:#7b1fa2;">Software</span><a href="https://www.youtube.com/watch?v=dAwn0y8lx64" target="_blank">Riotouch U system group discussion</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=dAwn0y8lx64" target="_blank" class="url-link">https://www.youtube.com/watch?v=dAwn0y8lx64</a></td>
+      <td class="desc">Riotouch U system helps you to finish Group discussion in</td>
+    </tr>
+    <tr data-cat="products">
+      <td class="num">179</td>
+      <td class="title"><span class="cat-tag" style="background:#e3f2fd;color:#1976d2;">Products</span><a href="https://www.youtube.com/watch?v=jiuBfGwHXgU" target="_blank">Riotouch Fold interactive smart blackboard</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=jiuBfGwHXgU" target="_blank" class="url-link">https://www.youtube.com/watch?v=jiuBfGwHXgU</a></td>
+      <td class="desc">1 PCAP interactive panel 2 wings of Blackboard Whiteboard which</td>
+    </tr>
+    <tr data-cat="software">
+      <td class="num">180</td>
+      <td class="title"><span class="cat-tag" style="background:#f3e5f5;color:#7b1fa2;">Software</span><a href="https://www.youtube.com/watch?v=TRE7YZt6QAQ" target="_blank">How to enable split-screen multitasking in Riotouch Android 8.0 IFPD?</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=TRE7YZt6QAQ" target="_blank" class="url-link">https://www.youtube.com/watch?v=TRE7YZt6QAQ</a></td>
+      <td class="desc">The split screen multitask is much more efficient for teaching</td>
+    </tr>
+    <tr data-cat="products">
+      <td class="num">181</td>
+      <td class="title"><span class="cat-tag" style="background:#e3f2fd;color:#1976d2;">Products</span><a href="https://www.youtube.com/watch?v=Y_41xLdI0Pg" target="_blank">Riotouch UT100 with android 8 0 and different themes</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=Y_41xLdI0Pg" target="_blank" class="url-link">https://www.youtube.com/watch?v=Y_41xLdI0Pg</a></td>
+      <td class="desc">Riotouch Android 8 0 U System with different themes Here</td>
+    </tr>
+    <tr data-cat="software">
+      <td class="num">182</td>
+      <td class="title"><span class="cat-tag" style="background:#f3e5f5;color:#7b1fa2;">Software</span><a href="https://www.youtube.com/watch?v=47D6dp_hB2Q" target="_blank">Interactive Panel Collaborative tool--Umind</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=47D6dp_hB2Q" target="_blank" class="url-link">https://www.youtube.com/watch?v=47D6dp_hB2Q</a></td>
+      <td class="desc">Collaborative Whiteboard makes teamwork more easier Umind feature with scenes</td>
+    </tr>
+    <tr data-cat="tutorials">
+      <td class="num">183</td>
+      <td class="title"><span class="cat-tag" style="background:#fff8e1;color:#ff8f00;">Tutorials</span><a href="https://www.youtube.com/watch?v=4Qs_2c02jjI" target="_blank">Interactive Whiteboard Assembling</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=4Qs_2c02jjI" target="_blank" class="url-link">https://www.youtube.com/watch?v=4Qs_2c02jjI</a></td>
+      <td class="desc">Model S82 Intearctive Whiteboard Assembling 3mins Only So Easy Any</td>
+    </tr>
+    <tr data-cat="about">
+      <td class="num">184</td>
+      <td class="title"><span class="cat-tag" style="background:#eceff1;color:#546e7a;">About</span><a href="https://www.youtube.com/watch?v=_Nf6ytFL8fc" target="_blank">About RioTouch</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=_Nf6ytFL8fc" target="_blank" class="url-link">https://www.youtube.com/watch?v=_Nf6ytFL8fc</a></td>
+      <td class="desc">About RioTouch Value What We Want To Do</td>
+    </tr>
+    <tr data-cat="products">
+      <td class="num">185</td>
+      <td class="title"><span class="cat-tag" style="background:#e3f2fd;color:#1976d2;">Products</span><a href="https://www.youtube.com/watch?v=nmW-fDuvzx8" target="_blank">Interactive Blackboard</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=nmW-fDuvzx8" target="_blank" class="url-link">https://www.youtube.com/watch?v=nmW-fDuvzx8</a></td>
+      <td class="desc">JoyBoard Foldable Interactive Blackboard</td>
+    </tr>
+    <tr data-cat="software">
+      <td class="num">186</td>
+      <td class="title"><span class="cat-tag" style="background:#f3e5f5;color:#7b1fa2;">Software</span><a href="https://www.youtube.com/watch?v=XuXH4pve1NU" target="_blank">RioTouch Infrared Interactive Display U-System Overview</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=XuXH4pve1NU" target="_blank" class="url-link">https://www.youtube.com/watch?v=XuXH4pve1NU</a></td>
+      <td class="desc">RioTouch U System Overview Multi Themes Multi Scenes Umind Let</td>
+    </tr>
+    <tr data-cat="software">
+      <td class="num">187</td>
+      <td class="title"><span class="cat-tag" style="background:#f3e5f5;color:#7b1fa2;">Software</span><a href="https://www.youtube.com/watch?v=Lccg7IXkh2g" target="_blank">Interactive Flat Panel Share Content Wirelessly.</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=Lccg7IXkh2g" target="_blank" class="url-link">https://www.youtube.com/watch?v=Lccg7IXkh2g</a></td>
+      <td class="desc">Share content from Android OS IOS Linux Google Chrome Make</td>
+    </tr>
+    <tr data-cat="products">
+      <td class="num">188</td>
+      <td class="title"><span class="cat-tag" style="background:#e3f2fd;color:#1976d2;">Products</span><a href="https://www.youtube.com/watch?v=X4SPMvDLe-U" target="_blank">RioTouch Infrared Interactive Flat Panel | LT Model</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=X4SPMvDLe-U" target="_blank" class="url-link">https://www.youtube.com/watch?v=X4SPMvDLe-U</a></td>
+      <td class="desc">RioTouch Infrared Interactive Flat Panel Overlook Slim Bezel 40 Points</td>
+    </tr>
+    <tr data-cat="products">
+      <td class="num">189</td>
+      <td class="title"><span class="cat-tag" style="background:#e3f2fd;color:#1976d2;">Products</span><a href="https://www.youtube.com/watch?v=yNfEfNAH5f8" target="_blank">Riotouch UT100, U+, LT interactive flat panels with android 8.0 dedicate for easy &amp; efficient using!</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=yNfEfNAH5f8" target="_blank" class="url-link">https://www.youtube.com/watch?v=yNfEfNAH5f8</a></td>
+      <td class="desc">Riotouch UT100 U LT interactive flat panels with android 8</td>
+    </tr>
+    <tr data-cat="products">
+      <td class="num">190</td>
+      <td class="title"><span class="cat-tag" style="background:#e3f2fd;color:#1976d2;">Products</span><a href="https://www.youtube.com/watch?v=4a0Dl6XDgeA" target="_blank">Riotouch U+ Series PCAP interactive flat panel with U+ system Apps</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=4a0Dl6XDgeA" target="_blank" class="url-link">https://www.youtube.com/watch?v=4a0Dl6XDgeA</a></td>
+      <td class="desc">Riotouch U Series PCAP interactive flat panel with U system</td>
+    </tr>
+    <tr data-cat="products">
+      <td class="num">191</td>
+      <td class="title"><span class="cat-tag" style="background:#e3f2fd;color:#1976d2;">Products</span><a href="https://www.youtube.com/watch?v=woXnReH1Yg4" target="_blank">Riotouch Android Launcher Settings with Different thems</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=woXnReH1Yg4" target="_blank" class="url-link">https://www.youtube.com/watch?v=woXnReH1Yg4</a></td>
+      <td class="desc">Riotouch Android Launcher Settings with Different thems</td>
+    </tr>
+    <tr data-cat="software">
+      <td class="num">192</td>
+      <td class="title"><span class="cat-tag" style="background:#f3e5f5;color:#7b1fa2;">Software</span><a href="https://www.youtube.com/watch?v=p5XQey_ndbY" target="_blank">riotouch conference whiteboard</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=p5XQey_ndbY" target="_blank" class="url-link">https://www.youtube.com/watch?v=p5XQey_ndbY</a></td>
+      <td class="desc">NA</td>
+    </tr>
+    <tr data-cat="software">
+      <td class="num">193</td>
+      <td class="title"><span class="cat-tag" style="background:#f3e5f5;color:#7b1fa2;">Software</span><a href="https://www.youtube.com/watch?v=DBuQPJUF5Pk" target="_blank">Riotouch interctive whiteboard E-share</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=DBuQPJUF5Pk" target="_blank" class="url-link">https://www.youtube.com/watch?v=DBuQPJUF5Pk</a></td>
+      <td class="desc">NA</td>
+    </tr>
+    <tr data-cat="software">
+      <td class="num">194</td>
+      <td class="title"><span class="cat-tag" style="background:#f3e5f5;color:#7b1fa2;">Software</span><a href="https://www.youtube.com/watch?v=Z8kOpEDh3pg" target="_blank">Riotouch Teaching whiteboard</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=Z8kOpEDh3pg" target="_blank" class="url-link">https://www.youtube.com/watch?v=Z8kOpEDh3pg</a></td>
+      <td class="desc">NA</td>
+    </tr>
+    <tr data-cat="software">
+      <td class="num">195</td>
+      <td class="title"><span class="cat-tag" style="background:#f3e5f5;color:#7b1fa2;">Software</span><a href="https://www.youtube.com/watch?v=GKtYKvHRwI4" target="_blank">Touch calibration demonstration</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=GKtYKvHRwI4" target="_blank" class="url-link">https://www.youtube.com/watch?v=GKtYKvHRwI4</a></td>
+      <td class="desc">NA</td>
+    </tr>
+    <tr data-cat="software">
+      <td class="num">196</td>
+      <td class="title"><span class="cat-tag" style="background:#f3e5f5;color:#7b1fa2;">Software</span><a href="https://www.youtube.com/watch?v=oUzf1irIWzk" target="_blank">riotouch interctive whiteboard touch detection</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=oUzf1irIWzk" target="_blank" class="url-link">https://www.youtube.com/watch?v=oUzf1irIWzk</a></td>
+      <td class="desc">NA</td>
+    </tr>
+    <tr data-cat="software">
+      <td class="num">197</td>
+      <td class="title"><span class="cat-tag" style="background:#f3e5f5;color:#7b1fa2;">Software</span><a href="https://www.youtube.com/watch?v=KXCwGxa44UE" target="_blank">riotouch interctive whiteboare  android update</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=KXCwGxa44UE" target="_blank" class="url-link">https://www.youtube.com/watch?v=KXCwGxa44UE</a></td>
+      <td class="desc">riotouch interctive whiteboard</td>
+    </tr>
+    <tr data-cat="products">
+      <td class="num">198</td>
+      <td class="title"><span class="cat-tag" style="background:#e3f2fd;color:#1976d2;">Products</span><a href="https://www.youtube.com/watch?v=rdbvTWSjIzY" target="_blank">Riotouch 10 users HV65K touch screen monitor, all in one PC, all in one monitor</a>
+      <td class="url"><a href="https://www.youtube.com/watch?v=rdbvTWSjIzY" target="_blank" class="url-link">https://www.youtube.com/watch?v=rdbvTWSjIzY</a></td>
+      <td class="desc">Riotouch 65 10 users touch screen monitor with promotion price</td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="footer"><span id="count">198</span> videos &nbsp;·&nbsp; Source: YouTube @riotouch3606 &nbsp;·&nbsp; Last Updated: 2026-04-11</div>
+</div>
+
+<script>
+// Category filter and search
+let currentCat = 'all';
+const catCounts = {};
+
+function initCategories() {
+  const rows = document.querySelectorAll('#tableBody tr');
+  rows.forEach(row => {
+    const cat = row.dataset.cat || 'products';
+    catCounts[cat] = (catCounts[cat] || 0) + 1;
+  });
+  Object.keys(catCounts).forEach(cat => {
+    const el = document.getElementById('cnt-' + cat);
+    if (el) el.textContent = catCounts[cat];
+  });
+}
+
+document.querySelectorAll('.cat-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    currentCat = btn.dataset.cat;
+    document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    filterVideos();
+  });
+});
+
+function filterVideos() {
+  const kw = document.getElementById('search').value.toLowerCase();
+  const rows = document.querySelectorAll('#tableBody tr');
+  let shown = 0;
+  rows.forEach(r => {
+    const cat = r.dataset.cat || 'products';
+    const text = r.textContent.toLowerCase();
+    const catMatch = currentCat === 'all' || cat === currentCat;
+    const kwMatch = !kw || text.includes(kw);
+    r.classList.toggle('hidden', !(catMatch && kwMatch));
+    if (catMatch && kwMatch) shown++;
+  });
+  document.getElementById('count').textContent = shown;
+}
+
+document.getElementById('search').addEventListener('input', filterVideos);
+initCategories();
+</script>
+</body>
+</html>
