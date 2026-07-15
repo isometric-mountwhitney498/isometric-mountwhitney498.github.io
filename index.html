@@ -103,6 +103,13 @@
   .video-info h3 { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
   .video-info p { font-size: 11px; color: var(--text-mute); line-height: 1.5; }
 
+  /* ===== FAQ Preview ===== */
+  .faq-prev { max-width: 800px; margin: 0 auto; display: grid; gap: 8px; }
+  .faq-prev-item { background: var(--white); border: 1px solid var(--green-tint); border-radius: var(--radius); padding: 14px 18px; transition: all 0.3s; }
+  .faq-prev-item:hover { box-shadow: var(--shadow); }
+  .faq-prev-q { font-size: 12px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+  .faq-prev-a { font-size: 11px; color: var(--text-mute); line-height: 1.6; }
+
   /* ===== Interactive Tools (compact) ===== */
   .tools-compact { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
   .tool-card { background: var(--white); border: 1px solid var(--green-tint); border-radius: var(--radius-lg); padding: 28px; box-shadow: var(--shadow); transition: all 0.3s; }
@@ -188,8 +195,7 @@
   </a>
   <ul class="nav-links" id="navLinks">
     <li><a href="#about">About Me</a></li>
-    <li><a href="#testimonials">Testimonials</a></li>
-    <li><a href="#videos">Videos</a></li>
+    <li><a href="faq.html">FAQ</a></li>
     <li><a href="#tools">Tools</a></li>
     <li><a href="#contact">Contact</a></li>
     <li><a href="form.html" class="nav-cta">Get Quote</a></li>
@@ -305,6 +311,36 @@
   </div>
 </section>
 
+<!-- FAQ Preview -->
+<section class="section" id="faq">
+  <div class="section-header">
+    <span class="section-tag">FAQ</span>
+    <h2 class="section-title">Questions Global Buyers Ask Me</h2>
+    <p class="section-sub">Quick answers — full FAQ page has 30+ questions</p>
+  </div>
+  <div class="faq-prev">
+    <div class="faq-prev-item">
+      <div class="faq-prev-q">🏭 Are you a real factory?</div>
+      <div class="faq-prev-a">Definitely yes, our own factory is in Dongguan, Guangdong. 500+ workers, 20+ QC, 20+ R&D.</div>
+    </div>
+    <div class="faq-prev-item">
+      <div class="faq-prev-q">⚡ RK3588 vs RK3576 — which to choose?</div>
+      <div class="faq-prev-a">RK3576 = cheaper, good for education. RK3588 = flagship, 8GB RAM, AI features.</div>
+    </div>
+    <div class="faq-prev-item">
+      <div class="faq-prev-q">💰 How much for a sample?</div>
+      <div class="faq-prev-a">Free sample + shipping paid. Refund with bulk order.</div>
+    </div>
+    <div class="faq-prev-item">
+      <div class="faq-prev-q">🔢 What is the HS code?</div>
+      <div class="faq-prev-a">HS 8471414000 — Interactive Flat Panel Display.</div>
+    </div>
+  </div>
+  <div style="text-align:center;margin-top:24px;">
+    <a href="faq.html" class="btn btn-primary" style="font-size:12px;padding:8px 20px;">📖 View All 30+ FAQs</a>
+  </div>
+</section>
+
 <!-- Interactive Tools -->
 <section class="section" id="tools">
   <div class="section-header">
@@ -408,7 +444,7 @@
   <div class="footer-role">Regional Sales Manager | Riotouch Interactive Display</div>
   <div class="footer-links">
     <a href="#home">Home</a><a href="#about">About</a><a href="#testimonials">Testimonials</a>
-    <a href="#videos">Videos</a><a href="#tools">Tools</a><a href="#contact">Contact</a>
+    <a href="#videos">Videos</a><a href="#faq">FAQ</a><a href="#tools">Tools</a><a href="#contact">Contact</a>
     <a href="https://wa.me/message/GF4XMHZGAUJ7K1" target="_blank">WhatsApp</a>
     <a href="https://www.facebook.com/barry.chen.94064/" target="_blank">Facebook</a>
     <a href="https://www.linkedin.com/in/barry-chen-cl20010222/" target="_blank">LinkedIn</a>
