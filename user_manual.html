@@ -256,7 +256,181 @@
     </style>
 </head>
 <body>
-    <div class="container">
+
+<!-- Unified Nav -->
+<nav class="unified-nav" id="unifiedNav">
+  <div class="unified-nav-inner">
+    <a href="index.html" class="unified-nav-logo">
+      <span class="unified-nav-avatar">B</span>
+      <span class="unified-nav-name">Barry Chen</span>
+      <span class="unified-nav-sub">Display Expert</span>
+    </a>
+    <div class="unified-nav-links">
+      <a href="index.html">Home</a>
+      <a href="led_buying_guide.html" class="nav-led">LED Guide</a>
+      <a href="user_manual.html" class="nav-user">User Manual</a>
+      <a href="riotouch_videos.html" class="nav-video">Videos</a>
+      <a href="about.html" class="nav-about">About</a>
+      <a href="https://wa.me/message/GF4XMHZGAUJ7K1" target="_blank" class="unified-nav-cta">💬 WhatsApp</a>
+    </div>
+    <button class="unified-nav-toggle" onclick="toggleUnified()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<style>
+.unified-nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 9999;
+  padding: 0 32px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  background: rgba(250,255,254,0.96);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  box-shadow: 0 4px 24px rgba(26,163,90,0.08);
+  border-bottom: 1px solid rgba(26,163,90,0.06);
+  transition: all 0.3s;
+}
+.unified-nav-inner {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.unified-nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+}
+.unified-nav-avatar {
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  background: #2ecc71;
+  display: flex; align-items: center; justify-content: center;
+  color: #fff; font-weight: 800; font-size: 14px;
+}
+.unified-nav-name {
+  color: #16a35a;
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: -0.2px;
+}
+.unified-nav-sub {
+  color: #5a7a62;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+}
+.unified-nav-links {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.unified-nav-links a {
+  display: block;
+  padding: 6px 14px;
+  border-radius: 8px;
+  color: #1a2e1f;
+  font-size: 13px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.25s;
+}
+.unified-nav-links a:hover,
+.unified-nav-links a.active {
+  background: #e8f8ef;
+  color: #16a35a;
+}
+.unified-nav-cta {
+  padding: 6px 16px !important;
+  background: #2ecc71 !important;
+  color: #fff !important;
+  font-weight: 600 !important;
+  border-radius: 100px !important;
+  box-shadow: 0 4px 12px rgba(46,204,113,0.3) !important;
+}
+.unified-nav-cta:hover {
+  background: #27ae60 !important;
+  transform: translateY(-1px);
+}
+.unified-nav-toggle {
+  display: none;
+  flex-direction: column;
+  gap: 4px;
+  cursor: pointer;
+  padding: 8px;
+  background: none;
+  border: none;
+}
+.unified-nav-toggle span {
+  display: block;
+  width: 20px; height: 2px;
+  background: #1a2e1f;
+  border-radius: 2px;
+  transition: all 0.3s;
+}
+@media (max-width: 860px) {
+  .unified-nav { padding: 0 16px; }
+  .unified-nav-links { display: none; }
+  .unified-nav-toggle { display: flex; }
+}
+</style>
+
+<!-- WhatsApp Float -->
+<a href="https://wa.me/message/GF4XMHZGAUJ7K1" class="wa-float" target="_blank" rel="noopener">
+  <svg class="wa-float-icon" viewBox="0 0 24 24"><path fill="currentColor" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<style>
+.wa-float {
+  position: fixed;
+  bottom: 24px; right: 24px;
+  width: 58px; height: 58px;
+  border-radius: 50%;
+  background: #25d366;
+  box-shadow: 0 8px 32px rgba(37,211,102,0.35);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 9999;
+  transition: all 0.35s;
+  cursor: pointer;
+  text-decoration: none;
+}
+.wa-float:hover { transform: translateY(-4px) scale(1.05); box-shadow: 0 16px 48px rgba(37,211,102,0.5); }
+.wa-float-icon { width: 28px; height: 28px; fill: #fff; }
+</style>
+
+<script>
+function toggleUnified() {
+  var n = document.querySelector('.unified-nav-links');
+  if (n) n.classList.toggle('show');
+}
+var s = document.createElement('style');
+s.textContent = '@media(max-width:860px){ .unified-nav-links.show { display:flex !important; flex-direction:column; position:absolute; top:64px; left:0; right:0; background:rgba(255,255,255,0.98); backdrop-filter:blur(24px); padding:16px; gap:6px; box-shadow:0 8px 32px rgba(26,163,90,0.1); border-bottom:1px solid rgba(46,204,113,0.08); } .unified-nav-links.show a { padding:12px 16px; font-size:14px; } }';
+document.head.appendChild(s);
+
+(function() {
+  var path = window.location.pathname;
+  var page = path.split('/').pop() || 'index.html';
+  var links = document.querySelectorAll('.unified-nav-links a');
+  links.forEach(function(a) {
+    var href = a.getAttribute('href');
+    if (href && (href === page || (page === '' && href === 'index.html'))) {
+      a.classList.add('active');
+    }
+  });
+})();
+</script>
+
+
+    <div style="height:80px"></div>
+<div class="container">
         <header>
             <h1>Setting & User Manual</h1>
             <p>Riotouch IFPDS Interactive Flat Panel Display System - Complete Guide</p>
