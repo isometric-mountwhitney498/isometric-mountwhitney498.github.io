@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LED Display Buying Guide — By Riotouch</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; background: #f5f6fa; color: #1a1a2e; line-height: 1.75; -webkit-font-smoothing: antialiased; }
+
+  /* Hero */
+  .hero { background: linear-gradient(135deg, #0b1d36 0%, #163a5f 50%, #1a5276 100%); color: #fff; padding: 56px 40px 44px; text-align: center; position: relative; overflow: hidden; }
+  .hero::before { content: ''; position: absolute; top: -60%; left: -20%; width: 140%; height: 200%; background: radial-gradient(ellipse at 30% 50%, rgba(46,134,222,0.15) 0%, transparent 60%); pointer-events: none; }
+  .hero .logo { font-size: 13px; letter-spacing: 3px; text-transform: uppercase; color: #7fb3e0; margin-bottom: 16px; }
+  .hero h1 { font-size: 32px; font-weight: 800; margin-bottom: 10px; position: relative; }
+  .hero .sub { font-size: 16px; color: #b0cfe0; max-width: 640px; margin: 0 auto 20px; }
+  .hero .cta-row { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; margin-top: 8px; }
+  .hero .cta { display: inline-block; background: #2e86de; color: #fff; padding: 10px 24px; border-radius: 8px; text-decoration: none; font-size: 14px; font-weight: 600; }
+  .hero .cta.outline { background: transparent; border: 1px solid rgba(255,255,255,0.4); }
+  .hero .cta:hover { background: #1a6fc4; }
+
+  /* Nav */
+  .nav { background: #fff; border-bottom: 1px solid #e0e0e0; padding: 0 40px; display: flex; gap: 0; overflow-x: auto; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+  .nav a { display: block; padding: 14px 18px; font-size: 13px; color: #555; text-decoration: none; border-bottom: 2px solid transparent; white-space: nowrap; }
+  .nav a:hover { color: #1a3a5c; border-bottom-color: #2e86de; }
+
+  /* Container */
+  .container { max-width: 1080px; margin: 0 auto; padding: 32px 20px 80px; }
+
+  /* Intro Card */
+  .intro-card { background: linear-gradient(135deg, #e8f0fe 0%, #f0f7ff 100%); border: 1px solid #c8ddf5; border-radius: 14px; padding: 24px 28px; margin-bottom: 28px; }
+  .intro-card h2 { font-size: 18px; color: #1a3a5c; margin-bottom: 8px; }
+  .intro-card p { font-size: 14px; color: #444; }
+
+  /* Section */
+  .section { background: #fff; border-radius: 14px; box-shadow: 0 1px 6px rgba(0,0,0,0.07); margin-bottom: 28px; overflow: hidden; }
+  .section-header { padding: 22px 28px 16px; border-bottom: 1px solid #f0f0f0; }
+  .section-header .label { display: inline-block; background: #2e86de; color: #fff; border-radius: 20px; padding: 3px 12px; font-size: 11px; font-weight: 700; letter-spacing: 0.5px; margin-bottom: 8px; }
+  .section-header h2 { font-size: 20px; font-weight: 700; color: #1a1a2e; }
+  .section-header p { font-size: 13px; color: #888; margin-top: 4px; }
+  .section-body { padding: 24px 28px; }
+
+  /* Comparison Table */
+  .compare-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .compare-table th { background: #1a3a5c; color: #fff; padding: 10px 14px; text-align: left; font-weight: 600; font-size: 12px; }
+  .compare-table th:first-child { border-radius: 8px 0 0 0; }
+  .compare-table th:last-child { border-radius: 0 8px 0 0; }
+  .compare-table td { padding: 10px 14px; border-bottom: 1px solid #f0f0f0; vertical-align: top; }
+  .compare-table tr:last-child td { border-bottom: none; }
+  .compare-table tr:nth-child(even) td { background: #f8f9fb; }
+  .green { color: #1b8a2e; font-weight: 600; }
+  .blue { color: #2e86de; font-weight: 600; }
+  .orange { color: #d4700a; font-weight: 600; }
+
+  /* Concept Card */
+  .concept-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .concept-card { border: 1px solid #e8e8e8; border-radius: 10px; padding: 18px 20px; transition: box-shadow 0.2s; }
+  .concept-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
+  .concept-card .icon { font-size: 22px; margin-bottom: 6px; }
+  .concept-card h3 { font-size: 15px; font-weight: 700; color: #1a3a5c; margin-bottom: 6px; }
+  .concept-card p { font-size: 13px; color: #555; }
+  .concept-card .tip { display: inline-block; background: #fff8e1; color: #7a5c00; border-radius: 4px; padding: 2px 8px; font-size: 11px; font-weight: 600; margin-top: 8px; }
+
+  /* Product Card Grid */
+  .product-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .product-card { border: 1px solid #e0e0e0; border-radius: 10px; padding: 18px 20px; position: relative; }
+  .product-card .category { display: inline-block; border-radius: 4px; padding: 2px 8px; font-size: 10px; font-weight: 700; color: #fff; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .product-card .cat-outdoor { background: #d4700a; }
+  .product-card .cat-indoor { background: #2e86de; }
+  .product-card .cat-creative { background: #1b8a2e; }
+  .product-card h3 { font-size: 15px; font-weight: 700; color: #1a1a2e; margin-bottom: 4px; }
+  .product-card .en { font-size: 12px; color: #888; margin-bottom: 8px; }
+  .product-card .specs { font-size: 12px; color: #555; line-height: 1.6; }
+  .product-card .specs strong { color: #1a3a5c; }
+  .product-card .best-for { margin-top: 10px; background: #f0f7ff; border-radius: 6px; padding: 8px 12px; font-size: 11px; color: #1a3a5c; }
+  .product-card .best-for::before { content: '🎯 Best for: '; font-weight: 700; }
+
+  /* FAQ */
+  .faq-item { border: 1px solid #e8e8e8; border-radius: 10px; margin-bottom: 12px; overflow: hidden; }
+  .faq-q { padding: 14px 20px; font-weight: 700; color: #1a3a5c; font-size: 14px; cursor: pointer; display: flex; align-items: center; gap: 8px; background: #fafbfc; }
+  .faq-q:hover { background: #f0f2f5; }
+  .faq-q .icon { color: #2e86de; font-size: 16px; flex-shrink: 0; }
+  .faq-a { padding: 0 20px 16px 44px; font-size: 13px; color: #444; line-height: 1.7; }
+  .faq-a ul { padding-left: 18px; margin-top: 4px; }
+  .faq-a li { margin-bottom: 4px; }
+
+  /* Diagram */
+  .diagram { background: #f8f9fb; border: 1px solid #e8e8e8; border-radius: 10px; padding: 20px; text-align: center; margin: 16px 0; }
+  .diagram svg { max-width: 100%; height: auto; }
+
+  /* CTA Block */
+  .cta-block { background: linear-gradient(135deg, #1a3a5c, #2e86de); border-radius: 14px; padding: 32px 28px; text-align: center; color: #fff; margin-bottom: 28px; }
+  .cta-block h2 { font-size: 22px; margin-bottom: 8px; }
+  .cta-block p { font-size: 14px; color: #b0cfe0; margin-bottom: 16px; }
+  .cta-block .btn { display: inline-block; background: #fff; color: #1a3a5c; padding: 10px 28px; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 14px; }
+  .cta-block .btn:hover { background: #f0f2f5; }
+
+  /* Footer */
+  .footer { text-align: center; padding: 36px 24px 24px; color: #aaa; font-size: 12px; border-top: 1px solid #eee; }
+  .footer a { color: #2e86de; text-decoration: none; }
+
+  /* Pitch Table */
+  .pitch-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .pitch-table th { background: #2e86de; color: #fff; padding: 9px 12px; text-align: left; font-size: 12px; }
+  .pitch-table td { padding: 9px 12px; border-bottom: 1px solid #f0f0f0; vertical-align: top; }
+  .pitch-table tr:nth-child(even) td { background: #f8f9fb; }
+
+  /* Responsive */
+  @media (max-width: 700px) {
+    .concept-grid, .product-grid { grid-template-columns: 1fr; }
+    .hero h1 { font-size: 24px; }
+    .hero .sub { font-size: 14px; }
+    .section-body { padding: 18px 16px; }
+    .container { padding: 20px 12px 60px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="logo">RIOTOUCH · Interactive Display Solutions</div>
+  <h1>LED Display Buying Guide</h1>
+  <p class="sub">Everything you need to know before choosing an LED display — from pixel pitch to protection, explained in plain English.</p>
+  <div class="cta-row">
+    <a href="#finder" class="cta">🔍 Find Your Product</a>
+    <a href="#faq" class="cta outline">❓ Common Questions</a>
+  </div>
+</div>
+
+<div class="nav">
+  <a href="#basics">1. LCD vs LED</a>
+  <a href="#concepts">2. Key Specs</a>
+  <a href="#finder">3. Choose Your Product</a>
+  <a href="#specs">4. Spec Decoder</a>
+  <a href="#faq">5. FAQ</a>
+</div>
+
+<div class="container">
+
+  <!-- Intro -->
+  <div class="intro-card">
+    <h2>👋 New to LED Displays? Start Here.</h2>
+    <p>If you've used LCD screens before, you already understand the basics — but LED works differently in some important ways. This guide walks you through <strong>what makes LED unique</strong>, how to choose the right product for your space, and what specs actually matter. No jargon, no sales pressure — just clear answers so you can make a confident decision.</p>
+  </div>
+
+  <!-- Section 1: LCD vs LED -->
+  <div class="section" id="basics">
+    <div class="section-header">
+      <div class="label">CHAPTER 1</div>
+      <h2>LCD vs LED — What's the Real Difference?</h2>
+      <p>Understanding this one concept unlocks everything else.</p>
+    </div>
+    <div class="section-body">
+      <p style="margin-bottom:16px; color:#444; font-size:14px;">The single biggest difference: <strong>LCD pixels are lit by a backlight</strong>, while <strong>LED pixels produce their own light</strong>. That one change creates everything else — brightness, black levels, shape flexibility.</p>
+
+      <div class="diagram">
+        <svg viewBox="0 0 680 260" xmlns="http://www.w3.org/2000/svg" style="max-width:650px;">
+          <text x="340" y="22" text-anchor="middle" font-size="15" font-weight="700" fill="#1a1a2e">LCD vs LED — How Pixels Work</text>
+          
+          <!-- LCD Side -->
+          <text x="160" y="48" text-anchor="middle" font-size="13" font-weight="700" fill="#2e86de">LCD Display</text>
+          <rect x="20" y="58" width="280" height="90" rx="8" fill="#e8f0fe" stroke="#2e86de" stroke-width="1.5"/>
+          <rect x="30" y="68" width="260" height="18" rx="4" fill="#ffd54f" stroke="#d4700a" stroke-width="1"/>
+          <text x="160" y="81" text-anchor="middle" font-size="10" fill="#7a5c00">Backlight (always ON)</text>
+          <rect x="30" y="92" width="260" height="18" rx="4" fill="#b3d4f7" stroke="#2e86de" stroke-width="1"/>
+          <text x="160" y="105" text-anchor="middle" font-size="10" fill="#1a3a5c">LCD Layer (opens/closes to let light through)</text>
+          <rect x="90" y="134" width="140" height="24" rx="6" fill="#fffde7" stroke="#d4700a" stroke-width="1.5"/>
+          <text x="160" y="150" text-anchor="middle" font-size="11" font-weight="700" fill="#d4700a">Pixel = "lit by backlight"</text>
+          <text x="30" y="182" font-size="10" fill="#999">⚠ Black appears as dark gray (backlight leaks through)</text>
+          <text x="30" y="198" font-size="10" fill="#999">⚠ Brightness limited (~400 nits, indoor only)</text>
+          <text x="30" y="214" font-size="10" fill="#999">⚠ Fixed sizes (55", 65", 75", 86")</text>
+
+          <!-- LED Side -->
+          <text x="520" y="48" text-anchor="middle" font-size="13" font-weight="700" fill="#1b8a2e">LED Display</text>
+          <rect x="380" y="58" width="280" height="90" rx="8" fill="#e8f5e9" stroke="#1b8a2e" stroke-width="1.5"/>
+          <rect x="390" y="68" width="60" height="20" rx="4" fill="#d32f2f" opacity="0.8"/>
+          <rect x="456" y="68" width="60" height="20" rx="4" fill="#2e7d32" opacity="0.8"/>
+          <rect x="522" y="68" width="60" height="20" rx="4" fill="#1565c0" opacity="0.8"/>
+          <text x="520" y="83" text-anchor="middle" font-size="9" fill="#fff">R G B LEDs</text>
+          <rect x="390" y="96" width="182" height="18" rx="4" fill="#c8e6c9" stroke="#1b8a2e" stroke-width="1"/>
+          <text x="481" y="109" text-anchor="middle" font-size="10" fill="#1b8a2e">Each pixel emits its own light</text>
+          <rect x="440" y="124" width="160" height="24" rx="6" fill="#e8f5e9" stroke="#1b8a2e" stroke-width="1.5"/>
+          <text x="520" y="140" text-anchor="middle" font-size="11" font-weight="700" fill="#1b8a2e">Pixel = "self-emissive"</text>
+          <text x="390" y="182" font-size="10" fill="#1b8a2e">✅ True black (LED off = zero light)</text>
+          <text x="390" y="198" font-size="10" fill="#1b8a2e">✅ Ultra-bright (4000-5500 CD for outdoor)</text>
+          <text x="390" y="214" font-size="10" fill="#1b8a2e">✅ Any shape or size (no backlight layer)</text>
+
+          <line x1="310" y1="130" x2="370" y2="130" stroke="#888" stroke-width="2" marker-end="url(#arrow)"/>
+          <text x="340" y="122" text-anchor="middle" font-size="10" fill="#888">One key difference</text>
+          <defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#888"/></marker></defs>
+        </svg>
+      </div>
+
+      <table class="compare-table">
+        <thead>
+          <tr><th>Feature</th><th>LCD Display</th><th>LED Display</th><th>What This Means for You</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Brightness</strong></td><td>300-500 nits</td><td class="green">650 CD indoor / 4000-5500 CD outdoor</td><td>LED is the only option visible in direct sunlight</td></tr>
+          <tr><td><strong>Black Level</strong></td><td>Dark gray (backlight leaks)</td><td class="green">True black (LED turns off)</td><td>Your content looks more vivid and professional</td></tr>
+          <tr><td><strong>Size Options</strong></td><td>Fixed: 55"/65"/75"/86"</td><td class="green">Any size (modular tiles)</td><td>Custom sizes without custom tooling fees</td></tr>
+          <tr><td><strong>Shape</strong></td><td>Rectangle only</td><td class="green">Any shape (sphere, cylinder, curve...)</td><td>Creative shapes attract more attention</td></tr>
+          <tr><td><strong>Protection</strong></td><td>Glass surface (fragile)</td><td class="green">GOB coating (water + impact resistant)</td><td>Safer in high-traffic retail environments</td></tr>
+          <tr><td><strong>Setup</strong></td><td>Wall mount + technician</td><td class="green">Plug & Play (power on = running)</td><td>No installation cost, no technician needed</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Section 2: Key Specs -->
+  <div class="section" id="concepts">
+    <div class="section-header">
+      <div class="label">CHAPTER 2</div>
+      <h2>6 Key Specs You Should Know</h2>
+      <p>Don't worry — it's simpler than it sounds.</p>
+    </div>
+    <div class="section-body">
+      <div class="concept-grid">
+        <div class="concept-card">
+          <div class="icon">📐</div>
+          <h3>Pixel Pitch (P1.25, P1.53, P2.5...)</h3>
+          <p>The distance between LED centers, measured in millimeters. <strong>Smaller pitch = sharper image = closer viewing distance.</strong> Rule of thumb: minimum viewing distance (meters) ≈ pitch number (mm). So P2.5 looks sharp from 2.5m away.</p>
+          <span class="tip">💡 Tell us your viewing distance → we recommend the right pitch</span>
+        </div>
+        <div class="concept-card">
+          <div class="icon">📸</div>
+          <h3>Refresh Rate (3840Hz / 7680Hz)</h3>
+          <p>How fast the screen refreshes per second. In LED, this matters for <strong>photography</strong> — not video smoothness. 3840Hz means smartphone photos look perfect with no scan lines. 7680Hz = broadcast / live-stream grade.</p>
+          <span class="tip">💡 If customers photograph your ads → 3840Hz minimum</span>
+        </div>
+        <div class="concept-card">
+          <div class="icon">🛡️</div>
+          <h3>GOB Coating (Glue on Board)</h3>
+          <p>A transparent resin layer applied over LED beads. Makes the surface <strong>water-resistant and impact-resistant</strong> — like a built-in screen protector. Essential for retail, events, and anywhere people can touch the screen.</p>
+          <span class="tip">💡 Ask: "Is GOB included?" — some suppliers skip it to cut price</span>
+        </div>
+        <div class="concept-card">
+          <div class="icon">🔌</div>
+          <h3>Plug & Play</h3>
+          <p>Power on → content playing. No installation technician, no wall mounting, no software configuration. <strong>Your store clerk can set it up in 2 minutes.</strong> All Riotouch LED products are Plug & Play by design.</p>
+          <span class="tip">💡 Zero installation cost = faster ROI</span>
+        </div>
+        <div class="concept-card">
+          <div class="icon">📱</div>
+          <h3>APP Content Management</h3>
+          <p>Change your display content from a free mobile app via WiFi. <strong>Head office can push ads to all branch locations simultaneously.</strong> No monthly CMS subscription fee — the app is included free.</p>
+          <span class="tip">💡 Free app vs paid CMS = significant cost saving</span>
+        </div>
+        <div class="concept-card">
+          <div class="icon">🌧️</div>
+          <h3>IP Rating (IP65)</h3>
+          <p>IP65 = dust-tight + survives rain and water jets. <strong>All Riotouch outdoor products are IP65 rated.</strong> Indoor products use GOB coating instead — protects against coffee spills, dust, and accidental bumps.</p>
+          <span class="tip">💡 Outdoor = must have IP65; Indoor = GOB is enough</span>
+        </div>
+      </div>
+
+      <!-- Pixel Pitch Visual -->
+      <div class="diagram" style="margin-top:20px;">
+        <p style="font-size:13px; color:#666; margin-bottom:10px;">Pixel Pitch → Viewing Distance Quick Reference</p>
+        <svg viewBox="0 0 680 180" xmlns="http://www.w3.org/2000/svg">
+          <line x1="60" y1="155" x2="650" y2="155" stroke="#ccc" stroke-width="1"/>
+          <line x1="60" y1="155" x2="60" y2="20" stroke="#ccc" stroke-width="1"/>
+          <text x="355" y="175" text-anchor="middle" font-size="11" fill="#888">Pixel Pitch → smaller = sharper at close range</text>
+          <text x="28" y="90" text-anchor="middle" font-size="11" fill="#888" transform="rotate(-90 28 90)">Viewing Distance</text>
+
+          <line x1="120" y1="150" x2="120" y2="160" stroke="#333" stroke-width="1.5"/>
+          <text x="120" y="170" text-anchor="middle" font-size="10" fill="#333" font-weight="600">P1.25</text>
+          <rect x="107" y="95" width="26" height="56" rx="4" fill="#2e86de" opacity="0.7"/>
+          <text x="120" y="88" text-anchor="middle" font-size="9" fill="#2e86de" font-weight="600">1-3m</text>
+
+          <line x1="240" y1="150" x2="240" y2="160" stroke="#333" stroke-width="1.5"/>
+          <text x="240" y="170" text-anchor="middle" font-size="10" fill="#333" font-weight="600">P1.53</text>
+          <rect x="227" y="72" width="26" height="80" rx="4" fill="#2e86de" opacity="0.7"/>
+          <text x="240" y="65" text-anchor="middle" font-size="9" fill="#2e86de" font-weight="600">1.5-4m</text>
+
+          <line x1="360" y1="150" x2="360" y2="160" stroke="#333" stroke-width="1.5"/>
+          <text x="360" y="170" text-anchor="middle" font-size="10" fill="#333" font-weight="600">P1.86</text>
+          <rect x="347" y="52" width="26" height="100" rx="4" fill="#2e86de" opacity="0.6"/>
+          <text x="360" y="45" text-anchor="middle" font-size="9" fill="#2e86de" font-weight="600">2-5m</text>
+
+          <line x1="480" y1="150" x2="480" y2="160" stroke="#333" stroke-width="1.5"/>
+          <text x="480" y="170" text-anchor="middle" font-size="10" fill="#333" font-weight="600">P2.5</text>
+          <rect x="467" y="35" width="26" height="117" rx="4" fill="#d4700a" opacity="0.7"/>
+          <text x="480" y="28" text-anchor="middle" font-size="9" fill="#d4700a" font-weight="600">3-7m</text>
+
+          <line x1="600" y1="150" x2="600" y2="160" stroke="#333" stroke-width="1.5"/>
+          <text x="600" y="170" text-anchor="middle" font-size="10" fill="#333" font-weight="600">P3.076</text>
+          <rect x="587" y="22" width="26" height="130" rx="4" fill="#d4700a" opacity="0.7"/>
+          <text x="600" y="15" text-anchor="middle" font-size="9" fill="#d4700a" font-weight="600">3-8m</text>
+
+          <!-- Use case labels -->
+          <text x="120" y="108" text-anchor="middle" font-size="7" fill="#fff" font-weight="600">CLOSE-UP</text>
+          <text x="360" y="65" text-anchor="middle" font-size="7" fill="#fff" font-weight="600">RETAIL</text>
+          <text x="480" y="48" text-anchor="middle" font-size="7" fill="#fff" font-weight="600">LOBBY</text>
+          <text x="600" y="35" text-anchor="middle" font-size="7" fill="#fff" font-weight="600">OUTDOOR</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 3: Product Finder -->
+  <div class="section" id="finder">
+    <div class="section-header">
+      <div class="label">CHAPTER 3</div>
+      <h2>Choose the Right Product for Your Space</h2>
+      <p>Answer a few questions → find your match.</p>
+    </div>
+    <div class="section-body">
+
+      <!-- Decision Questions -->
+      <div style="background:#f8f9fb; border-radius:10px; padding:18px 22px; margin-bottom:24px;">
+        <p style="font-size:14px; font-weight:700; color:#1a3a5c; margin-bottom:12px;">🔎 3 Quick Questions to Find Your Product</p>
+        <table class="pitch-table">
+          <thead><tr><th>#</th><th>Ask Yourself</th><th>Your Answer → Best Category</th></tr></thead>
+          <tbody>
+            <tr><td><strong>1</strong></td><td>"Indoor or outdoor?"</td><td><strong>Outdoor</strong> → Outdoor Poster / Foldable Screen<br><strong>Indoor</strong> → go to Q2</td></tr>
+            <tr><td><strong>2</strong></td><td>"Standard display or something creative?"</td><td><strong>Standard</strong> → LED/LCD Poster, GOB Poster, Cube<br><strong>Creative</strong> → Sphere, Can, Tree, Bottle</td></tr>
+            <tr><td><strong>3</strong></td><td>"What's my use case?"</td><td>See detailed mapping below ↓</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Product Cards -->
+      <div class="product-grid">
+
+        <div class="product-card">
+          <div class="category cat-outdoor">OUTDOOR</div>
+          <h3>LED Outdoor Poster</h3>
+          <div class="en">LED Outdoor Poster Display / Standing Sign</div>
+          <div class="specs">
+            <strong>Pitch:</strong> P1.53 – P3.076 · <strong>Brightness:</strong> 4000-5500 CD · <strong>IP65</strong><br>
+            Wheels · Plug & Play · APP Control · Rain-proof
+          </div>
+          <div class="best-for">Store fronts, sidewalk ads, restaurant entrances — anywhere with direct sunlight</div>
+        </div>
+
+        <div class="product-card">
+          <div class="category cat-outdoor">OUTDOOR</div>
+          <h3>LED Outdoor Foldable Screen</h3>
+          <div class="en">LED Outdoor Folding Screen / Totem</div>
+          <div class="specs">
+            <strong>Pitch:</strong> P1.53 – P3.076 · <strong>Brightness:</strong> 4000-5500 CD · <strong>IP65</strong><br>
+            Foldable · Multi-unit Splicing · Portable
+          </div>
+          <div class="best-for">Trade shows, pop-up events, outdoor exhibitions — need to set up and pack fast</div>
+        </div>
+
+        <div class="product-card">
+          <div class="category cat-indoor">INDOOR</div>
+          <h3>LCD Indoor Poster</h3>
+          <div class="en">LCD Indoor Poster Display / Digital Sign</div>
+          <div class="specs">
+            <strong>Size:</strong> 32" / 43" / 55" · <strong>Brightness:</strong> 500-550 CD<br>
+            Smart Rotation · Sleek Design · Low Power
+          </div>
+          <div class="best-for">Hotel lobbies, restaurant menus, corporate reception — when you want a clean, modern look</div>
+        </div>
+
+        <div class="product-card">
+          <div class="category cat-indoor">INDOOR</div>
+          <h3>GOB Foldable LED Poster</h3>
+          <div class="en">Foldable LED Poster with GOB Coating</div>
+          <div class="specs">
+            <strong>Pitch:</strong> P1.25 – P2.5 · <strong>Brightness:</strong> 650 CD · <strong>GOB Standard</strong><br>
+            Foldable · Splice 2-4 units · APP Control
+          </div>
+          <div class="best-for">Retail chains, showrooms, product launches — flexible size, zero maintenance worry</div>
+        </div>
+
+        <div class="product-card">
+          <div class="category cat-indoor">INDOOR</div>
+          <h3>LED Mini Cube</h3>
+          <div class="en">LED Mini Cube Display</div>
+          <div class="specs">
+            <strong>Pitch:</strong> P1.25 – P2.5 · <strong>Brightness:</strong> 650 CD · <strong>GOB Standard</strong><br>
+            4-Sided Display · Rechargeable Rotating Base
+          </div>
+          <div class="best-for">Product showcases, perfume/jewelry counters — compact, eye-catching, interactive</div>
+        </div>
+
+        <div class="product-card">
+          <div class="category cat-indoor">INDOOR</div>
+          <h3>LED Product Display Stand</h3>
+          <div class="en">Indoor LED Product Display Stand / Rack</div>
+          <div class="specs">
+            <strong>Pitch:</strong> P1.25 – P2.5 · <strong>Brightness:</strong> 650 CD · <strong>GOB Standard</strong><br>
+            4-Sided · Naked-eye 3D Compatible · With/without Frame
+          </div>
+          <div class="best-for">Electronics stores, brand showrooms — display product info on all 4 sides</div>
+        </div>
+
+        <div class="product-card">
+          <div class="category cat-indoor">INDOOR</div>
+          <h3>LED Curved Advertising Machine</h3>
+          <div class="en">LED Indoor Curved Advertising Display</div>
+          <div class="specs">
+            <strong>Pitch:</strong> P1.25 – P2.5 · <strong>Brightness:</strong> 650 CD · <strong>GOB Standard</strong><br>
+            360° Seamless Curve · Naked-eye 3D Compatible
+          </div>
+          <div class="best-for">Premium brand displays, hotel lobbies, shopping mall centerpieces</div>
+        </div>
+
+        <div class="product-card">
+          <div class="category cat-indoor">INDOOR</div>
+          <h3>LED Podium / Front Desk Screen</h3>
+          <div class="en">LED Podium Screen / Front Desk Display</div>
+          <div class="specs">
+            <strong>Pitch:</strong> P1.25 – P2.5 · <strong>Brightness:</strong> 550-650 CD · <strong>GOB Standard</strong><br>
+            Curved / Semicircle · Foldable · Wall or Floor
+          </div>
+          <div class="best-for">Conference podiums, hotel reception, church altars — information + decoration</div>
+        </div>
+
+        <div class="product-card">
+          <div class="category cat-creative">CREATIVE</div>
+          <h3>Spherical LED Display</h3>
+          <div class="en">Spherical LED Display / LED Globe</div>
+          <div class="specs">
+            <strong>Pitch:</strong> P1.53 – P1.86 · <strong>Brightness:</strong> 650 CD · <strong>GOB Optional</strong><br>
+            360° Viewing · Eye-catching Art Piece
+          </div>
+          <div class="best-for">Museum installations, mall centerpieces, brand events — people WILL take photos</div>
+        </div>
+
+        <div class="product-card">
+          <div class="category cat-creative">CREATIVE</div>
+          <h3>LED Can / Cylinder Display</h3>
+          <div class="en">LED Can-shaped Display / Cylinder LED</div>
+          <div class="specs">
+            <strong>Pitch:</strong> P1.25 – P2.5 · <strong>Brightness:</strong> 650 CD · <strong>GOB Standard</strong><br>
+            Fridge Model Available · Unique Shape
+          </div>
+          <div class="best-for">Beverage brands, convenience store promotions, product launches — unexpected and memorable</div>
+        </div>
+
+        <div class="product-card">
+          <div class="category cat-creative">CREATIVE</div>
+          <h3>LED Christmas Tree / Beer Bottle</h3>
+          <div class="en">Shaped LED Display (Holiday / Beverage)</div>
+          <div class="specs">
+            <strong>Pitch:</strong> P1.53 – P2.5 · <strong>Brightness:</strong> 650 CD · <strong>GOB Optional</strong><br>
+            Custom Shape · Seasonal / Thematic
+          </div>
+          <div class="best-for">Holiday campaigns, bar/club events, themed marketing — social media magnet</div>
+        </div>
+
+      </div>
+
+      <!-- Quick Comparison Summary -->
+      <div style="margin-top:28px;">
+        <p style="font-size:14px; font-weight:700; color:#1a3a5c; margin-bottom:10px;">📊 Quick Spec Comparison</p>
+        <table class="compare-table" style="font-size:13px;">
+          <thead><tr><th>Product</th><th>Pitch</th><th>Brightness</th><th>GOB</th><th>Standout Feature</th></tr></thead>
+          <tbody>
+            <tr><td>Outdoor Poster</td><td>P1.53-P3.076</td><td class="orange">4000-5500 CD</td><td>Optional</td><td>IP65 + Wheels + Plug & Play</td></tr>
+            <tr><td>Outdoor Foldable</td><td>P1.53-P3.076</td><td class="orange">4000-5500 CD</td><td>Optional</td><td>Foldable + Multi-unit splice</td></tr>
+            <tr><td>LCD Indoor Poster</td><td>N/A (LCD)</td><td>500-550 CD</td><td>—</td><td>Smart rotation, low power</td></tr>
+            <tr><td>GOB LED Poster</td><td>P1.25-P2.5</td><td>650 CD</td><td class="green">Standard</td><td>Foldable, splice, APP control</td></tr>
+            <tr><td>Mini Cube</td><td>P1.25-P2.5</td><td>650 CD</td><td class="green">Standard</td><td>4-side, rotating base</td></tr>
+            <tr><td>Sphere / Can / Tree</td><td>P1.25-P2.5</td><td>650 CD</td><td class="green">Optional</td><td>Creative shape = viral marketing</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 4: Spec Decoder -->
+  <div class="section" id="specs">
+    <div class="section-header">
+      <div class="label">CHAPTER 4</div>
+      <h2>Spec Decoder — What the Numbers Actually Mean</h2>
+      <p>Translate technical specs into real-world impact.</p>
+    </div>
+    <div class="section-body">
+      <table class="pitch-table">
+        <thead>
+          <tr><th width="18%">Spec</th><th width="35%">What It Means</th><th width="22%">Riotouch Standard</th><th width="25%">Do You Need It?</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Pixel Pitch</strong></td><td>Smaller = sharper at close range. P1.25 = premium detail; P3.076 = budget for far viewing.</td><td class="blue">P1.25 / P1.53 / P1.86 / P2.5 / P3.076</td><td>Match to your viewing distance — ask us</td></tr>
+          <tr><td><strong>Brightness</strong></td><td>Outdoor below 4000 CD = unreadable in sunlight. Indoor 650 CD = perfectly visible.</td><td class="orange">4000-5500 CD (outdoor)<br>650 CD (indoor)</td><td>Indoor? 650 CD is plenty.<br>Outdoor? 4000+ CD is a must.</td></tr>
+          <tr><td><strong>Refresh Rate</strong></td><td>Below 1920 Hz = visible scan lines in photos. 3840 Hz = clean smartphone photos. 7680 Hz = broadcast quality.</td><td class="green">3840 Hz / 7680 Hz</td><td>If people photograph your screen → 3840 Hz minimum</td></tr>
+          <tr><td><strong>Gray Scale</strong></td><td>More bits = smoother color gradients. 16-bit = no visible banding in skies or skin tones.</td><td>14-bit / 16-bit</td><td>Displaying photos/videos with gradients? → 16-bit</td></tr>
+          <tr><td><strong>IP Rating</strong></td><td>IP65 = sealed against dust + rain. Indoor models use GOB instead (splash + bump protection).</td><td>IP65 (outdoor)<br>GOB coating (indoor)</td><td>Any outdoor use → IP65 required</td></tr>
+          <tr><td><strong>Maintenance</strong></td><td>Magnetic front = tool-free module swap. Pop out a bad module, pop in a new one — 5 minutes.</td><td>Magnetic front maintenance</td><td>If rear access is limited → front maintenance is essential</td></tr>
+          <tr><td><strong>Power</strong></td><td>Avg = typical running cost. Max = all-white full blast. Use Avg for your electricity estimate.</td><td>76-554W avg (varies by model)</td><td>Running 10+ hours daily? → check Avg wattage</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Section 5: FAQ -->
+  <div class="section" id="faq">
+    <div class="section-header">
+      <div class="label">CHAPTER 5</div>
+      <h2>Frequently Asked Questions</h2>
+      <p>Real questions from real buyers.</p>
+    </div>
+    <div class="section-body">
+
+      <div class="faq-item">
+        <div class="faq-q"><span class="icon">Q</span> Is LED more expensive than LCD?</div>
+        <div class="faq-a">
+          It depends on the use case. For <strong>indoor close-range</strong> display, LCD can be cheaper upfront. But for <strong>outdoor use, LED is the only option</strong> — LCD simply cannot achieve the brightness needed for sunlight visibility.
+          <ul>
+            <li><strong>Lifespan:</strong> LED lasts 80,000-100,000 hours vs LCD's 30,000-50,000 hours</li>
+            <li><strong>Total Cost of Ownership:</strong> When you factor in lifespan, installation cost (Plug & Play = free), and no CMS subscription fee, LED often costs less over 5 years</li>
+          </ul>
+          <em>Ask us for a TCO comparison tailored to your project.</em>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q"><span class="icon">Q</span> Do I need a technician to install it?</div>
+        <div class="faq-a">
+          <strong>No.</strong> All Riotouch products are Plug & Play — plug into a power outlet, and your content starts playing. No wall mounting, no software setup, no technician. Your store staff can handle it in 2 minutes. Content changes are done via free mobile APP.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q"><span class="icon">Q</span> What happens if an LED bead breaks?</div>
+        <div class="faq-a">
+          Three layers of protection:
+          <ul>
+            <li><strong>GOB coating</strong> — transparent resin over all beads, resistant to water, dust, and impact</li>
+            <li><strong>Magnetic front maintenance</strong> — if a module fails, pop it out and replace it in 5 minutes, no tools needed</li>
+            <li><strong>Gray scale masking</strong> — even if 1-2 individual beads fail, they're invisible at normal viewing distance</li>
+          </ul>
+          Module replacement is affordable — ask us for spare module pricing.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q"><span class="icon">Q</span> How do I change the content on the screen?</div>
+        <div class="faq-a">
+          <strong>Free mobile APP via WiFi.</strong> Upload images/videos from your phone, schedule playlists, push content to multiple locations simultaneously. <strong>No monthly subscription</strong> — the app is included free with every Riotouch product. Works on both iOS and Android.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q"><span class="icon">Q</span> Can I connect multiple screens together?</div>
+        <div class="faq-a">
+          <strong>Yes.</strong> Our foldable LED posters and outdoor screens support <strong>multi-unit splicing</strong> — connect 2, 4, or more units to create a seamless large display. The content management APP handles multi-screen layouts automatically.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q"><span class="icon">Q</span> What warranty do you offer?</div>
+        <div class="faq-a">
+          Standard warranty: <strong>1-year整机 (整机) + 3-year配件 (配件)</strong> covering module replacement. Extended warranty options available. Our products are certified: ISO9001, CE, RoHS, FCC. All products exceed industry LED display standards.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q"><span class="icon">Q</span> I'm comparing quotes from multiple suppliers. What should I check?</div>
+        <div class="faq-a">
+          Make sure you're comparing apples to apples. Key items to verify:
+          <ul>
+            <li><strong>Refresh rate:</strong> Is 3840Hz included, or just 1920Hz? (1920Hz shows scan lines in photos)</li>
+            <li><strong>GOB coating:</strong> Is it included or extra? (Some suppliers skip it to lower the price)</li>
+            <li><strong>Content APP:</strong> Is it included free, or is there a monthly subscription?</li>
+            <li><strong>Certifications:</strong> CE, RoHS, FCC — are they real and current?</li>
+            <li><strong>Warranty terms:</strong> What's covered and for how long?</li>
+          </ul>
+          <em>We're happy to provide a detailed spec-for-spec comparison — just ask.</em>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta-block">
+    <h2>Ready to Find Your LED Display?</h2>
+    <p>Tell us your space and we'll recommend the perfect product — no obligation, no pressure.</p>
+    <a href="mailto:barry@riotouch.com" class="btn">📧 Email Us</a>
+    &nbsp;
+    <a href="https://wa.me/8615527065860" class="btn" style="background:transparent; color:#fff; border:1px solid rgba(255,255,255,0.5);">💬 WhatsApp</a>
+  </div>
+
+  <!-- About Riotouch -->
+  <div class="section">
+    <div class="section-header">
+      <div class="label" style="background:#1b8a2e;">ABOUT</div>
+      <h2>About Riotouch</h2>
+    </div>
+    <div class="section-body" style="font-size:13px; color:#555; line-height:1.8;">
+      <p><strong>Riotouch</strong> is a professional manufacturer of interactive display solutions, specializing in <strong>Interactive Flat Panels (IFP)</strong>, smart blackboards, LED application products, and digital signage. With deep expertise in both education and commercial markets, we deliver Plug & Play solutions that combine cutting-edge hardware with our proprietary <strong>Daisy OS</strong> software ecosystem — built on Android for intuitive, reliable operation.</p>
+      <p style="margin-top:10px;"><strong>Product Lines:</strong> IFP (65"-98") · Smart Blackboard · LED Poster & Creative Display · Document Camera · OPS Module · PartyCube · Digital Signage</p>
+      <p style="margin-top:10px;"><strong>Software Ecosystem — Daisy OS:</strong> UMind Interactive Whiteboard · Airclass Collaboration · 20+ Built-in Teaching Tools · UFile Cloud Drive · DMS Device Management · URecord Screen Recording · Riotouch Cloud Platform</p>
+      <p style="margin-top:10px;"><strong>Certifications:</strong> CE · RoHS · FCC · ISO9001</p>
+      <p style="margin-top:6px;"><strong>Warranty:</strong> LCD Panel:​ 1-year warranty for the liquid crystal display.Core Components:​ 3-year warranty for the Motherboard, Power Board, and Touch Frames. — extended options available</p>
+      <p style="margin-top:6px;"><strong>Contact:</strong> 📧 barry@riotouch.com · 📱 WhatsApp: +86 15527065860</p>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  <p>© 2026 Riotouch — Interactive Display Solutions. All rights reserved.</p>
+  <p style="margin-top:4px;">CE · RoHS · FCC · ISO9001 Certified · <a href="barry@riotouch.com">Contact Us</a></p>
+</div>
+
+</body>
+</html>
