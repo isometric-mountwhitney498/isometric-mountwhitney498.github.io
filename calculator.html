@@ -91,10 +91,14 @@
 
   .package-list { margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--green-tint); }
   .package-list h3 { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 10px; }
-  .pkg-table { width: 100%; border-collapse: collapse; font-size: 11px; }
-  .pkg-table th { background: var(--green-soft); padding: 6px 8px; text-align: center; font-weight: 700; color: var(--green-deep); font-size: 10px; }
-  .pkg-table td { padding: 6px 8px; text-align: center; border-top: 1px solid var(--green-tint); }
-  .pkg-table tr:hover td { background: var(--mint); }
+  .pkg-table { width: 100%; border-collapse: collapse; font-size: 10px; background: #fff; }
+  .pkg-table thead th { background: var(--green-soft); padding: 8px 6px; text-align: center; font-weight: 700; color: var(--green-deep); font-size: 9px; border: 1px solid var(--green); line-height: 1.3; }
+  .pkg-table thead th .sub { display: block; font-weight: 600; color: var(--text-mute); font-size: 8px; margin-top: 1px; }
+  .pkg-table tbody td { padding: 6px 4px; text-align: center; border: 1px solid var(--green-tint); color: var(--text); }
+  .pkg-table tbody tr.total-row td { background: var(--green-soft); font-weight: 700; color: var(--green-deep); border: 1px solid var(--green); }
+  .pkg-table tbody tr.shared-row td { color: var(--text-mute); font-style: italic; }
+  .pkg-table tbody tr:hover td { background: var(--mint); }
+  .pkg-table tbody tr.shared-row:hover td { background: var(--mint); }
 
   .empty-result { text-align: center; padding: 40px 20px; color: var(--text-mute); font-size: 13px; }
   .empty-result .icon { font-size: 36px; margin-bottom: 10px; }
@@ -507,29 +511,160 @@ function calculate() {
     loadingHtml += '</div>';
   }
 
-  // Package list table
-  let pkgHtml = '<div class="package-list"><h3>📋 Package List</h3><div style="overflow-x:auto;"><table class="pkg-table"><thead><tr><th>#</th><th>Type</th><th>Case Size</th><th>Pcs/Case</th><th>Cases</th><th>Total Pcs</th><th>CBM</th><th>Weight</th></tr></thead><tbody>';
-  packageList.forEach((pkg, i) => {
-    pkgHtml += `<tr>
-      <td>${i + 1}</td>
-      <td>${pkg.type}</td>
-      <td style="white-space:nowrap">${pkg.caseSize}</td>
-      <td>${pkg.pcsPerCase}</td>
-      <td>${pkg.cases}</td>
-      <td>${pkg.totalPcs}</td>
-      <td>${pkg.cbm.toFixed(2)}</td>
-      <td>${pkg.weight.toFixed(0)} kg</td>
-    </tr>`;
+  // Package list — 按Pallet/箱号分组的中英对照装箱单
+  // 逻辑：mixable组(65/75/86)合并为1个pallet/case，shared row用"—"标记；
+  //       non-mixable组(98/110)按case配置每行1个pallet；底部合计行汇总整批数据
+  const palletList = [];
+  let ctnNo = 1;
+
+  // 1. 混装组（共享1个pallet，每SKU各占1行）
+  if (mixable.length > 0) {
+    const totalMixPcs = mixable.reduce((s, p) => s + p.qty, 0);
+    const maxSizeId = Math.max(...mixable.map(p => p.panel.id));
+    const largest = PANELS.find(p => p.id === maxSizeId);
+    // 用5pcs/case配置作为代表pallet尺寸（混装按最大尺寸case）
+    const caseMax = largest.cases.find(c => c.n === 5) || largest.cases[largest.cases.length - 1];
+    const dim = parseDim(caseMax.sz);
+    const palletL = dim.l, palletW = dim.w, palletH = dim.h + 15; // +15cm pallet
+    const palletCBM = (palletL * palletW * palletH) / 1000000;
+    // NW: 各SKU pcs × 单件毛重
+    const totalNW = mixable.reduce((s, p) => s + p.qty * p.panel.gw, 0);
+
+    // 混装逻辑：
+    // • 真正混装(mixable.length>1): GW=NW+40KGS (共享托盘额外包装)
+    // • 单SKU(mixable.length=1): 直接用caseConfig.kg (不加40)
+    const actualMixed = mixable.length > 1;
+    const totalGW = actualMixed ? totalNW + 40 : caseMax.kg;
+
+    mixable.forEach((m, idx) => {
+      palletList.push({
+        ctnNo,
+        description: m.panel.label.replace('"', '"'),
+        pkg: m.qty,
+        palletQty: idx === 0 ? 1 : null,
+        palletL: idx === 0 ? palletL : null,
+        palletW: idx === 0 ? palletW : null,
+        palletH: idx === 0 ? palletH : null,
+        cbm: idx === 0 ? palletCBM : null,
+        nw: idx === 0 ? totalNW : null,
+        gw: idx === 0 ? totalGW : null,
+        shared: idx > 0
+      });
+    });
+    ctnNo++;
+  }
+
+  // 2. 独立组（98"/110"，每pallet/case一行）
+  for (const sel of nonMixable) {
+    let remaining = sel.qty;
+    const sortedCases = [...sel.panel.cases].sort((a, b) => b.n - a.n);
+    for (const c of sortedCases) {
+      const fullCases = Math.floor(remaining / c.n);
+      for (let i = 0; i < fullCases; i++) {
+        const d = parseDim(c.sz);
+        const pcsNW = c.n * sel.panel.gw;
+        palletList.push({
+          ctnNo: ctnNo++,
+          description: sel.panel.label,
+          pkg: c.n,
+          palletQty: 1,
+          palletL: d.l, palletW: d.w, palletH: d.h + 15,
+          cbm: (d.l * d.w * (d.h + 15)) / 1000000,
+          nw: pcsNW,
+          gw: c.kg,
+          shared: false
+        });
+      }
+      remaining = remaining % c.n;
+      if (remaining === 0) break;
+    }
+    // 余数
+    if (remaining > 0) {
+      const c = sel.panel.cases.find(cc => cc.n >= remaining) || sel.panel.cases[0];
+      const d = parseDim(c.sz);
+      const pcsNW = remaining * sel.panel.gw;
+      palletList.push({
+        ctnNo: ctnNo++,
+        description: sel.panel.label,
+        pkg: remaining,
+        palletQty: 1,
+        palletL: d.l, palletW: d.w, palletH: d.h + 15,
+        cbm: (d.l * d.w * (d.h + 15)) / 1000000,
+        nw: pcsNW,
+        gw: c.kg,
+        shared: false
+      });
+    }
+  }
+
+  // 3. 渲染表格（中英双语表头，参考出货装箱单格式）
+  // Summary cards 使用 palletList 的汇总数据，确保与表格完全一致
+  // 注意: totalPkg 计所有行(含shared), 但 Pallets/CBM/NW/GW 只计非shared行(避免重复计算)
+  let totalPkg = 0, totalPallets = 0, totalCBM = 0, totalNW = 0, totalGW = 0;
+  palletList.forEach(item => {
+    totalPkg += item.pkg;
+    if (!item.shared) {
+      totalPallets += (item.palletQty || 0);
+      totalCBM += (item.cbm || 0);
+      totalNW += (item.nw || 0);
+      totalGW += (item.gw || 0);
+    }
   });
+
+  let pkgHtml = '<div class="package-list"><h3>📋 Package List (装箱单)</h3><div style="overflow-x:auto;">';
+  pkgHtml += '<table class="pkg-table">';
+  pkgHtml += '<thead><tr>';
+  pkgHtml += '<th>箱号<br><span class="sub">Ctn.No.</span></th>';
+  pkgHtml += '<th>货物名称及规格<br><span class="sub">Description</span></th>';
+  pkgHtml += '<th>件数<br><span class="sub">Pkg</span></th>';
+  pkgHtml += '<th>Pallet Quantity<br><span class="sub">木托盘数量</span></th>';
+  pkgHtml += '<th colspan="3">Pallet Size (cm)<br><span class="sub">托盘尺寸</span></th>';
+  pkgHtml += '<th rowspan="2">CBM</th>';
+  pkgHtml += '<th>净重 (KG)<br><span class="sub">N.W.</span></th>';
+  pkgHtml += '<th>毛重 (KG)<br><span class="sub">G.W.</span></th>';
+  pkgHtml += '</tr>';
+  pkgHtml += '<tr>';
+  pkgHtml += '<th></th><th></th><th></th><th></th>';
+  pkgHtml += '<th>L</th><th>W</th><th>H</th>';
+  pkgHtml += '<th></th><th></th>';
+  pkgHtml += '</tr></thead><tbody>';
+
+  palletList.forEach(item => {
+    const sharedCls = item.shared ? ' class="shared-row"' : '';
+    pkgHtml += `<tr${sharedCls}>`;
+    pkgHtml += `<td>${item.ctnNo}</td>`;
+    pkgHtml += `<td>${item.description}</td>`;
+    pkgHtml += `<td>${item.pkg}</td>`;
+    pkgHtml += `<td>${item.palletQty !== null ? item.palletQty + ' pcs' : '—'}</td>`;
+    pkgHtml += `<td>${item.palletL !== null ? item.palletL : '—'}</td>`;
+    pkgHtml += `<td>${item.palletW !== null ? item.palletW : '—'}</td>`;
+    pkgHtml += `<td>${item.palletH !== null ? item.palletH : '—'}</td>`;
+    pkgHtml += `<td>${item.cbm !== null ? item.cbm.toFixed(2) : '—'}</td>`;
+    pkgHtml += `<td>${item.nw !== null ? Math.round(item.nw) + ' KGS' : '—'}</td>`;
+    pkgHtml += `<td>${item.gw !== null ? Math.round(item.gw) + ' KGS' : '—'}</td>`;
+    pkgHtml += '</tr>';
+  });
+
+  // 合计行
+  pkgHtml += '<tr class="total-row">';
+  pkgHtml += '<td colspan="2">合计 Total</td>';
+  pkgHtml += `<td>${totalPkg}</td>`;
+  pkgHtml += `<td>${totalPallets} Pcs</td>`;
+  pkgHtml += `<td colspan="3">—</td>`;
+  pkgHtml += `<td>${totalCBM.toFixed(2)}</td>`;
+  pkgHtml += `<td>${Math.round(totalNW)} KGS</td>`;
+  pkgHtml += `<td>${Math.round(totalGW)} KGS</td>`;
+  pkgHtml += '</tr>';
+
   pkgHtml += '</tbody></table></div></div>';
 
-  // Summary cards
+  // Summary cards — 使用palletList汇总数据，确保与Package List表格完全一致
   const html = `
     <div class="result-cards">
-      <div class="result-card"><span class="label">Total Panels</span><span class="value">${totalPcs} pcs</span></div>
-      <div class="result-card"><span class="label">Total Cases</span><span class="value">${totalCases}</span></div>
-      <div class="result-card"><span class="label">Total CBM</span><span class="value">${totalCbm.toFixed(2)}</span></div>
-      <div class="result-card"><span class="label">Gross Weight</span><span class="value">${totalWeight.toFixed(0)} kg</span></div>
+      <div class="result-card"><span class="label">Total Panels</span><span class="value">${totalPkg} pcs</span></div>
+      <div class="result-card"><span class="label">Total Pallets</span><span class="value">${totalPallets}</span></div>
+      <div class="result-card"><span class="label">Total CBM</span><span class="value">${totalCBM.toFixed(2)}</span></div>
+      <div class="result-card"><span class="label">Gross Weight</span><span class="value">${Math.round(totalGW)} kg</span></div>
       <div class="result-card highlight"><span class="label">Container</span><span class="value">${container ? container.label : 'LCL'}</span></div>
     </div>
     ${pkgHtml}
