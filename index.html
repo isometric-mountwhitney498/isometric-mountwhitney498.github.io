@@ -869,6 +869,58 @@
     padding: 8px 0;
   }
 
+  /* ===== Chip Comparison Table ===== */
+  .compare-section {
+    padding: 120px 48px;
+    background: var(--white);
+    text-align: center;
+  }
+  .compare-header { margin-bottom: 48px; }
+  .compare-table-wrap {
+    max-width: 1000px;
+    margin: 0 auto;
+    overflow-x: auto;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow);
+    border: 1px solid var(--green-tint);
+  }
+  .compare-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  .compare-table th, .compare-table td {
+    padding: 14px 18px;
+    text-align: left;
+    border-bottom: 1px solid var(--green-tint);
+  }
+  .compare-table th {
+    background: var(--green-soft);
+    font-weight: 700;
+    color: var(--green-deep);
+    font-size: 12px;
+    letter-spacing: 0.5px;
+  }
+  .compare-table td:first-child {
+    font-weight: 600;
+    color: var(--text);
+    white-space: nowrap;
+    background: rgba(232,248,239,0.4);
+  }
+  .compare-table tr:last-child td { border-bottom: none; }
+  .compare-table tr:hover td { background: var(--mint); }
+  .chip-badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 100px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+  }
+  .chip-3588 { background: var(--green-soft); color: var(--green-deep); }
+  .chip-3576 { background: #fff3e0; color: #d4700a; }
+  .compare-winner { font-weight: 700; color: var(--green-deep); }
+
   /* ===== Testimonials ===== */
   .testimonials-section {
     padding: 120px 48px;
@@ -1557,6 +1609,39 @@
         <button class="sb-reset" onclick="resetSb()">← Start Over</button>
       </div>
     </div>
+  </div>
+</section>
+
+<!-- Chip Comparison: RK3588 vs RK3576 -->
+<section class="compare-section" id="compare">
+  <div class="compare-header">
+    <span class="section-tag">⚡ Chip Comparison</span>
+    <h2 style="font-family:'Nunito','Inter',sans-serif;font-size:32px;font-weight:800;color:var(--text);margin-bottom:10px;">RK3588 vs RK3576 — Which Chip for Your Project?</h2>
+    <p style="font-size:15px;color:var(--text-mute);">Head-to-head specs comparison of Rockchip's flagship and value chips</p>
+  </div>
+  <div class="compare-table-wrap">
+    <table class="compare-table">
+      <thead><tr><th>Specification</th><th><span class="chip-badge chip-3588">RK3588</span></th><th><span class="chip-badge chip-3576">RK3576</span></th></tr></thead>
+      <tbody>
+        <tr><td>Positioning</td><td class="compare-winner">Flagship</td><td>Value / Mid-range</td></tr>
+        <tr><td>Big Core</td><td class="compare-winner">Cortex-A76 × 4</td><td>Cortex-A73 × 4</td></tr>
+        <tr><td>Small Core</td><td class="compare-winner">Cortex-A55 × 4</td><td>Cortex-A55 × 4</td></tr>
+        <tr><td>Clock Speed</td><td class="compare-winner">2.4 GHz</td><td>2.0 GHz</td></tr>
+        <tr><td>Memory</td><td class="compare-winner">DDR5 (LPDDR4/4X)</td><td>DDR4 (LPDDR4)</td></tr>
+        <tr><td>NPU AI算力</td><td class="compare-winner">6 TOPS</td><td>5 TOPS</td></tr>
+        <tr><td>GPU</td><td class="compare-winner">Mali-G610 MC4</td><td>Mali-G52</td></tr>
+        <tr><td>Camera Support</td><td class="compare-winner">8MP + 48MP + AI</td><td>8MP + 13MP</td></tr>
+        <tr><td>Video Decode</td><td class="compare-winner">8K@60fps (H.265/VP9)</td><td>4K@60fps (H.265)</td></tr>
+        <tr><td>Android Version</td><td class="compare-winner">Android 15 (EDLA)</td><td>Android 13</td></tr>
+        <tr><td>Typical Config</td><td class="compare-winner">4GB + 32GB</td><td>3GB + 16GB</td></tr>
+        <tr><td>Speaker</td><td class="compare-winner">2 × 15W</td><td>50W</td></tr>
+        <tr><td>Best For</td><td class="compare-winner">High-end education / Enterprise / AI Applications</td><td>Budget-conscious / Standard classrooms / Developing markets</td></tr>
+        <tr><td>Key Competitor</td><td class="compare-winner">Qualcomm Snapdragon 680</td><td>MediaTek MT9679, Amlogic T982</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div style="margin-top:32px;text-align:center;">
+    <p style="font-size:13px;color:var(--text-mute);">💡 Still not sure? Use the <a href="#smartboard" style="color:var(--green-deep);font-weight:600;">Smartboard Size Selector</a> above, or <a href="https://wa.me/message/GF4XMHZGAUJ7K1" style="color:var(--green-deep);font-weight:600;">WhatsApp Barry</a> for personalized advice.</p>
   </div>
 </section>
 
