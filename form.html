@@ -120,16 +120,29 @@
       </select>
     </div>
   </div>
-  <div class="form-group">
-    <label class="form-label">Product Type</label>
-    <select name="entry.1645827009" class="form-select">
-      <option value="">Not sure yet</option>
-      <option>Interactive Flat Panel (IFP)</option>
-      <option>LED Display</option>
-      <option>LED Creative Display (Sphere, Can, Curve)</option>
-      <option>Smart Blackboard</option>
-      <option>Digital Signage</option>
-    </select>
+  <div class="form-row">
+    <div class="form-group">
+      <label class="form-label">Product Type</label>
+      <select name="entry.1645827009" class="form-select">
+        <option value="">Not sure yet</option>
+        <option>Interactive Flat Panel (IFP)</option>
+        <option>LED Display</option>
+        <option>LED Creative Display (Sphere, Can, Curve)</option>
+        <option>Smart Blackboard</option>
+        <option>Digital Signage</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Quantity</label>
+      <select name="entry.QUANTITY_PLACEHOLDER" class="form-select" disabled style="opacity:0.5">
+        <option value="">Select Quantity</option>
+        <option>1 unit (sample)</option>
+        <option>2-10 units</option>
+        <option>10-50 units</option>
+        <option>50+ units</option>
+      </select>
+      <small style="font-size:11px;color:var(--text-mute);margin-top:4px;display:block">⏳ Waiting for Google Form update</small>
+    </div>
   </div>
   <div class="form-group">
     <label class="form-label">Message / Project Details</label>
@@ -140,67 +153,10 @@
     <p class="form-note">Or <a href="https://wa.me/message/GF4XMHZGAUJ7K1" target="_blank">chat directly on WhatsApp</a></p>
   </div>
 </form>
-<iframe name="formIframe" style="display:none"></iframe>
-    <div class="form-row">
-      <div class="form-group">
-        <label class="form-label">Your Name *</label>
-        <input type="text" class="form-input" required placeholder="Your name">
-      </div>
-      <div class="form-group">
-        <label class="form-label">Company Name</label>
-        <input type="text" class="form-input" placeholder="Your company">
-      </div>
-    </div>
-    <div class="form-row">
-      <div class="form-group">
-        <label class="form-label">Email *</label>
-        <input type="email" class="form-input" required placeholder="you@company.com">
-      </div>
-      <div class="form-group">
-        <label class="form-label">Country *</label>
-        <select class="form-select" required>
-          <option value="">Select Country</option>
-          <option>Poland</option><option>Hungary</option><option>Romania</option><option>Slovakia</option>
-          <option>Pakistan</option><option>Bangladesh</option><option>Vietnam</option><option>Philippines</option>
-          <option>China</option><option>Other</option>
-        </select>
-      </div>
-    </div>
-    <div class="form-group">
-      <label class="form-label">Product Type</label>
-      <select class="form-select">
-        <option value="">Not sure yet</option>
-        <option>Interactive Flat Panel (IFP)</option>
-        <option>LED Display</option>
-        <option>LED Creative Display (Sphere, Can, Curve)</option>
-        <option>Smart Blackboard</option>
-        <option>Digital Signage</option>
-      </select>
-    </div>
-    <div class="form-group">
-      <label class="form-label">Quantity (approximate)</label>
-      <select class="form-select">
-        <option value="">Not sure yet</option>
-        <option>1 unit (sample)</option>
-        <option>2-10 units</option>
-        <option>10-50 units</option>
-        <option>50+ units</option>
-        <option>Project (100+)</option>
-      </select>
-    </div>
-    <div class="form-group">
-      <label class="form-label">Message / Project Details</label>
-      <textarea class="form-textarea" placeholder="Tell me about your project, application, or any questions..."></textarea>
-    </div>
-    <div class="form-submit">
-      <button type="button" class="form-btn" onclick="submitForm()">📨 Submit Inquiry →</button>
-      <p class="form-note">Or <a href="https://wa.me/message/GF4XMHZGAUJ7K1" target="_blank">chat directly on WhatsApp</a></p>
-    </div>
-  </div>
-  <div class="form-thanks" id="formThanks">
-    <h3>✅ Thank you!</h3>
-    <p>Your inquiry has been sent. Barry will reply within 24 hours via WhatsApp or Email.</p>
-  </div>
+</div>
+<div id="formThanks" class="form-section" style="display:none;padding:60px 40px;text-align:center">
+  <h3>✅ Thank you!</h3>
+  <p>Your inquiry has been sent. Barry will reply within 24 hours via WhatsApp or Email.</p>
 </div>
 
 <div class="footer">
