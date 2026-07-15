@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Volume Calculator — Barry Chen</title>
-<meta name="description" content="Smart shipping calculator for Riotouch interactive panels — CBM, weight, and container mixed-load optimization.">
+<title>Shipping Calculator — Barry Chen</title>
+<meta name="description" content="Smart shipping calculator — mixed-load optimization, container loading plan, package list.">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%232ecc71'/><text x='50' y='68' font-size='55' font-weight='bold' text-anchor='middle' fill='white'>B</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -22,12 +22,10 @@
   body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; padding-top: 72px; }
   a { color: var(--green-deep); text-decoration: none; }
 
-  /* WhatsApp Float */
   .wa-float { position: fixed; bottom: 24px; right: 24px; width: 60px; height: 60px; border-radius: 50%; background: #25d366; box-shadow: 0 8px 32px rgba(37,211,102,0.35); display: flex; align-items: center; justify-content: center; z-index: 9999; transition: all 0.35s; text-decoration: none; }
-  .wa-float:hover { transform: translateY(-4px) scale(1.05); box-shadow: 0 16px 48px rgba(37,211,102,0.5); }
+  .wa-float:hover { transform: translateY(-4px) scale(1.05); }
   .wa-icon { width: 28px; height: 28px; fill: #fff; }
 
-  /* Nav */
   .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 9998; padding: 0 48px; height: 72px; display: flex; align-items: center; justify-content: space-between; background: rgba(250,255,254,0.96); backdrop-filter: blur(20px); box-shadow: 0 4px 24px rgba(26,163,90,0.08); border-bottom: 1px solid rgba(26,163,90,0.06); }
   .nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
   .nav-avatar { width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, #27ae60, #2ecc71); display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 800; font-size: 16px; }
@@ -40,71 +38,84 @@
   .nav-toggle { display: none; flex-direction: column; gap: 4px; cursor: pointer; padding: 8px; background: none; border: none; }
   .nav-toggle span { display: block; width: 20px; height: 2px; background: var(--text); }
 
-  /* Hero */
-  .calc-hero { padding: 80px 48px 40px; text-align: center; background: var(--mint); }
-  .calc-hero h1 { font-family: 'Nunito','Inter',sans-serif; font-size: 32px; font-weight: 800; color: var(--text); margin-bottom: 8px; }
-  .calc-hero p { font-size: 14px; color: var(--text-mute); max-width: 500px; margin: 0 auto; }
+  .calc-hero { padding: 60px 48px 30px; text-align: center; background: var(--mint); }
+  .calc-hero h1 { font-family: 'Nunito','Inter',sans-serif; font-size: 28px; font-weight: 800; color: var(--text); margin-bottom: 8px; }
+  .calc-hero p { font-size: 13px; color: var(--text-mute); max-width: 600px; margin: 0 auto; }
 
-  /* Calculator */
-  .calc-section { max-width: 1100px; margin: 0 auto; padding: 48px 20px 100px; }
+  .calc-section { max-width: 1200px; margin: 0 auto; padding: 40px 20px 100px; }
   .calc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: start; }
 
-  /* Form */
   .calc-form { background: var(--white); border: 1px solid var(--green-tint); border-radius: var(--radius-lg); padding: 32px; box-shadow: var(--shadow); }
-  .calc-form h2 { font-family: 'Nunito','Inter',sans-serif; font-size: 20px; font-weight: 800; color: var(--text); margin-bottom: 24px; }
-  .size-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; margin-bottom: 20px; }
-  .size-card { border: 2px solid var(--green-tint); border-radius: var(--radius); padding: 14px 12px; cursor: pointer; text-align: center; transition: all 0.25s; user-select: none; }
+  .calc-form h2 { font-family: 'Nunito','Inter',sans-serif; font-size: 18px; font-weight: 800; color: var(--text); margin-bottom: 20px; }
+  .size-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 10px; margin-bottom: 20px; }
+  .size-card { border: 2px solid var(--green-tint); border-radius: var(--radius); padding: 12px 10px; cursor: pointer; text-align: center; transition: all 0.25s; user-select: none; }
   .size-card:hover { border-color: var(--green); background: var(--mint); }
   .size-card.selected { border-color: var(--green); background: var(--green-soft); box-shadow: 0 0 0 3px var(--green-tint); }
-  .size-card .size-label { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+  .size-card .size-label { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 2px; }
   .size-card .size-carton { font-size: 10px; color: var(--text-mute); }
-  .qty-row { display: flex; align-items: center; gap: 12px; margin-top: 12px; }
-  .qty-btn { width: 32px; height: 32px; border-radius: 8px; border: 1px solid var(--green-tint); background: var(--white); font-size: 18px; font-weight: 600; color: var(--green-deep); cursor: pointer; transition: all 0.2s; }
+  .qty-row { display: flex; align-items: center; gap: 10px; margin-top: 10px; }
+  .qty-btn { width: 30px; height: 30px; border-radius: 8px; border: 1px solid var(--green-tint); background: var(--white); font-size: 16px; font-weight: 600; color: var(--green-deep); cursor: pointer; }
   .qty-btn:hover { background: var(--green-soft); }
-  .qty-input { width: 60px; text-align: center; font-size: 16px; font-weight: 700; border: 1px solid var(--green-tint); border-radius: 8px; padding: 6px; }
+  .qty-input { width: 56px; text-align: center; font-size: 14px; font-weight: 700; border: 1px solid var(--green-tint); border-radius: 8px; padding: 5px; }
 
-  .container-select { margin-bottom: 24px; }
+  .container-select { margin-bottom: 20px; }
   .container-select label { display: block; font-size: 12px; font-weight: 600; color: var(--text); margin-bottom: 6px; }
   .container-select select { width: 100%; padding: 10px 14px; border: 1px solid var(--green-tint); border-radius: var(--radius); font-size: 13px; background: var(--white); }
 
-  /* Results */
-  .calc-result { background: var(--white); border: 1px solid var(--green-tint); border-radius: var(--radius-lg); padding: 32px; box-shadow: var(--shadow); position: sticky; top: 90px; }
-  .calc-result h2 { font-family: 'Nunito','Inter',sans-serif; font-size: 20px; font-weight: 800; color: var(--text); margin-bottom: 20px; }
-  .result-cards { display: grid; gap: 12px; }
-  .result-card { display: flex; justify-content: space-between; align-items: center; padding: 14px 18px; background: var(--mint); border-radius: var(--radius); border: 1px solid var(--green-tint); }
-  .result-card .label { font-size: 12px; color: var(--text-mute); font-weight: 500; }
-  .result-card .value { font-size: 16px; font-weight: 700; color: var(--green-deep); font-family: 'Nunito','Inter',sans-serif; }
-  .result-card.highlight { background: var(--green-soft); border-color: var(--green); }
-  .result-card.highlight .value { font-size: 22px; }
+  .mixed-note { font-size: 11px; color: var(--text-mute); background: var(--mint); border: 1px solid var(--green-tint); border-radius: var(--radius); padding: 10px 14px; margin-bottom: 20px; line-height: 1.6; }
+  .mixed-note strong { color: var(--green-deep); }
 
-  .pack-plan { margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--green-tint); }
-  .pack-plan h3 { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 12px; }
-  .pack-item { display: flex; justify-content: space-between; padding: 8px 0; font-size: 13px; border-bottom: 1px dashed var(--green-tint); }
+  .calc-result { background: var(--white); border: 1px solid var(--green-tint); border-radius: var(--radius-lg); padding: 32px; box-shadow: var(--shadow); position: sticky; top: 90px; max-height: calc(100vh - 110px); overflow-y: auto; }
+  .calc-result h2 { font-family: 'Nunito','Inter',sans-serif; font-size: 18px; font-weight: 800; color: var(--text); margin-bottom: 16px; }
+  .result-cards { display: grid; gap: 10px; }
+  .result-card { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; background: var(--mint); border-radius: var(--radius); border: 1px solid var(--green-tint); }
+  .result-card .label { font-size: 11px; color: var(--text-mute); font-weight: 500; }
+  .result-card .value { font-size: 15px; font-weight: 700; color: var(--green-deep); font-family: 'Nunito','Inter',sans-serif; }
+  .result-card.highlight { background: var(--green-soft); border-color: var(--green); }
+  .result-card.highlight .value { font-size: 20px; }
+
+  .pack-plan { margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--green-tint); }
+  .pack-plan h3 { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 10px; }
+  .pack-item { display: flex; justify-content: space-between; padding: 6px 0; font-size: 12px; border-bottom: 1px dashed var(--green-tint); gap: 12px; }
   .pack-item:last-child { border-bottom: none; }
-  .pack-item .desc { color: var(--text-mute); }
-  .pack-item .val { font-weight: 600; color: var(--text); }
+  .pack-item .desc { color: var(--text-mute); flex: 1; }
+  .pack-item .val { font-weight: 600; color: var(--text); text-align: right; white-space: nowrap; }
+
+  .container-loading { margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--green-tint); }
+  .container-loading h3 { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 10px; }
+  .loading-option { padding: 14px; border: 1px solid var(--green-tint); border-radius: var(--radius); margin-bottom: 10px; }
+  .loading-option.recommended { border-color: var(--green); background: var(--mint); }
+  .loading-option h4 { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
+  .loading-option .badge { font-size: 9px; font-weight: 700; padding: 2px 8px; border-radius: 100px; background: var(--green); color: #fff; }
+  .loading-option .detail { font-size: 11px; color: var(--text-mute); line-height: 1.6; }
+
+  .package-list { margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--green-tint); }
+  .package-list h3 { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 10px; }
+  .pkg-table { width: 100%; border-collapse: collapse; font-size: 11px; }
+  .pkg-table th { background: var(--green-soft); padding: 6px 8px; text-align: center; font-weight: 700; color: var(--green-deep); font-size: 10px; }
+  .pkg-table td { padding: 6px 8px; text-align: center; border-top: 1px solid var(--green-tint); }
+  .pkg-table tr:hover td { background: var(--mint); }
 
   .empty-result { text-align: center; padding: 40px 20px; color: var(--text-mute); font-size: 13px; }
-  .empty-result .icon { font-size: 40px; margin-bottom: 12px; }
+  .empty-result .icon { font-size: 36px; margin-bottom: 10px; }
 
-  /* Plywood table */
-  .data-table-wrap { margin-top: 48px; }
-  .data-table-wrap h3 { font-family: 'Nunito','Inter',sans-serif; font-size: 18px; font-weight: 800; color: var(--text); margin-bottom: 16px; }
-  .data-table { width: 100%; border-collapse: collapse; font-size: 12px; }
-  .data-table th { background: var(--green-soft); padding: 10px 8px; text-align: center; font-weight: 700; color: var(--green-deep); font-size: 10px; white-space: nowrap; }
-  .data-table td { padding: 8px; text-align: center; border-top: 1px solid var(--green-tint); }
+  .data-table-wrap { margin-top: 40px; }
+  .data-table-wrap h3 { font-family: 'Nunito','Inter',sans-serif; font-size: 16px; font-weight: 800; color: var(--text); margin-bottom: 14px; }
+  .data-table { width: 100%; border-collapse: collapse; font-size: 11px; }
+  .data-table th { background: var(--green-soft); padding: 8px 6px; text-align: center; font-weight: 700; color: var(--green-deep); font-size: 10px; white-space: nowrap; }
+  .data-table td { padding: 6px; text-align: center; border-top: 1px solid var(--green-tint); }
   .data-table tr:hover td { background: var(--mint); }
 
-  /* Footer */
   .footer { padding: 40px 20px; text-align: center; background: var(--white); border-top: 1px solid rgba(46,204,113,0.08); font-size: 12px; color: var(--text-mute); }
 
   @media(max-width:860px) {
     .nav-links { display: none; }
     .nav-toggle { display: flex; }
-    .calc-hero { padding: 60px 20px 30px; }
+    .calc-hero { padding: 40px 20px 20px; }
     .calc-grid { grid-template-columns: 1fr; }
-    .calc-result { position: static; }
-    .data-table { font-size: 10px; }
+    .calc-result { position: static; max-height: none; }
+    .data-table { font-size: 9px; }
+    .pkg-table { font-size: 9px; }
   }
 </style>
 </head>
@@ -130,253 +141,247 @@
 </nav>
 
 <div class="calc-hero">
-  <h1>📦 Volume & Weight Calculator</h1>
-  <p>Smart mixed-load shipping estimator — select your panels, get instant CBM, weight, and optimal packaging plan</p>
+  <h1>📦 Shipping Calculator</h1>
+  <p>Mixed-load optimization · Container loading plan · Package list</p>
 </div>
 
 <div class="calc-section">
   <div class="calc-grid">
-    <!-- Input Form -->
     <div class="calc-form">
       <h2>Select Panels</h2>
       <div class="size-grid" id="sizeGrid"></div>
-
       <div id="qtySection"></div>
-
-      <div class="container-select" style="margin-top:20px;">
+      <div class="mixed-note">
+        <strong>📌 Mixed-Load Rules:</strong><br>
+        • 65" / 75" / 86" can be mixed — max 5pcs per case<br>
+        • Mixed case dimensions = largest panel's case size<br>
+        • 98" / 110" ship separately (no mixing)<br>
+        • FCL loading considers both with/without pallet
+      </div>
+      <div class="container-select">
         <label>Target Container</label>
         <select id="containerSelect">
-          <option value="20ft">20ft GP (28 CBM)</option>
-          <option value="40ft">40ft GP (58 CBM)</option>
-          <option value="40hq" selected>40ft HQ (68 CBM)</option>
-          <option value="_mix">Mixed / LCL Shipping</option>
+          <option value="20ft">20ft GP (590×235×239cm)</option>
+          <option value="40ft">40ft GP (1203×235×239cm)</option>
+          <option value="40hq" selected>40ft HQ (1203×235×269cm)</option>
+          <option value="_mix">LCL / Mixed</option>
         </select>
       </div>
     </div>
 
-    <!-- Results -->
     <div class="calc-result">
       <h2>Shipping Plan</h2>
       <div id="resultContent">
         <div class="empty-result">
           <div class="icon">📦</div>
-          <p>Select panel sizes and quantities to generate shipping plan</p>
+          <p>Select panels to generate plan</p>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Reference Data Table -->
   <div class="data-table-wrap">
-    <h3>📋 Reference: Plywood Case Configurations</h3>
+    <h3>📋 Reference: Case Configurations</h3>
     <div style="overflow-x:auto;">
       <table class="data-table">
-        <thead>
-          <tr>
-            <th>Size</th>
-            <th>Pcs / Case</th>
-            <th>Case Size (cm)</th>
-            <th>G.W. (kg)</th>
-            <th>Volume (CBM)</th>
-          </tr>
-        </thead>
+        <thead><tr><th>Size</th><th>Pcs/Case</th><th>Case Size (cm)</th><th>G.W. (kg)</th><th>CBM</th></tr></thead>
         <tbody id="refTableBody"></tbody>
       </table>
     </div>
   </div>
 </div>
 
-<div class="footer">
-  <p>© 2026 Barry Chen · Riotouch Technology</p>
-</div>
+<div class="footer"><p>© 2026 Barry Chen · Riotouch Technology</p></div>
 
 <script>
-// Data
+// Panel data
 const PANELS = [
-  { id: 65, label: '65"', carton: '163×19×104', gw: 52, bare: '159×18×105', opt1: {n:1, sz:'170×33×124', kg:92}, opt2: {n:2, sz:'170×56×124', kg:0}, opt3: {n:3, sz:'170×82×124', kg:0}, opt4: {n:4, sz:'170×97×124', kg:0}, opt5: {n:5, sz:'166×137×119', kg:0}, ltq: '166×116×108' },
-  { id: 75, label: '75"', carton: '185×19×117', gw: 65, bare: '182×18×117', opt1: {n:1, sz:'185×33×120', kg:105}, opt2: {n:2, sz:'193×56×137', kg:0}, opt3: {n:3, sz:'193×82×137', kg:0}, opt4: {n:4, sz:'193×97×137', kg:0}, opt5: {n:5, sz:'188×116×129', kg:0} },
-  { id: 86, label: '86"', carton: '210×19×131', gw: 85, bare: '210×18×131', opt1: {n:1, sz:'219×33×147', kg:125}, opt2: {n:2, sz:'219×56×147', kg:0}, opt3: {n:3, sz:'219×82×147', kg:0}, opt4: {n:4, sz:'219×97×147', kg:0}, opt5: {n:5, sz:'213×116×141', kg:0} },
-  { id: 98, label: '98"', carton: '238×22×149', gw: 105, bare: '235×18×145', opt1: {n:1, sz:'238×33×149', kg:145}, opt2: {n:2, sz:'246×53×167', kg:0}, opt3: {n:3, sz:'246×82×167', kg:0}, opt4: {n:4, sz:'246×97×167', kg:0}, opt5: {n:5, sz:'246×116×167', kg:0} },
-  { id: 110, label: '110"', carton: '278×24×156', gw: 130, bare: '275×21×153', opt1: {n:1, sz:'286×33×164', kg:175}, opt2: {n:2, sz:'286×56×164', kg:0}, opt3: {n:3, sz:'286×82×164', kg:0}, opt4: {n:4, sz:'286×97×164', kg:0}, opt5: {n:5, sz:'280×116×172', kg:0} }
+  { id: 65, label: '65"', gw: 52, mixable: true,
+    cases: [
+      { n: 1, sz: '170×33×124', kg: 92 },
+      { n: 2, sz: '170×56×124', kg: 104 },
+      { n: 3, sz: '170×82×124', kg: 156 },
+      { n: 4, sz: '170×97×124', kg: 208 },
+      { n: 5, sz: '166×137×119', kg: 260 }
+    ]
+  },
+  { id: 75, label: '75"', gw: 65, mixable: true,
+    cases: [
+      { n: 1, sz: '185×33×120', kg: 105 },
+      { n: 2, sz: '193×56×137', kg: 130 },
+      { n: 3, sz: '193×82×137', kg: 195 },
+      { n: 4, sz: '193×97×137', kg: 260 },
+      { n: 5, sz: '188×116×129', kg: 325 }
+    ]
+  },
+  { id: 86, label: '86"', gw: 85, mixable: true,
+    cases: [
+      { n: 1, sz: '219×33×147', kg: 125 },
+      { n: 2, sz: '219×56×147', kg: 170 },
+      { n: 3, sz: '219×82×147', kg: 255 },
+      { n: 4, sz: '219×97×147', kg: 340 },
+      { n: 5, sz: '213×116×141', kg: 425 }
+    ]
+  },
+  { id: 98, label: '98"', gw: 105, mixable: false,
+    cases: [
+      { n: 1, sz: '238×33×149', kg: 145 },
+      { n: 2, sz: '246×53×167', kg: 210 },
+      { n: 3, sz: '246×82×167', kg: 315 },
+      { n: 4, sz: '246×97×167', kg: 420 },
+      { n: 5, sz: '246×116×167', kg: 525 }
+    ]
+  },
+  { id: 110, label: '110"', gw: 130, mixable: false,
+    cases: [
+      { n: 1, sz: '286×33×164', kg: 175 },
+      { n: 2, sz: '286×56×164', kg: 260 },
+      { n: 3, sz: '286×82×164', kg: 390 },
+      { n: 4, sz: '286×97×164', kg: 520 },
+      { n: 5, sz: '280×116×172', kg: 650 }
+    ]
+  }
 ];
 
-// Parse dimensions to cm and calculate volume
+// Container internal dimensions (cm)
+const CONTAINERS = {
+  '20ft': { l: 590, w: 235, h: 239, cbm: 28, label: '20ft GP' },
+  '40ft': { l: 1203, w: 235, h: 239, cbm: 58, label: '40ft GP' },
+  '40hq': { l: 1203, w: 235, h: 269, cbm: 68, label: '40ft HQ' }
+};
+
+// Pallet dimensions (cm) - standard EUR pallet
+const PALLET = { l: 120, w: 80, h: 15, maxWeight: 1000 };
+
 function parseDim(str) {
-  const parts = str.split('×').map(x => parseInt(x.trim()));
-  if (parts.length < 3 || parts.some(isNaN)) return { l: 0, w: 0, h: 0, cbm: 0 };
-  const [l, w, h] = parts;
-  return { l, w, h, cbm: (l * w * h) / 1000000 };
+  const p = str.split('×').map(x => parseInt(x.trim()));
+  if (p.length < 3 || p.some(isNaN)) return { l: 0, w: 0, h: 0, cbm: 0 };
+  return { l: p[0], w: p[1], h: p[2], cbm: (p[0] * p[1] * p[2]) / 1000000 };
 }
 
-// Calculate packing options - returns all possible configs sorted by efficiency
-function getPackingOptions(panel, qty) {
-  const opts = [panel.opt1, panel.opt2, panel.opt3, panel.opt4, panel.opt5];
+// Calculate how many cases fit in container (dimensional)
+function casesInContainer(caseDim, containerDim, withPallet) {
+  if (withPallet) {
+    // Pallet footprint: 120×80cm, cases on top
+    const palletsPerRow = Math.floor(containerDim.l / PALLET.l);
+    const palletsPerCol = Math.floor(containerDim.w / PALLET.w);
+    const totalPallets = palletsPerRow * palletsPerCol;
+    // How many cases per pallet (stacked)
+    const casesPerPalletRow = Math.floor(PALLET.l / caseDim.l);
+    const casesPerPalletCol = Math.floor(PALLET.w / caseDim.w);
+    const casesPerPalletBase = casesPerPalletRow * casesPerPalletCol;
+    const maxStack = Math.floor((containerDim.h - PALLET.h) / caseDim.h);
+    const casesPerPallet = casesPerPalletBase * maxStack;
+    return { total: totalPallets * casesPerPallet, pallets: totalPallets, perPallet: casesPerPallet };
+  } else {
+    // Direct stacking - try all 6 orientations
+    const orientations = [
+      [caseDim.l, caseDim.w, caseDim.h],
+      [caseDim.l, caseDim.h, caseDim.w],
+      [caseDim.w, caseDim.l, caseDim.h],
+      [caseDim.w, caseDim.h, caseDim.l],
+      [caseDim.h, caseDim.l, caseDim.w],
+      [caseDim.h, caseDim.w, caseDim.l]
+    ];
+    let best = 0;
+    for (const [l, w, h] of orientations) {
+      const nl = Math.floor(containerDim.l / l);
+      const nw = Math.floor(containerDim.w / w);
+      const nh = Math.floor(containerDim.h / h);
+      best = Math.max(best, nl * nw * nh);
+    }
+    return { total: best, pallets: 0, perPallet: 0 };
+  }
+}
+
+// Optimize packing for a single panel size
+function optimizeSinglePanel(panel, qty) {
   const results = [];
-  for (let i = opts.length - 1; i >= 0; i--) {
-    const opt = opts[i];
-    const cases = Math.floor(qty / opt.n);
-    const remainder = qty % opt.n;
-    if (cases > 0) {
-      const dim = parseDim(opt.sz);
+  // Try each case config from most panels to least
+  for (let i = panel.cases.length - 1; i >= 0; i--) {
+    const c = panel.cases[i];
+    const fullCases = Math.floor(qty / c.n);
+    const remainder = qty % c.n;
+    if (fullCases > 0) {
+      const dim = parseDim(c.sz);
       results.push({
-        pcsPerCase: opt.n,
-        cases,
+        config: c,
+        fullCases,
         remainder,
-        size: opt.sz,
-        cbm: dim.cbm,
-        totalCbm: dim.cbm * cases,
-        weight: (opt.kg || panel.gw * opt.n),
-        totalWeight: (opt.kg || panel.gw * opt.n) * cases
+        caseDim: dim,
+        cbm: dim.cbm * fullCases,
+        weight: c.kg * fullCases,
+        totalPcs: fullCases * c.n
       });
     }
   }
   return results;
 }
 
-// Mixed-load optimization: minimize total cases across all sizes
-function optimizeMixedLoad(selections) {
-  let totalCbm = 0, totalWeight = 0, totalCases = 0;
-  const details = [];
+// Mixed-load optimization for 65/75/86
+function optimizeMixedLoad(mixPanels) {
+  // mixPanels: [{panel, qty}, ...]
+  const totalPcs = mixPanels.reduce((s, p) => s + p.qty, 0);
+  if (totalPcs === 0) return null;
 
-  for (const sel of selections) {
-    if (sel.qty <= 0) continue;
-    const panel = sel.panel;
-    const opts = getPackingOptions(panel, sel.qty);
-    if (opts.length === 0) continue;
+  // Find largest panel for case dimensions
+  const maxSize = Math.max(...mixPanels.map(p => p.panel.id));
+  const largestPanel = PANELS.find(p => p.id === maxSize);
 
-    // Pick config with fewest cases (prefer more panels per case)
-    let best = opts.reduce((a, b) => {
-      const aCases = a.cases + (a.remainder > 0 ? 1 : 0);
-      const bCases = b.cases + (b.remainder > 0 ? 1 : 0);
-      return aCases <= bCases ? a : b;
-    });
+  // Try packing with 5,4,3,2,1 pcs per case
+  const plans = [];
+  for (let n = 5; n >= 1; n--) {
+    const caseConfig = largestPanel.cases.find(c => c.n === n);
+    if (!caseConfig) continue;
+    const fullCases = Math.floor(totalPcs / n);
+    const remainder = totalPcs % n;
 
-    const remPanels = best.remainder;
-    let remCbm = 0, remWeight = 0;
-    if (remPanels > 0) {
-      const remDim = parseDim(best.size);
-      remCbm = remDim.cbm * (remPanels / best.pcsPerCase);
-      remWeight = (best.weight / best.pcsPerCase) * remPanels;
+    // Calculate total weight
+    let totalWeight = 0;
+    let remaining = n * fullCases + remainder;
+    for (const mp of mixPanels) {
+      const used = Math.min(mp.qty, remaining);
+      totalWeight += used * mp.panel.gw;
+      remaining -= used;
+      if (remaining <= 0) break;
+    }
+    // Add case weight (plywood)
+    totalWeight += fullCases * (caseConfig.kg - n * largestPanel.gw);
+    if (remainder > 0) {
+      // Remainder gets a smaller case
+      const remConfig = largestPanel.cases.find(c => c.n === Math.max(1, remainder));
+      if (remConfig) totalWeight += remConfig.kg - remainder * largestPanel.gw;
     }
 
-    const itemCbm = best.totalCbm + remCbm;
-    const itemWeight = best.totalWeight + remWeight;
-    const itemCases = best.cases + (remPanels > 0 ? 1 : 0);
-
-    totalCbm += itemCbm;
-    totalWeight += itemWeight;
-    totalCases += itemCases;
-
-    details.push({
-      panel: panel.label,
-      qty: sel.qty,
-      config: `${best.pcsPerCase}pcs × ${best.cases} cases${remPanels > 0 ? ` + ${remPanels}pcs loose` : ''}`,
-      caseSize: best.size,
-      cbm: itemCbm,
-      weight: itemWeight,
-      cases: itemCases
+    const dim = parseDim(caseConfig.sz);
+    plans.push({
+      n,
+      fullCases,
+      remainder,
+      caseConfig,
+      caseDim: dim,
+      cbm: dim.cbm * fullCases + (remainder > 0 ? parseDim(largestPanel.cases.find(c => c.n === Math.max(1, remainder))?.sz || caseConfig.sz).cbm : 0),
+      weight: totalWeight,
+      totalPcs,
+      mixDetails: mixPanels.map(p => `${p.panel.label} × ${p.qty}`).join(' + ')
     });
   }
 
-  return { totalCbm, totalWeight, totalCases, details };
-}
-
-// Generate HTML for size selection cards
-function renderSizeCards() {
-  const grid = document.getElementById('sizeGrid');
-  grid.innerHTML = PANELS.map(p => `
-    <div class="size-card" data-size="${p.id}" onclick="toggleSize(${p.id})">
-      <div class="size-label">${p.label}</div>
-      <div class="size-carton">${p.carton} cm</div>
-    </div>
-  `).join('');
-}
-
-// Generate quantity inputs
-function renderQtyInputs() {
-  const section = document.getElementById('qtySection');
-  const selected = PANELS.filter(p => selectedSizes.has(p.id));
-  if (selected.length === 0) {
-    section.innerHTML = '<p style="font-size:12px;color:var(--text-mute);">Select panel sizes above</p>';
-    return;
-  }
-  section.innerHTML = selected.map(p => `
-    <div style="margin-bottom:12px;">
-      <label class="form-label">${p.label}</label>
-      <div class="qty-row">
-        <button type="button" class="qty-btn" onclick="adjustQty(${p.id}, -1)">−</button>
-        <input type="number" class="qty-input" id="qty${p.id}" value="${quantities[p.id] || 0}" min="0" onchange="setQty(${p.id}, this.value)">
-        <button type="button" class="qty-btn" onclick="adjustQty(${p.id}, 1)">+</button>
-      </div>
-    </div>
-  `).join('');
-}
-
-function renderRefTable() {
-  const tbody = document.getElementById('refTableBody');
-  const rows = [];
-  PANELS.forEach(p => {
-    const opts = [p.opt1, p.opt2, p.opt3, p.opt4, p.opt5];
-    opts.forEach((opt, idx) => {
-      if (opt.n === 0) return;
-      const dim = parseDim(opt.sz);
-      const kg = opt.kg || p.gw * opt.n;
-      const totalCases = Math.floor((quantities[p.id] || 0) / opt.n);
-      const totalPcs = (quantities[p.id] || 0);
-      rows.push({
-        size: p.label,
-        n: opt.n,
-        dim: opt.sz,
-        kg,
-        cbm: dim.cbm,
-        totalCases: totalCases,
-        totalPcs: totalPcs,
-        isSingle: idx === 0
-      });
-    });
-    // LTQ / pallet config
-    if (p.ltq) {
-      const dim = parseDim(p.ltq);
-      rows.push({
-        size: p.label + ' LTQ',
-        n: 5,
-        dim: p.ltq,
-        kg: p.gw * 5,
-        cbm: dim.cbm,
-        totalCases: Math.floor((quantities[p.id] || 0) / 5),
-        totalPcs: (quantities[p.id] || 0),
-        isSingle: false,
-        isLtq: true
-      });
-    }
+  // Pick plan with fewest total cases
+  return plans.reduce((best, p) => {
+    const bestCases = best.fullCases + (best.remainder > 0 ? 1 : 0);
+    const pCases = p.fullCases + (p.remainder > 0 ? 1 : 0);
+    return pCases <= bestCases ? p : best;
   });
-
-  tbody.innerHTML = rows.map(r => `
-    <tr style="${r.isLtq ? 'background:var(--green-soft);font-weight:700;' : ''}">
-      <td>${r.size}</td>
-      <td>${r.n}</td>
-      <td style="white-space:nowrap;">${r.dim}</td>
-      <td>${r.kg}</td>
-      <td>${r.cbm.toFixed(3)}</td>
-      <td style="${r.totalCases > 0 ? 'color:var(--green-deep);font-weight:700;' : ''}">${r.totalCases > 0 ? r.totalCases + ' cases' : '-'}</td>
-      <td>${r.totalPcs > 0 ? r.totalPcs + ' pcs' : '-'}</td>
-    </tr>
-  `).join('');
 }
 
 // State
 let selectedSizes = new Set();
 let quantities = {};
-let lastResult = null;
 
 function toggleSize(id) {
-  if (selectedSizes.has(id)) {
-    selectedSizes.delete(id);
-    delete quantities[id];
-  } else {
-    selectedSizes.add(id);
-    quantities[id] = 0;
-  }
+  if (selectedSizes.has(id)) { selectedSizes.delete(id); delete quantities[id]; }
+  else { selectedSizes.add(id); quantities[id] = 0; }
   document.querySelectorAll('.size-card').forEach(el => {
     el.classList.toggle('selected', selectedSizes.has(parseInt(el.dataset.size)));
   });
@@ -398,80 +403,186 @@ function setQty(id, val) {
 }
 
 function calculate() {
-  const container = document.getElementById('containerSelect').value;
-  const containerCbm = container === '20ft' ? 28 : container === '40ft' ? 58 : container === '40hq' ? 68 : Infinity;
+  const containerKey = document.getElementById('containerSelect').value;
+  const container = CONTAINERS[containerKey];
 
   const selections = PANELS.filter(p => selectedSizes.has(p.id) && (quantities[p.id] || 0) > 0).map(p => ({ panel: p, qty: quantities[p.id] || 0 }));
-
-  const result = optimizeMixedLoad(selections);
-  lastResult = result;
   const totalPcs = selections.reduce((s, sel) => s + sel.qty, 0);
 
-  const containerUtil = containerCbm === Infinity ? 0 : (result.totalCbm / containerCbm * 100);
-  const recommendedContainer = container === '_mix' ? (result.totalCbm <= 28 ? '20ft GP' : result.totalCbm <= 58 ? '40ft GP' : result.totalCbm <= 68 ? '40ft HQ' : 'Multiple containers') : '';
-
-  let html = `
-    <div class="result-cards">
-      <div class="result-card">
-        <span class="label">Total Panels</span>
-        <span class="value">${totalPcs} pcs</span>
-      </div>
-      <div class="result-card">
-        <span class="label">Total Cases</span>
-        <span class="value">${result.totalCases}</span>
-      </div>
-      <div class="result-card">
-        <span class="label">Total Volume (CBM)</span>
-        <span class="value">${result.totalCbm.toFixed(2)}</span>
-      </div>
-      <div class="result-card">
-        <span class="label">Gross Weight</span>
-        <span class="value">${result.totalWeight.toFixed(0)} kg</span>
-      </div>
-      <div class="result-card ${containerUtil > 80 ? 'highlight' : ''}">
-        <span class="label">Container</span>
-        <span class="value">${container === '_mix' ? recommendedContainer : container.toUpperCase()}</span>
-      </div>
-      ${containerCbm !== Infinity ? `
-      <div class="result-card">
-        <span class="label">Volume Utilization</span>
-        <span class="value">${containerUtil.toFixed(1)}%</span>
-      </div>
-      ` : ''}
-    </div>
-  `;
-
-  if (result.details.length > 0) {
-    html += '<div class="pack-plan"><h3>📦 Packing Plan</h3>';
-    result.details.forEach(d => {
-      html += `
-        <div class="pack-item">
-          <span class="desc">${d.panel} × ${d.qty} pcs</span>
-          <span class="val">${d.config} = ${d.cbm.toFixed(2)} CBM</span>
-        </div>
-        <div class="pack-item" style="padding-left:16px;">
-          <span class="desc" style="font-size:11px;">Case size: ${d.caseSize}</span>
-        </div>
-      `;
-    });
-    html += '</div>';
+  if (totalPcs === 0) {
+    document.getElementById('resultContent').innerHTML = '<div class="empty-result"><div class="icon">📦</div><p>Select panels to generate plan</p></div>';
+    return;
   }
+
+  // Separate mixable (65/75/86) from non-mixable (98/110)
+  const mixable = selections.filter(s => s.panel.mixable);
+  const nonMixable = selections.filter(s => !s.panel.mixable);
+
+  let totalCbm = 0, totalWeight = 0, totalCases = 0;
+  const packageList = [];
+
+  // Handle mixed load
+  if (mixable.length > 0) {
+    const mixResult = optimizeMixedLoad(mixable);
+    if (mixResult) {
+      totalCbm += mixResult.cbm;
+      totalWeight += mixResult.weight;
+      totalCases += mixResult.fullCases + (mixResult.remainder > 0 ? 1 : 0);
+      packageList.push({
+        type: 'Mixed (65/75/86)',
+        desc: mixResult.mixDetails,
+        cases: mixResult.fullCases + (mixResult.remainder > 0 ? 1 : 0),
+        caseSize: mixResult.caseConfig.sz,
+        pcsPerCase: mixResult.n,
+        totalPcs: mixResult.totalPcs,
+        cbm: mixResult.cbm,
+        weight: mixResult.weight
+      });
+    }
+  }
+
+  // Handle non-mixable
+  for (const sel of nonMixable) {
+    const opts = optimizeSinglePanel(sel.panel, sel.qty);
+    if (opts.length > 0) {
+      const best = opts[0]; // Most panels per case
+      totalCbm += best.cbm;
+      totalWeight += best.weight;
+      totalCases += best.fullCases + (best.remainder > 0 ? 1 : 0);
+      packageList.push({
+        type: sel.panel.label,
+        desc: `${sel.panel.label} × ${sel.qty} pcs`,
+        cases: best.fullCases + (best.remainder > 0 ? 1 : 0),
+        caseSize: best.config.sz,
+        pcsPerCase: best.config.n,
+        totalPcs: best.totalPcs,
+        cbm: best.cbm,
+        weight: best.weight
+      });
+    }
+  }
+
+  // Container loading analysis
+  let loadingHtml = '';
+  if (container) {
+    // Use the largest case dimension for loading calculation
+    const maxCaseL = Math.max(...packageList.map(p => parseDim(p.caseSize).l));
+    const maxCaseW = Math.max(...packageList.map(p => parseDim(p.caseSize).w));
+    const maxCaseH = Math.max(...packageList.map(p => parseDim(p.caseSize).h));
+    const maxCaseDim = { l: maxCaseL, w: maxCaseW, h: maxCaseH };
+
+    const withoutPallet = casesInContainer(maxCaseDim, container, false);
+    const withPallet = casesInContainer(maxCaseDim, container, true);
+
+    const containersNeededWithoutPallet = Math.ceil(totalCases / withoutPallet.total);
+    const containersNeededWithPallet = Math.ceil(totalCases / withPallet.total);
+
+    loadingHtml = '<div class="container-loading"><h3>🚢 Container Loading</h3>';
+
+    // Without pallet
+    const utilWithout = container.cbm > 0 ? ((totalCbm / container.cbm) * 100) : 0;
+    loadingHtml += `
+      <div class="loading-option ${containersNeededWithoutPallet <= 1 ? 'recommended' : ''}">
+        <h4>Without Pallet ${containersNeededWithoutPallet <= 1 ? '<span class="badge">Recommended</span>' : ''}</h4>
+        <div class="detail">
+          Cases per container: <strong>${withoutPallet.total}</strong><br>
+          Containers needed: <strong>${containersNeededWithoutPallet}</strong><br>
+          Volume utilization: <strong>${utilWithout.toFixed(1)}%</strong><br>
+          Max case dims used: ${maxCaseL}×${maxCaseW}×${maxCaseH} cm
+        </div>
+      </div>`;
+
+    // With pallet
+    loadingHtml += `
+      <div class="loading-option ${containersNeededWithPallet <= 1 && withPallet.total >= withoutPallet.total * 0.7 ? 'recommended' : ''}">
+        <h4>With EUR Pallet (120×80cm) ${containersNeededWithPallet <= 1 && withPallet.total >= withoutPallet.total * 0.7 ? '<span class="badge">Recommended</span>' : ''}</h4>
+        <div class="detail">
+          Pallets per container: <strong>${withPallet.pallets}</strong><br>
+          Cases per pallet: <strong>${withPallet.perPallet}</strong><br>
+          Total cases: <strong>${withPallet.total}</strong><br>
+          Containers needed: <strong>${containersNeededWithPallet}</strong>
+        </div>
+      </div>`;
+
+    loadingHtml += '</div>';
+  }
+
+  // Package list table
+  let pkgHtml = '<div class="package-list"><h3>📋 Package List</h3><div style="overflow-x:auto;"><table class="pkg-table"><thead><tr><th>#</th><th>Type</th><th>Case Size</th><th>Pcs/Case</th><th>Cases</th><th>Total Pcs</th><th>CBM</th><th>Weight</th></tr></thead><tbody>';
+  packageList.forEach((pkg, i) => {
+    pkgHtml += `<tr>
+      <td>${i + 1}</td>
+      <td>${pkg.type}</td>
+      <td style="white-space:nowrap">${pkg.caseSize}</td>
+      <td>${pkg.pcsPerCase}</td>
+      <td>${pkg.cases}</td>
+      <td>${pkg.totalPcs}</td>
+      <td>${pkg.cbm.toFixed(2)}</td>
+      <td>${pkg.weight.toFixed(0)} kg</td>
+    </tr>`;
+  });
+  pkgHtml += '</tbody></table></div></div>';
+
+  // Summary cards
+  const html = `
+    <div class="result-cards">
+      <div class="result-card"><span class="label">Total Panels</span><span class="value">${totalPcs} pcs</span></div>
+      <div class="result-card"><span class="label">Total Cases</span><span class="value">${totalCases}</span></div>
+      <div class="result-card"><span class="label">Total CBM</span><span class="value">${totalCbm.toFixed(2)}</span></div>
+      <div class="result-card"><span class="label">Gross Weight</span><span class="value">${totalWeight.toFixed(0)} kg</span></div>
+      <div class="result-card highlight"><span class="label">Container</span><span class="value">${container ? container.label : 'LCL'}</span></div>
+    </div>
+    ${pkgHtml}
+    ${loadingHtml}
+  `;
 
   document.getElementById('resultContent').innerHTML = html;
   renderRefTable();
+}
+
+function renderSizeCards() {
+  document.getElementById('sizeGrid').innerHTML = PANELS.map(p => `
+    <div class="size-card" data-size="${p.id}" onclick="toggleSize(${p.id})">
+      <div class="size-label">${p.label}</div>
+      <div class="size-carton">${p.mixable ? 'Mixable' : 'Solo only'}</div>
+    </div>
+  `).join('');
+}
+
+function renderQtyInputs() {
+  const section = document.getElementById('qtySection');
+  const selected = PANELS.filter(p => selectedSizes.has(p.id));
+  if (selected.length === 0) { section.innerHTML = '<p style="font-size:12px;color:var(--text-mute);">Select panel sizes above</p>'; return; }
+  section.innerHTML = selected.map(p => `
+    <div style="margin-bottom:10px;">
+      <label class="form-label">${p.label} ${p.mixable ? '(mixable)' : '(solo)'}</label>
+      <div class="qty-row">
+        <button type="button" class="qty-btn" onclick="adjustQty(${p.id}, -1)">−</button>
+        <input type="number" class="qty-input" id="qty${p.id}" value="${quantities[p.id] || 0}" min="0" onchange="setQty(${p.id}, this.value)">
+        <button type="button" class="qty-btn" onclick="adjustQty(${p.id}, 1)">+</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderRefTable() {
+  const rows = [];
+  PANELS.forEach(p => {
+    p.cases.forEach(c => {
+      const dim = parseDim(c.sz);
+      rows.push({ size: p.label, n: c.n, dim: c.sz, kg: c.kg, cbm: dim.cbm });
+    });
+  });
+  document.getElementById('refTableBody').innerHTML = rows.map(r => `
+    <tr><td>${r.size}</td><td>${r.n}</td><td style="white-space:nowrap;">${r.dim}</td><td>${r.kg}</td><td>${r.cbm.toFixed(3)}</td></tr>
+  `).join('');
 }
 
 // Init
 renderSizeCards();
 renderQtyInputs();
 renderRefTable();
-
-// Container select change
 document.getElementById('containerSelect').addEventListener('change', calculate);
-
-// Init calculation
-calculate();
-
 </script>
 </body>
 </html>
